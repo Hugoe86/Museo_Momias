@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Ds_Rpt_Diario_Recaudacion" targetNamespace="http://tempuri.org/Ds_Rpt_Diario_Recaudacion.xsd" xmlns:mstns="http://tempuri.org/Ds_Rpt_Diario_Recaudacion.xsd" xmlns="http://tempuri.org/Ds_Rpt_Diario_Recaudacion.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Ds_Rpt_Diario_Recaudacion" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Ds_Rpt_Diario_Recaudacion" msprop:Generator_UserDSName="Ds_Rpt_Diario_Recaudacion">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Ingresos" msprop:Generator_TableClassName="IngresosDataTable" msprop:Generator_TableVarName="tableIngresos" msprop:Generator_RowChangedName="IngresosRowChanged" msprop:Generator_TablePropName="Ingresos" msprop:Generator_RowDeletingName="IngresosRowDeleting" msprop:Generator_RowChangingName="IngresosRowChanging" msprop:Generator_RowEvHandlerName="IngresosRowChangeEventHandler" msprop:Generator_RowDeletedName="IngresosRowDeleted" msprop:Generator_RowClassName="IngresosRow" msprop:Generator_UserTableName="Ingresos" msprop:Generator_RowEvArgName="IngresosRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Fecha" msprop:Generator_ColumnVarNameInTable="columnFecha" msprop:Generator_ColumnPropNameInRow="Fecha" msprop:Generator_ColumnPropNameInTable="FechaColumn" msprop:Generator_UserColumnName="Fecha" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Producto" msprop:Generator_ColumnVarNameInTable="columnProducto" msprop:Generator_ColumnPropNameInRow="Producto" msprop:Generator_ColumnPropNameInTable="ProductoColumn" msprop:Generator_UserColumnName="Producto" type="xs:string" minOccurs="0" />
+              <xs:element name="Total" msprop:Generator_ColumnVarNameInTable="columnTotal" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" msprop:Generator_UserColumnName="Total" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Comparativo" msprop:Generator_TableClassName="ComparativoDataTable" msprop:Generator_TableVarName="tableComparativo" msprop:Generator_TablePropName="Comparativo" msprop:Generator_RowDeletingName="ComparativoRowDeleting" msprop:Generator_RowChangingName="ComparativoRowChanging" msprop:Generator_RowEvHandlerName="ComparativoRowChangeEventHandler" msprop:Generator_RowDeletedName="ComparativoRowDeleted" msprop:Generator_UserTableName="Comparativo" msprop:Generator_RowChangedName="ComparativoRowChanged" msprop:Generator_RowEvArgName="ComparativoRowChangeEvent" msprop:Generator_RowClassName="ComparativoRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Fecha" msprop:Generator_ColumnVarNameInTable="columnFecha" msprop:Generator_ColumnPropNameInRow="Fecha" msprop:Generator_ColumnPropNameInTable="FechaColumn" msprop:Generator_UserColumnName="Fecha" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Producto" msprop:Generator_ColumnVarNameInTable="columnProducto" msprop:Generator_ColumnPropNameInRow="Producto" msprop:Generator_ColumnPropNameInTable="ProductoColumn" msprop:Generator_UserColumnName="Producto" type="xs:string" minOccurs="0" />
+              <xs:element name="Recaudacion_Actual" msprop:Generator_ColumnVarNameInTable="columnRecaudacion_Actual" msprop:Generator_ColumnPropNameInRow="Recaudacion_Actual" msprop:Generator_ColumnPropNameInTable="Recaudacion_ActualColumn" msprop:Generator_UserColumnName="Recaudacion_Actual" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Visitantes_Actual" msprop:Generator_ColumnVarNameInTable="columnVisitantes_Actual" msprop:Generator_ColumnPropNameInRow="Visitantes_Actual" msprop:Generator_ColumnPropNameInTable="Visitantes_ActualColumn" msprop:Generator_UserColumnName="Visitantes_Actual" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Recaudacion_Anterior" msprop:Generator_ColumnVarNameInTable="columnRecaudacion_Anterior" msprop:Generator_ColumnPropNameInRow="Recaudacion_Anterior" msprop:Generator_ColumnPropNameInTable="Recaudacion_AnteriorColumn" msprop:Generator_UserColumnName="Recaudacion_Anterior" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Visitantes_Anterior" msprop:Generator_ColumnVarNameInTable="columnVisitantes_Anterior" msprop:Generator_ColumnPropNameInRow="Visitantes_Anterior" msprop:Generator_ColumnPropNameInTable="Visitantes_AnteriorColumn" msprop:Generator_UserColumnName="Visitantes_Anterior" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

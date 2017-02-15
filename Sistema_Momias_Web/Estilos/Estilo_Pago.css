@@ -1,0 +1,55 @@
+﻿.Img{
+    display: block;
+    max-height: 750px;
+    max-width: 285px;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: auto;
+}
+
+.pdf{
+    display: none;    
+}
+
+.div{
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div_2{
+    width: 200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.alert-box {
+    color:#555;
+    border-radius:10px;
+    font-family:Tahoma,Geneva,Arial,sans-serif;font-size:11px;
+    padding:10px 10px 10px 36px;
+    margin:10px;
+}
+
+.alert-box span {
+    font-weight:bold;
+    text-transform:uppercase;
+}
+
+.error {
+    background:#ffecec url('../Imagenes/paginas/error.png') no-repeat 10px 50%;
+    border:1px solid #f5aca6;
+}
+.success {
+    background:#e9ffd9 url('../Imagenes/paginas/success.png') no-repeat 10px 50%;
+    border:1px solid #a6ca8a;
+}
+.warning {
+    background:#fff8c4 url('../Imagenes/paginas/warning.png') no-repeat 10px 50%;
+    border:1px solid #f2c779;
+}
+.notice {
+    background:#e3f7fc url('../Imagenes/paginas/notice.png') no-repeat 10px 50%;
+    border:1px solid #8ed9f6;
+}

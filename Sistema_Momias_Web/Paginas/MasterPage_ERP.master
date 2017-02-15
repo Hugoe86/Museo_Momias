@@ -1,0 +1,49 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage_ERP.master.cs" Inherits="MasterPage_ERP" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server" id="h">
+    <asp:ContentPlaceHolder id="head" runat="server"></asp:ContentPlaceHolder>
+    <title>Museo Momias</title>
+    <link href="../Estilos/estilo_masterpage.css" rel="stylesheet" type="text/css" />
+    <link href="../Estilos/estilo_paginas.css" rel="stylesheet" type="text/css" />
+</head>
+<body id="MasterPageBodyTag" runat="server">
+    <form id="Frm_Marter" runat="server">
+        <asp:Button ID="Btn_Comodin_Master" runat="server" style="background-color:Transparent;border-style:none;" OnClientClick="javascript:return false;"/>
+        <div id="principal" runat="server">
+            <div id="encabezado" runat="server" visible="false"> </div>
+            <div id="encabezado_login" runat="server"></div>
+            <div id="barra" runat="server" visible="true">
+                <%--<table id="tabla_barra" class="table_paginacion" style="background-image:url(../Imagenes/master/barra_usuario.PNG); width:100%;">
+                    <tr>
+                        <td style="width:50%;" id ="Td_Bienvenido">
+                            &nbsp;&nbsp;&nbsp;<asp:Label ID="Lbl_Bienvenido" runat="server" Text="Bienvenido" ></asp:Label>
+                        </td>
+                        <td style="width:50%;" id ="Td_Fecha" class="style1" align="right">
+                                <asp:Label ID="Lbl_Fecha" runat="server" style="font-family:Verdana, Times New Roman; font-size:11px; font-weight:normal;"></asp:Label>
+                                <img src="../Imagenes/paginas/grid_calendar.png" alt="" />
+                                <span class="jclock"></span>
+                                <img src="../Imagenes/paginas/grid_time.png" alt="" />
+                                &nbsp;&nbsp;&nbsp;
+                        </td>
+                    </tr>
+                    <tr id ="Tr_Site">
+                        <td> &nbsp;</td>
+                        <td class="style1">&nbsp;</td>
+                    </tr>
+                </table>--%>
+            </div>
+            <div id="contenido_fondo_login" runat="server">
+                <asp:ContentPlaceHolder id="Cph_Area_Trabajo2" runat="server">
+                </asp:ContentPlaceHolder>            
+            </div>
+            <div id="contenido_fondo" runat="server">
+                <asp:ContentPlaceHolder id="Cph_Area_Trabajo1" runat="server">
+                </asp:ContentPlaceHolder>
+            </div>            
+        </div> 
+    </form>
+</body>
+</html>

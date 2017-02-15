@@ -1,0 +1,101 @@
+﻿body {
+}
+
+.Encabezados
+{
+    border-style:solid;
+    border-color:#8CACBB;
+    border-width:1px;
+    padding:5px;
+    background-color:#EEEEEE;
+    margin:5px;
+}
+.Total
+{
+	color:#990000;
+    font-family:Consolas;
+    font-size:12pt;
+    font-weight:bolder;
+    border: none;
+}
+#Imagen_Momias
+{
+	width:1000px;
+	height: 100px;
+	background:#ffffff url(../Imagenes/Momias/Momias_7.png) no-repeat center center;
+}
+.h3-title{
+	font-family: Consolas;
+	text-transform:uppercase;
+	font-size:15pt;
+	color:#000;
+	text-shadow: 0px 0px 2px #ffc334;
+	border-style:solid;
+    border-color:#8CACBB;
+    border-width:1px;
+    background-color:#EEEEEE;
+    padding:5px;
+    margin: 5px;
+}
+.Tabla_Pasos
+{
+	border-color:#8CACBB;
+    border-width:1px;
+}
+.hr
+{
+	Color:#dbdbdb;	
+	padding:5px;
+}
+.Boton_1
+{
+    color:#53A6F3;
+    font-family:Consolas;
+    font-size:10pt;
+    font-weight:bolder;
+    background-color:#fff;
+    border-style:ridge;
+    border-color:#8CACBB;
+    height:27px;
+    width:110px;
+    border-width:2pt;
+    margin-left:728px;
+	cursor:pointer;
+	z-index:100;
+    -moz-border-radius:.8em;
+    -webkit-border-radius:.8em;
+}
+.Boton_Compra
+{
+	cursor:pointer;
+	opacity:0.7;
+	margin-left:730px;
+	padding:0px;
+}
+.Boton_Compra:hover
+{
+	opacity:1.0;
+}
+.button {
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 14px/100% Arial, Helvetica, sans-serif;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.button:hover {
+	text-decoration: none;
+}
+.button:active{
+    position: relative;
+    top: 1px;
+}

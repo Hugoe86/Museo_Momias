@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Ds_Rpt_Accesos" targetNamespace="http://tempuri.org/Ds_Rpt_Accesos.xsd" xmlns:mstns="http://tempuri.org/Ds_Rpt_Accesos.xsd" xmlns="http://tempuri.org/Ds_Rpt_Accesos.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="Ds_Rpt_Accesos" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Ds_Rpt_Accesos" msprop:Generator_UserDSName="Ds_Rpt_Accesos">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Accesos" msprop:Generator_TableClassName="AccesosDataTable" msprop:Generator_TableVarName="tableAccesos" msprop:Generator_RowChangedName="AccesosRowChanged" msprop:Generator_TablePropName="Accesos" msprop:Generator_RowDeletingName="AccesosRowDeleting" msprop:Generator_RowChangingName="AccesosRowChanging" msprop:Generator_RowEvHandlerName="AccesosRowChangeEventHandler" msprop:Generator_RowDeletedName="AccesosRowDeleted" msprop:Generator_RowClassName="AccesosRow" msprop:Generator_UserTableName="Accesos" msprop:Generator_RowEvArgName="AccesosRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="TIPO" msprop:Generator_ColumnVarNameInTable="columnTIPO" msprop:Generator_ColumnPropNameInRow="TIPO" msprop:Generator_ColumnPropNameInTable="TIPOColumn" msprop:Generator_UserColumnName="TIPO" type="xs:string" minOccurs="0" />
+              <xs:element name="NO_TICKETS_VENDIDOS" msprop:Generator_ColumnVarNameInTable="columnNO_TICKETS_VENDIDOS" msprop:Generator_ColumnPropNameInRow="NO_TICKETS_VENDIDOS" msprop:Generator_ColumnPropNameInTable="NO_TICKETS_VENDIDOSColumn" msprop:Generator_UserColumnName="NO_TICKETS_VENDIDOS" type="xs:long" minOccurs="0" />
+              <xs:element name="NO_TICKETS_TORNIQUETE" msprop:Generator_ColumnVarNameInTable="columnNO_TICKETS_TORNIQUETE" msprop:Generator_ColumnPropNameInRow="NO_TICKETS_TORNIQUETE" msprop:Generator_ColumnPropNameInTable="NO_TICKETS_TORNIQUETEColumn" msprop:Generator_UserColumnName="NO_TICKETS_TORNIQUETE" type="xs:long" minOccurs="0" />
+              <xs:element name="NO_ACCESOS_CAMARA_ENTRADA" msprop:Generator_ColumnVarNameInTable="columnNO_ACCESOS_CAMARA_ENTRADA" msprop:Generator_ColumnPropNameInRow="NO_ACCESOS_CAMARA_ENTRADA" msprop:Generator_ColumnPropNameInTable="NO_ACCESOS_CAMARA_ENTRADAColumn" msprop:Generator_UserColumnName="NO_ACCESOS_CAMARA_ENTRADA" type="xs:long" minOccurs="0" />
+              <xs:element name="NO_ACCESOS_CAMARA_SALIDA" msprop:Generator_ColumnVarNameInTable="columnNO_ACCESOS_CAMARA_SALIDA" msprop:Generator_ColumnPropNameInRow="NO_ACCESOS_CAMARA_SALIDA" msprop:Generator_ColumnPropNameInTable="NO_ACCESOS_CAMARA_SALIDAColumn" msprop:Generator_UserColumnName="NO_ACCESOS_CAMARA_SALIDA" type="xs:long" minOccurs="0" />
+              <xs:element name="ACCESOS_SIN_USAR" msprop:Generator_ColumnVarNameInTable="columnACCESOS_SIN_USAR" msprop:Generator_ColumnPropNameInRow="ACCESOS_SIN_USAR" msprop:Generator_ColumnPropNameInTable="ACCESOS_SIN_USARColumn" msprop:Generator_UserColumnName="ACCESOS_SIN_USAR" type="xs:long" minOccurs="0" />
+              <xs:element name="Fecha" msprop:Generator_ColumnVarNameInTable="columnFecha" msprop:Generator_ColumnPropNameInRow="Fecha" msprop:Generator_ColumnPropNameInTable="FechaColumn" msprop:Generator_UserColumnName="Fecha" type="xs:string" minOccurs="0" />
+              <xs:element name="Periodo" msprop:Generator_ColumnVarNameInTable="columnPeriodo" msprop:Generator_ColumnPropNameInRow="Periodo" msprop:Generator_ColumnPropNameInTable="PeriodoColumn" msprop:Generator_UserColumnName="Periodo" type="xs:string" minOccurs="0" />
+              <xs:element name="NO_PRODUCTOS_VENDIDOS" msprop:Generator_ColumnVarNameInTable="columnNO_PRODUCTOS_VENDIDOS" msprop:Generator_ColumnPropNameInRow="NO_PRODUCTOS_VENDIDOS" msprop:Generator_ColumnPropNameInTable="NO_PRODUCTOS_VENDIDOSColumn" msprop:Generator_UserColumnName="NO_PRODUCTOS_VENDIDOS" type="xs:double" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Datos_Generales" msprop:Generator_TableClassName="Datos_GeneralesDataTable" msprop:Generator_TableVarName="tableDatos_Generales" msprop:Generator_RowChangedName="Datos_GeneralesRowChanged" msprop:Generator_TablePropName="Datos_Generales" msprop:Generator_RowDeletingName="Datos_GeneralesRowDeleting" msprop:Generator_RowChangingName="Datos_GeneralesRowChanging" msprop:Generator_RowEvHandlerName="Datos_GeneralesRowChangeEventHandler" msprop:Generator_RowDeletedName="Datos_GeneralesRowDeleted" msprop:Generator_RowClassName="Datos_GeneralesRow" msprop:Generator_UserTableName="Datos_Generales" msprop:Generator_RowEvArgName="Datos_GeneralesRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Usuario_Creo" msprop:Generator_ColumnVarNameInTable="columnUsuario_Creo" msprop:Generator_ColumnPropNameInRow="Usuario_Creo" msprop:Generator_ColumnPropNameInTable="Usuario_CreoColumn" msprop:Generator_UserColumnName="Usuario_Creo" type="xs:string" minOccurs="0" />
+              <xs:element name="Fecha_Creo" msprop:Generator_ColumnVarNameInTable="columnFecha_Creo" msprop:Generator_ColumnPropNameInRow="Fecha_Creo" msprop:Generator_ColumnPropNameInTable="Fecha_CreoColumn" msprop:Generator_UserColumnName="Fecha_Creo" type="xs:string" minOccurs="0" />
+              <xs:element name="Periodo_Reporte" msprop:Generator_ColumnVarNameInTable="columnPeriodo_Reporte" msprop:Generator_ColumnPropNameInRow="Periodo_Reporte" msprop:Generator_ColumnPropNameInTable="Periodo_ReporteColumn" msprop:Generator_UserColumnName="Periodo_Reporte" type="xs:string" minOccurs="0" />
+              <xs:element name="Formato" msprop:Generator_ColumnVarNameInTable="columnFormato" msprop:Generator_ColumnPropNameInRow="Formato" msprop:Generator_ColumnPropNameInTable="FormatoColumn" msprop:Generator_UserColumnName="Formato" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,100 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Punto_Venta", "Punto_Venta", "{185D22FF-9B4A-49DC-9101-8BB6BF20DEF3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accesos", "Accesos", "{D6C25473-7394-4D6D-B301-A5F363DB50DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acceso_Museo", "Acceso_Museo\Acceso_Museo.csproj", "{455811E0-5ACB-4054-9D45-64C04C7BE27C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Punto_Venta", "Punto_Venta\Punto_Venta.csproj", "{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Punto_Venta_Momias_Install", "Punto_Venta_Momias_Install\Punto_Venta_Momias_Install.vdproj", "{D955846C-E00E-4BCD-9FEF-9A559992C785}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WEB", "WEB", "{AFABEA19-1A35-4BD4-AEC1-D81AED5C538A}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Sistema_Momias_Web", "Sistema_Momias_Web\", "{DF4B3AEA-196C-480E-84A0-744171905746}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/Sistema_Momias_Web"
+		Debug.AspNetCompiler.PhysicalPath = "Sistema_Momias_Web\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Sistema_Momias_Web\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/Sistema_Momias_Web"
+		Release.AspNetCompiler.PhysicalPath = "Sistema_Momias_Web\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\Sistema_Momias_Web\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "2056"
+		SlnRelativePath = "Sistema_Momias_Web\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Debug|x86.ActiveCfg = Debug|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Debug|x86.Build.0 = Debug|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Release|Any CPU.ActiveCfg = Release|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Release|Mixed Platforms.Build.0 = Release|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Release|x86.ActiveCfg = Release|x86
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C}.Release|x86.Build.0 = Release|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Debug|x86.ActiveCfg = Debug|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Debug|x86.Build.0 = Debug|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Release|Any CPU.ActiveCfg = Release|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Release|Mixed Platforms.Build.0 = Release|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Release|x86.ActiveCfg = Release|x86
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617}.Release|x86.Build.0 = Release|x86
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Debug|Any CPU.ActiveCfg = Debug
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Debug|Any CPU.Build.0 = Debug
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Debug|Mixed Platforms.Build.0 = Debug
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Debug|x86.ActiveCfg = Debug
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Release|Any CPU.ActiveCfg = Release
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Release|Any CPU.Build.0 = Release
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Release|Mixed Platforms.ActiveCfg = Release
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Release|Mixed Platforms.Build.0 = Release
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Release|x86.ActiveCfg = Release
+		{D955846C-E00E-4BCD-9FEF-9A559992C785}.Release|x86.Build.0 = Release
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|x86.ActiveCfg = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{455811E0-5ACB-4054-9D45-64C04C7BE27C} = {D6C25473-7394-4D6D-B301-A5F363DB50DA}
+		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617} = {185D22FF-9B4A-49DC-9101-8BB6BF20DEF3}
+		{D955846C-E00E-4BCD-9FEF-9A559992C785} = {185D22FF-9B4A-49DC-9101-8BB6BF20DEF3}
+		{DF4B3AEA-196C-480E-84A0-744171905746} = {AFABEA19-1A35-4BD4-AEC1-D81AED5C538A}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,262 @@
+﻿using Reportes.Ingresos.Datos;
+using System.Data;
+using System;
+
+namespace Reportes.Ingresos.Negocio
+{
+    class Cls_Rep_Ingresos_Negocio
+    {
+
+        #region PROPIEDADES
+
+        private int Anio_Inicio;
+        private int Anio_Final;
+        private DateTime Fecha_Inicio;
+        private DateTime Fecha_Final;
+        private string Tarifa_Id;
+<<<<<<< HEAD
+        private string Turno_ID;
+        private string Numero_Caja;
+        private string Forma_ID;
+=======
+        private string Pago_Id;
+>>>>>>> se modificaron los reportes de cancelacion de folio de venta y diario de recaudacion. Se agrego funcionalidad para mandar informacion de las ventas realizadas.
+
+        private string No_Caja;
+        private string Turno;
+
+        public int P_Anio_Inicio
+        {
+            get { return Anio_Inicio; }
+            set { Anio_Inicio = value; }
+        }
+
+        public int P_Anio_Final
+        {
+            get { return Anio_Final; }
+            set { Anio_Final = value; }
+        }
+
+        public DateTime P_Fecha_Inicio
+        {
+            get { return Fecha_Inicio; }
+            set { Fecha_Inicio = value; }
+        }
+        public DateTime P_Fecha_Final
+        {
+            get { return Fecha_Final; }
+            set { Fecha_Final = value; }
+        }
+
+        public string P_Tarifa_Id
+        {
+            get { return Tarifa_Id; }
+            set { Tarifa_Id = value; }
+        }
+        public string P_No_Caja
+        {
+            get { return No_Caja; }
+            set { No_Caja = value; }
+        }
+        public string P_Turno
+        {
+            get { return Turno; }
+            set { Turno = value; }
+        }
+        public string P_Pago_Id
+        {
+            get { return Pago_Id; }
+            set { Pago_Id = value; }
+        }
+        
+
+        public string P_Turno_ID
+        {
+            get { return Turno_ID; }
+            set { Turno_ID = value; }
+        }
+
+        public string P_Numero_Caja
+        {
+            get { return Numero_Caja; }
+            set { Numero_Caja = value; }
+        }
+
+        public string P_Forma_ID
+        {
+            get { return Forma_ID; }
+            set { Forma_ID = value; }
+        }
+        #endregion PROPIEDADES
+
+
+        #region METODOS
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener el año mínimo de ingresos en la tabla de pagos
+        /// </summary>
+        /// <returns>entero con el número de año resultado de la consulta</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>27-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public int Consultar_Anio_Minimo_Ingresos()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Anio_Minimo_Ingresos();
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener el año máximo de ingresos en la tabla de pagos
+        /// </summary>
+        /// <returns>entero con el número de año resultado de la consulta</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>27-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public int Consultar_Anio_Maximo_Ingresos()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Anio_Maximo_Ingresos();
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// obtener los diferentes años en la tabla de pagos
+        /// </summary>
+        /// <returns>datatable con los años encontrados en la tabla de pagos</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>27-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public DataTable Consultar_Anios_Pagos()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Anios_Pagos();
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener los ingresos agrupados por mes y año, se puede filtrar asignando 
+        /// un rango de años en las propiedades
+        /// </summary>
+        /// <returns>datatable con los ingresos encontrados para el rango de años seleccionado</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>28-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public DataTable Consultar_Ingresos_Anio()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Ingresos_Anio(this);
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener los accesos agrupados por año y mes, se puede filtrar asignando 
+        /// un rango de años en las propiedades
+        /// </summary>
+        /// <returns>datatable con los accesos encontrados para el rango de años seleccionado</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>28-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        public DataTable Consultar_Accesos_Anio()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Accesos_Anio(this);
+        }
+
+
+        /// <summary>
+        /// Obtener los años mínimo y máximo de pagos en la base de datos
+        /// </summary>
+        /// <returns>un DataTable con el resultado de la consulta</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>29-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        public DataTable Consultar_Rango_Pagos()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Rango_Pagos();
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener los ingresos agrupados por mes, año y tarifa, se puede filtrar asignando 
+        /// un rango de fechas en las propiedades
+        /// </summary>
+        /// <returns>datatable con los ingresos encontrados para el rango de fechas asignado</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>29-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public DataTable Consultar_Ingresos_Mensual_Tarifa()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Ingresos_Mensual_Tarifa(this);
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener los accesos agrupados por mes, año y tarifa, se puede filtrar asignando 
+        /// un rango de fechas en las propiedades
+        /// </summary>
+        /// <returns>datatable con los accesos encontrados para el rango de fechas asignado</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>29-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public DataTable Consultar_Accesos_Mensual_Tarifa()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Accesos_Mensual_Tarifa(this);
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener los ingresos agrupados día y tarifa, se puede filtrar asignando 
+        /// un rango de fechas en las propiedades
+        /// </summary>
+        /// <returns>datatable con los ingresos encontrados para el rango de fechas asignado</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>30-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public DataTable Consultar_Ingresos_Diarios()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Ingresos_Diarios(this);
+        }
+
+        ///*******************************************************************************************************
+        /// <summary>
+        /// Obtener los accesos agrupados por día y tarifa, se puede filtrar asignando 
+        /// un rango de fechas en las propiedades
+        /// </summary>
+        /// <returns>datatable con los accesos encontrados para el rango de fechas asignado</returns>
+        /// <creo>Roberto González Oseguera</creo>
+        /// <fecha_creo>30-may-2014</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        public DataTable Consultar_Accesos_Diarios()
+        {
+            return Cls_Rep_Ingresos_Datos.Consultar_Accesos_Diarios(this);
+        }
+
+        #endregion METODOS
+
+    }
+}
