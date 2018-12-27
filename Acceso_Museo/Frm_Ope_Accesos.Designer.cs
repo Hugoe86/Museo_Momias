@@ -44,6 +44,7 @@
             this.Lbl_Codigo_2 = new System.Windows.Forms.Label();
             this.Lbl_Codigo_3 = new System.Windows.Forms.Label();
             this.Lbl_Mensaje_1 = new System.Windows.Forms.Label();
+            this.Txt_Serial = new System.Windows.Forms.TextBox();
             this.Btn_Entrar = new System.Windows.Forms.Button();
             this.Serial1 = new System.IO.Ports.SerialPort(this.components);
             this.Serial2 = new System.IO.Ports.SerialPort(this.components);
@@ -77,10 +78,11 @@
             this.Tab_Tabla_Contenedor.Controls.Add(this.Lbl_Codigo_2, 1, 4);
             this.Tab_Tabla_Contenedor.Controls.Add(this.Lbl_Codigo_3, 2, 4);
             this.Tab_Tabla_Contenedor.Controls.Add(this.Lbl_Mensaje_1, 0, 3);
+            this.Tab_Tabla_Contenedor.Controls.Add(this.Txt_Serial, 1, 6);
             this.Tab_Tabla_Contenedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tab_Tabla_Contenedor.Location = new System.Drawing.Point(0, 0);
             this.Tab_Tabla_Contenedor.Name = "Tab_Tabla_Contenedor";
-            this.Tab_Tabla_Contenedor.RowCount = 6;
+            this.Tab_Tabla_Contenedor.RowCount = 7;
             this.Tab_Tabla_Contenedor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.53885F));
             this.Tab_Tabla_Contenedor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 7.769426F));
             this.Tab_Tabla_Contenedor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 19.42357F));
@@ -97,9 +99,9 @@
             this.Lbl_Mensaje_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Lbl_Mensaje_3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lbl_Mensaje_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Mensaje_3.Location = new System.Drawing.Point(664, 215);
+            this.Lbl_Mensaje_3.Location = new System.Drawing.Point(664, 206);
             this.Lbl_Mensaje_3.Name = "Lbl_Mensaje_3";
-            this.Lbl_Mensaje_3.Size = new System.Drawing.Size(321, 84);
+            this.Lbl_Mensaje_3.Size = new System.Drawing.Size(321, 81);
             this.Lbl_Mensaje_3.TabIndex = 13;
             this.Lbl_Mensaje_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -109,9 +111,9 @@
             this.Lbl_Mensaje_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Lbl_Mensaje_2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lbl_Mensaje_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Mensaje_2.Location = new System.Drawing.Point(329, 215);
+            this.Lbl_Mensaje_2.Location = new System.Drawing.Point(329, 206);
             this.Lbl_Mensaje_2.Name = "Lbl_Mensaje_2";
-            this.Lbl_Mensaje_2.Size = new System.Drawing.Size(329, 84);
+            this.Lbl_Mensaje_2.Size = new System.Drawing.Size(329, 81);
             this.Lbl_Mensaje_2.TabIndex = 12;
             this.Lbl_Mensaje_2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -125,7 +127,7 @@
             this.Lbl_Mensaje_Bienvenida.Image = global::Acceso_Museo.Properties.Resources.momiastitle;
             this.Lbl_Mensaje_Bienvenida.Location = new System.Drawing.Point(3, 0);
             this.Lbl_Mensaje_Bienvenida.Name = "Lbl_Mensaje_Bienvenida";
-            this.Lbl_Mensaje_Bienvenida.Size = new System.Drawing.Size(982, 78);
+            this.Lbl_Mensaje_Bienvenida.Size = new System.Drawing.Size(982, 75);
             this.Lbl_Mensaje_Bienvenida.TabIndex = 0;
             this.Lbl_Mensaje_Bienvenida.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -134,10 +136,10 @@
             this.Lbl_Tipo_Acceso.AutoSize = true;
             this.Lbl_Tipo_Acceso.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Tipo_Acceso.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Tipo_Acceso.Location = new System.Drawing.Point(3, 117);
+            this.Lbl_Tipo_Acceso.Location = new System.Drawing.Point(3, 112);
             this.Lbl_Tipo_Acceso.Name = "Lbl_Tipo_Acceso";
             this.Lbl_Tipo_Acceso.Padding = new System.Windows.Forms.Padding(10);
-            this.Lbl_Tipo_Acceso.Size = new System.Drawing.Size(320, 98);
+            this.Lbl_Tipo_Acceso.Size = new System.Drawing.Size(320, 94);
             this.Lbl_Tipo_Acceso.TabIndex = 2;
             this.Lbl_Tipo_Acceso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -145,10 +147,10 @@
             // 
             this.Tab_Tabla_Contenedor.SetColumnSpan(this.Txt_Acceso, 3);
             this.Txt_Acceso.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Txt_Acceso.Location = new System.Drawing.Point(3, 81);
+            this.Txt_Acceso.Location = new System.Drawing.Point(3, 78);
             this.Txt_Acceso.Multiline = true;
             this.Txt_Acceso.Name = "Txt_Acceso";
-            this.Txt_Acceso.Size = new System.Drawing.Size(982, 33);
+            this.Txt_Acceso.Size = new System.Drawing.Size(982, 31);
             this.Txt_Acceso.TabIndex = 1;
             this.Txt_Acceso.WordWrap = false;
             this.Txt_Acceso.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Txt_Acceso_KeyUp);
@@ -158,9 +160,9 @@
             this.Lbl_Tipo_Acceso_2.AutoSize = true;
             this.Lbl_Tipo_Acceso_2.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Tipo_Acceso_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Tipo_Acceso_2.Location = new System.Drawing.Point(329, 117);
+            this.Lbl_Tipo_Acceso_2.Location = new System.Drawing.Point(329, 112);
             this.Lbl_Tipo_Acceso_2.Name = "Lbl_Tipo_Acceso_2";
-            this.Lbl_Tipo_Acceso_2.Size = new System.Drawing.Size(329, 98);
+            this.Lbl_Tipo_Acceso_2.Size = new System.Drawing.Size(329, 94);
             this.Lbl_Tipo_Acceso_2.TabIndex = 5;
             this.Lbl_Tipo_Acceso_2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -169,9 +171,9 @@
             this.Lbl_Tipo_Acceso_3.AutoSize = true;
             this.Lbl_Tipo_Acceso_3.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Tipo_Acceso_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Tipo_Acceso_3.Location = new System.Drawing.Point(664, 117);
+            this.Lbl_Tipo_Acceso_3.Location = new System.Drawing.Point(664, 112);
             this.Lbl_Tipo_Acceso_3.Name = "Lbl_Tipo_Acceso_3";
-            this.Lbl_Tipo_Acceso_3.Size = new System.Drawing.Size(321, 98);
+            this.Lbl_Tipo_Acceso_3.Size = new System.Drawing.Size(321, 94);
             this.Lbl_Tipo_Acceso_3.TabIndex = 7;
             this.Lbl_Tipo_Acceso_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -179,9 +181,9 @@
             // 
             this.Pic_Semaforo.BackColor = System.Drawing.Color.Transparent;
             this.Pic_Semaforo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_Semaforo.Location = new System.Drawing.Point(3, 389);
+            this.Pic_Semaforo.Location = new System.Drawing.Point(3, 374);
             this.Pic_Semaforo.Name = "Pic_Semaforo";
-            this.Pic_Semaforo.Size = new System.Drawing.Size(320, 115);
+            this.Pic_Semaforo.Size = new System.Drawing.Size(320, 107);
             this.Pic_Semaforo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Pic_Semaforo.TabIndex = 3;
             this.Pic_Semaforo.TabStop = false;
@@ -190,9 +192,9 @@
             // 
             this.Pic_Semaforo_2.BackColor = System.Drawing.Color.Transparent;
             this.Pic_Semaforo_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_Semaforo_2.Location = new System.Drawing.Point(329, 389);
+            this.Pic_Semaforo_2.Location = new System.Drawing.Point(329, 374);
             this.Pic_Semaforo_2.Name = "Pic_Semaforo_2";
-            this.Pic_Semaforo_2.Size = new System.Drawing.Size(329, 115);
+            this.Pic_Semaforo_2.Size = new System.Drawing.Size(329, 107);
             this.Pic_Semaforo_2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Pic_Semaforo_2.TabIndex = 9;
             this.Pic_Semaforo_2.TabStop = false;
@@ -201,9 +203,9 @@
             // 
             this.Pic_Semaforo_3.BackColor = System.Drawing.Color.Transparent;
             this.Pic_Semaforo_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_Semaforo_3.Location = new System.Drawing.Point(664, 389);
+            this.Pic_Semaforo_3.Location = new System.Drawing.Point(664, 374);
             this.Pic_Semaforo_3.Name = "Pic_Semaforo_3";
-            this.Pic_Semaforo_3.Size = new System.Drawing.Size(321, 115);
+            this.Pic_Semaforo_3.Size = new System.Drawing.Size(321, 107);
             this.Pic_Semaforo_3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.Pic_Semaforo_3.TabIndex = 10;
             this.Pic_Semaforo_3.TabStop = false;
@@ -213,10 +215,10 @@
             this.Lbl_Codigo_1.AutoSize = true;
             this.Lbl_Codigo_1.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Codigo_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Codigo_1.Location = new System.Drawing.Point(3, 299);
+            this.Lbl_Codigo_1.Location = new System.Drawing.Point(3, 287);
             this.Lbl_Codigo_1.Name = "Lbl_Codigo_1";
             this.Lbl_Codigo_1.Padding = new System.Windows.Forms.Padding(10);
-            this.Lbl_Codigo_1.Size = new System.Drawing.Size(320, 87);
+            this.Lbl_Codigo_1.Size = new System.Drawing.Size(320, 84);
             this.Lbl_Codigo_1.TabIndex = 4;
             this.Lbl_Codigo_1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -224,9 +226,9 @@
             // 
             this.Lbl_Codigo_2.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Codigo_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Codigo_2.Location = new System.Drawing.Point(329, 299);
+            this.Lbl_Codigo_2.Location = new System.Drawing.Point(329, 287);
             this.Lbl_Codigo_2.Name = "Lbl_Codigo_2";
-            this.Lbl_Codigo_2.Size = new System.Drawing.Size(329, 87);
+            this.Lbl_Codigo_2.Size = new System.Drawing.Size(329, 84);
             this.Lbl_Codigo_2.TabIndex = 6;
             this.Lbl_Codigo_2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -234,9 +236,9 @@
             // 
             this.Lbl_Codigo_3.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Codigo_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Codigo_3.Location = new System.Drawing.Point(664, 299);
+            this.Lbl_Codigo_3.Location = new System.Drawing.Point(664, 287);
             this.Lbl_Codigo_3.Name = "Lbl_Codigo_3";
-            this.Lbl_Codigo_3.Size = new System.Drawing.Size(321, 87);
+            this.Lbl_Codigo_3.Size = new System.Drawing.Size(321, 84);
             this.Lbl_Codigo_3.TabIndex = 8;
             this.Lbl_Codigo_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -246,11 +248,20 @@
             this.Lbl_Mensaje_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Lbl_Mensaje_1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Lbl_Mensaje_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Mensaje_1.Location = new System.Drawing.Point(3, 215);
+            this.Lbl_Mensaje_1.Location = new System.Drawing.Point(3, 206);
             this.Lbl_Mensaje_1.Name = "Lbl_Mensaje_1";
-            this.Lbl_Mensaje_1.Size = new System.Drawing.Size(320, 84);
+            this.Lbl_Mensaje_1.Size = new System.Drawing.Size(320, 81);
             this.Lbl_Mensaje_1.TabIndex = 11;
             this.Lbl_Mensaje_1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Txt_Serial
+            // 
+            this.Txt_Serial.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Txt_Serial.Location = new System.Drawing.Point(329, 487);
+            this.Txt_Serial.Name = "Txt_Serial";
+            this.Txt_Serial.Size = new System.Drawing.Size(329, 20);
+            this.Txt_Serial.TabIndex = 14;
+            this.Txt_Serial.TextChanged += new System.EventHandler(this.Txt_Serial_TextChanged);
             // 
             // Btn_Entrar
             // 
@@ -267,17 +278,17 @@
             // 
             // Tmr_Torniquete1
             // 
-            this.Tmr_Torniquete1.Enabled = true;
+            this.Tmr_Torniquete1.Interval = 1;
             this.Tmr_Torniquete1.Tick += new System.EventHandler(this.Tmr_Torniquete1_Tick);
             // 
             // Tmr_Torniquete3
             // 
-            this.Tmr_Torniquete3.Interval = 3;
+            this.Tmr_Torniquete3.Interval = 2;
             this.Tmr_Torniquete3.Tick += new System.EventHandler(this.Tmr_Torniquete3_Tick);
             // 
             // Tmr_Torniquete2
             // 
-            this.Tmr_Torniquete2.Interval = 3;
+            this.Tmr_Torniquete2.Interval = 2;
             this.Tmr_Torniquete2.Tick += new System.EventHandler(this.Tmr_Torniquete2_Tick);
             // 
             // Frm_Ope_Accesos
@@ -330,6 +341,7 @@
         private System.Windows.Forms.Timer Tmr_Torniquete1;
         private System.Windows.Forms.Timer Tmr_Torniquete3;
         private System.Windows.Forms.Timer Tmr_Torniquete2;
+        private System.Windows.Forms.TextBox Txt_Serial;
     }
 }
 

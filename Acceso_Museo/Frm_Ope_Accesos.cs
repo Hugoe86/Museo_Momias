@@ -33,6 +33,8 @@ namespace Acceso_Museo
 
         MccDaq.MccBoard DaqBoard = new MccDaq.MccBoard(1);
 
+        DateTime Dtime_Fecha_Inicio_Timer = new DateTime();
+
         int NumPorts, NumBits, FirstBit;
         int PortType, ProgAbility;
 
@@ -62,6 +64,10 @@ namespace Acceso_Museo
 
             try
             {
+
+                String X = PortNum.ToString();
+
+
                 DataTable Dt_Consulta = new DataTable();
 
                 string[] Aux = SerialPort.GetPortNames();
@@ -111,14 +117,12 @@ namespace Acceso_Museo
                 }
 
                 PortType = clsDigitalIO.PORTIN;
-                NumPorts = DioProps.FindPortsOfType(DaqBoard, PortType, out ProgAbility,
-                    out PortNum, out NumBits, out FirstBit);
+                NumPorts = DioProps.FindPortsOfType(DaqBoard, PortType, out ProgAbility, out PortNum, out NumBits, out FirstBit);
 
                 Rele = new Relevador();
                 Rele.Activar_Relevador();
 
-                Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Accesos =
-                        new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
+                Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Accesos = new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
 
                 Accesos.Consultar_Accesos_Apertura();
             }
@@ -178,215 +182,15 @@ namespace Acceso_Museo
         ///*******************************************************************************************************
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            DateTime Inicio = new DateTime();
-
             try
             {
-                // Validación que indica si ya se ha leído un código válido.
-                if (!Lector2) { Serial1.Write(""); }
-                
+                //  se valida que no este en uso el torniquete       
                 if (Lector2)
                 {
                     if (string.IsNullOrEmpty(Codigo_Lector2))
                     {
-                        Serial_1 = Serial1.ReadLine();
-                        Inicio = DateTime.Now;
+                        Txt_Serial.Text = Serial1.ReadLine();
                     }
-
-                    DataTable Dt_Consulta = new DataTable();
-                    Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Acceso_Negocio;
-                    Acceso_Museo.App_Code.Negocio.Cls_Cat_Cajas_Negocio Cajas;
-                    DataTable Dt_Accesos;
-                    DateTime Fecha_Inicial_Vigencia;
-                    DateTime Fecha_Final_Vigencia;
-                    DataTable Dt_Consulta_P = new DataTable();
-
-                    int Puerto = 0;
-                    string Tipo_Producto = string.Empty;
-
-                    if (!string.IsNullOrEmpty(Serial_1))
-                    {
-                        Acceso = Serial_1.Substring(0, 1).ToUpper();
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    if (Acceso == "A") { Puerto = 0; }
-                    if (Acceso == "B") { Puerto = 1; }
-                    if (Acceso == "C") { Puerto = 2; }
-
-                    Dt_Consulta_P = Cls_Ayudante_Lector_Codigo.Consultar_Puerto(Acceso);
-
-                    //  se consulta el id de la terminar
-                    if (Dt_Consulta_P != null && Dt_Consulta_P.Rows.Count > 0)
-                    {
-                        foreach (DataRow Registro in Dt_Consulta_P.Rows)
-                        {
-                            Terminal_Id = Registro[Cat_Terminales.Campo_Terminal_ID].ToString();
-                        }
-                    }
-                    else
-                    {
-                        Terminal_Id = "00001";
-                    }
-
-                    // consultar acceso válido
-                    Acceso_Negocio = new Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio();
-                    Cajas = new Acceso_Museo.App_Code.Negocio.Cls_Cat_Cajas_Negocio();
-
-                    //Acceso_Negocio.P_Numero_Serie = Txt_Acceso.Text.Substring(2, Txt_Acceso.Text.Length - 2);
-                    string Folio = string.Empty;
-                    string No_Acceso;
-
-                    if (!string.IsNullOrEmpty(Serial_1))
-                    {
-                        Folio = Serial_1.Substring(2, 10)[0].ToString();
-                    }
-
-                    if (Folio == "0")
-                    {
-                        Acceso_Negocio.P_No_Acceso = Txt_Acceso.Text.Substring(2, 10);
-                    }
-                    else
-                    {
-                        Cajas.P_Numero_Caja = Folio;
-                        DataTable Dt_Cajas = Cajas.Consultar_Caja();
-
-                        No_Acceso = Dt_Cajas.Rows[0][Cat_Cajas.Campo_Serie].ToString();
-                        //No_Acceso += Txt_Acceso.Text.Substring(3, 9);
-
-                        if (!string.IsNullOrEmpty(Serial_1))
-                        {
-                            No_Acceso += Serial_1.Substring(3, 9);
-                        }
-
-                        Acceso_Negocio.P_No_Acceso = No_Acceso;
-                    }
-
-                    Dt_Accesos = Acceso_Negocio.Consultar_Accesos();
-
-                    // validar que la consulta haya regresado resultados
-                    if (Dt_Accesos != null && Dt_Accesos.Rows.Count > 0)
-                    {
-                        Serial1.Close();
-
-                        // validar que el estatus del acceso sea activo
-                        if (Dt_Accesos.Rows[0][Ope_Accesos.Campo_Estatus].ToString() != "ACTIVO")
-                        {
-                            string Producto_ID = Dt_Accesos.Rows[0][Ope_Accesos.Campo_Producto_ID].ToString();
-                            string Estatus = Dt_Accesos.Rows[0][Ope_Accesos.Campo_Estatus].ToString();
-                            string msj = "CORRECTO";
-
-                            Tipo_Producto = Dt_Accesos.Rows[0]["NOMBRE_PRODUCTO"].ToString();
-
-                            if (Estatus == "UTILIZADO")
-                            {
-                                msj = "CÓDIGO UTILIZADO";
-                            }
-                            else if (Estatus == "CANCELADO")
-                            {
-                                msj = "CANCELADO";
-                            }
-
-                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, msj, Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
-
-                            return;
-                        }
-
-                        // validar que esté dentro de la vigencia
-                        DateTime.TryParse(Dt_Accesos.Rows[0][Ope_Accesos.Campo_Vigencia_Inicio].ToString(), out Fecha_Inicial_Vigencia);
-                        DateTime.TryParse(Dt_Accesos.Rows[0][Ope_Accesos.Campo_Vigencia_Fin].ToString(), out Fecha_Final_Vigencia);
-                        if (DateTime.Today < Fecha_Inicial_Vigencia || DateTime.Today > Fecha_Final_Vigencia)
-                        {
-                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "Fuera de vigencia", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
-
-                            return;
-                        }
-
-                        String Texto_Grupo = "";
-                        // obtener datos del grupo
-                        Acceso_Museo.App_Code.Negocio.Cls_Ope_Grupos_Negocio Obj_Grupos_Negocio
-                            = new Acceso_Museo.App_Code.Negocio.Cls_Ope_Grupos_Negocio();
-
-                        Obj_Grupos_Negocio.P_No_Venta = Dt_Accesos.Rows[0][Ope_Accesos.Campo_No_Venta].ToString();
-                        DataTable Dt_Grupos = Obj_Grupos_Negocio.Consultar_Grupos();
-
-                        if (Dt_Grupos != null && Dt_Grupos.Rows.Count > 0)
-                        {
-                            // si aplican días feriados es diferente a S, validar días feriados
-                            if (Dt_Grupos.Rows[0][Ope_Ventas.Campo_Aplican_Dias_Festivos].ToString() != "S")
-                            {
-                                Acceso_Museo.App_Code.Negocio.Cls_Cat_Dias_Feriados_Negocio Obj_Dias_Feriados
-                                    = new Acceso_Museo.App_Code.Negocio.Cls_Cat_Dias_Feriados_Negocio();
-
-                                if (Obj_Dias_Feriados.EsFeriado(DateTime.Today) == true)
-                                {
-                                    Mostrar_Mensaje_Pantalla(Puerto, "Grupo", "Grupo: no aplica en días feriados", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
-
-                                    return;
-                                }
-                            }
-
-                            // datos del grupo para mensaje de acceso
-                            Texto_Grupo = "\nGrupo: " + Dt_Grupos.Rows[0][Ope_Ventas.Campo_Empresa].ToString() + "\n";
-                            Texto_Grupo += Dt_Grupos.Rows[0][Ope_Ventas.Campo_Empresa].ToString() + "\n";
-                        }
-
-                        string mensaje = Tipo_Producto + Texto_Grupo;
-
-                        if (string.IsNullOrEmpty(Texto_Grupo)) { mensaje = "ÉXITO"; }
-
-                        // mostrar acceso (cambiar color e imagen de semáforo)
-                        Tipo_Producto = Dt_Accesos.Rows[0]["NOMBRE_PRODUCTO"].ToString();
-
-                        Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, mensaje, Color.DarkGreen, Acceso_Museo.Properties.Resources.semaforo_verde);
-
-                        bool Pulso_Torniquete = true;
-                        // Se habilita el timer para detectar la lectura del Torniquete.
-                        Codigo_Lector2 = Acceso_Negocio.P_No_Acceso;
-
-                        if (Codigo_Lector1 == Codigo_Lector2 ||
-                            Codigo_Lector3 == Codigo_Lector2)
-                        {
-                            Pulso_Torniquete = false;
-                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
-
-                            Thread.Sleep(1000);
-
-                            if (!Serial1.IsOpen)
-                                Serial1.Open();
-
-                            Codigo_Lector2 = string.Empty;
-                        }
-                        else
-                        {
-                            Lector2 = false;
-
-                            this.Invoke((MethodInvoker)delegate
-                            {
-                                Tmr_Torniquete2.Enabled = true;
-                            });
-                        }
-
-                        if (Pulso_Torniquete) { Pulso(Puerto); }
-                    }
-                    else
-                    {
-                        Serial1.Close();
-
-                        Thread.Sleep(1000);
-
-                        if (!Serial1.IsOpen)
-                            Serial1.Open();
-
-                        //Puerto_Torniquete = 1;
-                        Mostrar_Mensaje_Pantalla(Puerto, "Boleto", "CÓDIGO NO ENCONTRADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
-                    }
-
-                    //Serial1.DiscardInBuffer();
-                    //Serial1.DiscardOutBuffer();
                 }
             }
             catch (Exception ex)
@@ -399,7 +203,9 @@ namespace Acceso_Museo
                     System.IO.File.WriteAllText("reportes/ex-" + DateTime.Now.ToString("dd-MM-yyyy_HH_mm_ss") + ".txt",
                         ex.Message + "\n");
                 }
-                catch { }
+                catch
+                {
+                }
             }
             finally
             {
@@ -626,7 +432,15 @@ namespace Acceso_Museo
                         {
                             Pulso(Puerto);
                             Thread.Sleep(100);
-                            Tmr_Torniquete3.Enabled = true; 
+                            Tmr_Torniquete3.Enabled = true;
+
+                            //Dtime_Fecha_Inicio_Timer = DateTime.Now;
+
+                            //MessageBox.Show("timer activo " 
+                            //                    , "Aviso"
+                            //                    , MessageBoxButtons.OK
+                            //                    , MessageBoxIcon.Information);
+
                         }
                     }
                 }
@@ -716,14 +530,14 @@ namespace Acceso_Museo
                 Lbl_Codigo_1.Text = Txt_Acceso.Text.Substring(2, 10);
                 Pic_Semaforo.Image = Imagen_Pantalla;
             }
-            else if (Terminal == 1)
+            else if (Terminal == 3)
             {
                 Lbl_Tipo_Acceso_2.ForeColor = Color;
                 Lbl_Tipo_Acceso_2.Text = Tipo;
                 Lbl_Mensaje_2.ForeColor = Color;
                 Lbl_Mensaje_2.Text = Mensaje;
                 Lbl_Codigo_2.ForeColor = Color;
-                Lbl_Codigo_2.Text = Serial_1.Substring(2, 10); //Txt_Acceso.Text.Substring(2, 10);
+                Lbl_Codigo_2.Text = Txt_Serial.Text.Substring(2, 10); //Txt_Acceso.Text.Substring(2, 10);
                 Pic_Semaforo_2.Image = Imagen_Pantalla;
             } 
             else if (Terminal == 2)
@@ -818,38 +632,61 @@ namespace Acceso_Museo
         /// <param name="e"></param>
         private void Tmr_Torniquete3_Tick(object sender, EventArgs e)
         {
+            TimeSpan Tiempo_Transcurrido = new TimeSpan();
             try
             {
                 Tmr_Torniquete3.Stop();
 
+
                 short DataValue = 0;
-                Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Acceso_Negocio =
-                    new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
+                Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Acceso_Negocio = new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
 
                 MccDaq.ErrorInfo ULStat = DaqBoard.DIn(PortNum, out DataValue);
+
                 int resul = DataValue & (1 << 0);
+
 
                 if (resul == 1)
                 {
                     Lector3 = false;
+                    
+                    
                     if (First_T1)
                     {
                         First_T1 = false;
+
+
                     }
                     else
                     {
                         short DataValue2 = 0;
                         MccDaq.ErrorInfo ULStat2 = DaqBoard.DIn(PortNum, out DataValue2);
 
+
                         int resul2 = DataValue2 & (1 << 2);
+
+                        if (!System.IO.Directory.Exists("reportes"))
+                            System.IO.Directory.CreateDirectory("reportes");
+
+                        System.IO.File.WriteAllText("reportes/ex-" + DateTime.Now.ToString("dd-MM-yyyy_HH_mm_ss") + ".txt", " " + resul2.ToString() + "\n");
 
                         if (resul2 != 0)
                         {
+                            if (!System.IO.Directory.Exists("reportes"))
+                                System.IO.Directory.CreateDirectory("reportes");
+
+                            System.IO.File.WriteAllText("reportes/ex-" + DateTime.Now.ToString("dd-MM-yyyy_HH_mm_ss") + ".txt", resul2.ToString() + "\n");
+                            
                             Acceso_Negocio.P_No_Acceso = Codigo_Lector3;
                             Acceso_Negocio.P_Terminal_ID = "00001";
                             Acceso_Negocio.P_Estatus = "UTILIZADO";
                             Acceso_Negocio.P_Fecha_Hora_Acceso = DateTime.Now;
                             Acceso_Negocio.Actualizar_Estatus_Acceso();
+                            
+                            First_T1 = true;
+                            Codigo_Lector3 = string.Empty;
+                            Tmr_Torniquete3.Enabled = false;
+
                         }
                     }
                 }
@@ -867,12 +704,14 @@ namespace Acceso_Museo
 
                 Tmr_Torniquete3.Start();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 First_T1 = true;
                 Codigo_Lector3 = string.Empty;
                 Tmr_Torniquete3.Enabled = false;
                 Lector3 = true;
+
+                MessageBox.Show("Error: " + ex.Message, "Erro", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -887,11 +726,12 @@ namespace Acceso_Museo
             {
                 Tmr_Torniquete2.Stop();
                 short DataValue = 0;
-                Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Acceso_Negocio =
-                    new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
+                Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Acceso_Negocio = new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
 
                 MccDaq.ErrorInfo ULStat = DaqBoard.DIn(PortNum, out DataValue);
+
                 int resul = DataValue & (1 << 1);
+
 
                 if (resul != 0)
                 {
@@ -965,6 +805,210 @@ namespace Acceso_Museo
                         ex.Message + "\n");
                 }
                 catch { }
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Txt_Serial_TextChanged(object sender, EventArgs e)
+        {
+            Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Acceso_Negocio;
+            Acceso_Museo.App_Code.Negocio.Cls_Cat_Cajas_Negocio Cajas;
+            DataTable Dt_Consulta = new DataTable();
+            DataTable Dt_Accesos = new DataTable();
+            DateTime Fecha_Inicial_Vigencia;
+            DateTime Fecha_Final_Vigencia;
+            DataTable Dt_Consulta_P = new DataTable();
+            int Puerto = 0;
+            string Tipo_Producto = string.Empty;
+
+            try
+            {
+                if (Txt_Serial.Text.Length >= 13)
+                {
+                    if (!string.IsNullOrEmpty(Txt_Serial.Text))
+                    {
+                        Acceso = Txt_Serial.Text.Substring(0, 1).ToUpper();
+                    }
+                    else
+                    {
+                        return;
+                    }
+
+                    if (Acceso == "A") { Puerto = 0; }
+                    if (Acceso == "B") { Puerto = 3; }
+                    if (Acceso == "C") { Puerto = 2; }
+
+                    Dt_Consulta_P = Cls_Ayudante_Lector_Codigo.Consultar_Puerto(Acceso);
+
+                    //  se consulta el id de la terminar
+                    if (Dt_Consulta_P != null && Dt_Consulta_P.Rows.Count > 0)
+                    {
+                        foreach (DataRow Registro in Dt_Consulta_P.Rows)
+                        {
+                            Terminal_Id = Registro[Cat_Terminales.Campo_Terminal_ID].ToString();
+                        }
+                    }
+                    else
+                    {
+                        Terminal_Id = "00001";
+                    }
+
+                    // consultar acceso válido
+                    Acceso_Negocio = new Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio();
+                    Cajas = new Acceso_Museo.App_Code.Negocio.Cls_Cat_Cajas_Negocio();
+
+                    //Acceso_Negocio.P_Numero_Serie = Txt_Acceso.Text.Substring(2, Txt_Acceso.Text.Length - 2);
+                    string Folio = string.Empty;
+                    string No_Acceso;
+
+                    if (!string.IsNullOrEmpty(Txt_Serial.Text))
+                    {
+                        Folio = Txt_Serial.Text.Substring(2, 10)[0].ToString();
+                    }
+
+                    if (Folio == "0")
+                    {
+                        Acceso_Negocio.P_No_Acceso = Txt_Acceso.Text.Substring(2, 10);
+                    }
+                    else
+                    {
+                        Cajas.P_Numero_Caja = Folio;
+                        DataTable Dt_Cajas = Cajas.Consultar_Caja();
+
+                        No_Acceso = Dt_Cajas.Rows[0][Cat_Cajas.Campo_Serie].ToString();
+                        //No_Acceso += Txt_Acceso.Text.Substring(3, 9);
+
+                        if (!string.IsNullOrEmpty(Txt_Serial.Text))
+                        {
+                            No_Acceso += Txt_Serial.Text.Substring(3, 9);
+                        }
+
+                        Acceso_Negocio.P_No_Acceso = No_Acceso;
+                    }
+
+                    Dt_Accesos = Acceso_Negocio.Consultar_Accesos();
+
+                    // validar que la consulta haya regresado resultados
+                    if (Dt_Accesos != null && Dt_Accesos.Rows.Count > 0)
+                    {
+
+                        // validar que el estatus del acceso sea activo
+                        if (Dt_Accesos.Rows[0][Ope_Accesos.Campo_Estatus].ToString() != "ACTIVO")
+                        {
+                            string Producto_ID = Dt_Accesos.Rows[0][Ope_Accesos.Campo_Producto_ID].ToString();
+                            string Estatus = Dt_Accesos.Rows[0][Ope_Accesos.Campo_Estatus].ToString();
+                            string msj = "CORRECTO";
+
+                            Tipo_Producto = Dt_Accesos.Rows[0]["NOMBRE_PRODUCTO"].ToString();
+
+                            if (Estatus == "UTILIZADO")
+                            {
+                                msj = "CÓDIGO UTILIZADO";
+                            }
+                            else if (Estatus == "CANCELADO")
+                            {
+                                msj = "CANCELADO";
+                            }
+
+                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, msj, Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+
+                            return;
+                        }
+
+                        // validar que esté dentro de la vigencia
+                        DateTime.TryParse(Dt_Accesos.Rows[0][Ope_Accesos.Campo_Vigencia_Inicio].ToString(), out Fecha_Inicial_Vigencia);
+                        DateTime.TryParse(Dt_Accesos.Rows[0][Ope_Accesos.Campo_Vigencia_Fin].ToString(), out Fecha_Final_Vigencia);
+                        if (DateTime.Today < Fecha_Inicial_Vigencia || DateTime.Today > Fecha_Final_Vigencia)
+                        {
+                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "Fuera de vigencia", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+
+                            return;
+                        }
+
+                        String Texto_Grupo = "";
+                        // obtener datos del grupo
+                        Acceso_Museo.App_Code.Negocio.Cls_Ope_Grupos_Negocio Obj_Grupos_Negocio
+                            = new Acceso_Museo.App_Code.Negocio.Cls_Ope_Grupos_Negocio();
+
+                        Obj_Grupos_Negocio.P_No_Venta = Dt_Accesos.Rows[0][Ope_Accesos.Campo_No_Venta].ToString();
+                        DataTable Dt_Grupos = Obj_Grupos_Negocio.Consultar_Grupos();
+
+                        if (Dt_Grupos != null && Dt_Grupos.Rows.Count > 0)
+                        {
+                            // si aplican días feriados es diferente a S, validar días feriados
+                            if (Dt_Grupos.Rows[0][Ope_Ventas.Campo_Aplican_Dias_Festivos].ToString() != "S")
+                            {
+                                Acceso_Museo.App_Code.Negocio.Cls_Cat_Dias_Feriados_Negocio Obj_Dias_Feriados
+                                    = new Acceso_Museo.App_Code.Negocio.Cls_Cat_Dias_Feriados_Negocio();
+
+                                if (Obj_Dias_Feriados.EsFeriado(DateTime.Today) == true)
+                                {
+                                    Mostrar_Mensaje_Pantalla(Puerto, "Grupo", "Grupo: no aplica en días feriados", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+
+                                    return;
+                                }
+                            }
+
+                            // datos del grupo para mensaje de acceso
+                            Texto_Grupo = "\nGrupo: " + Dt_Grupos.Rows[0][Ope_Ventas.Campo_Empresa].ToString() + "\n";
+                            Texto_Grupo += Dt_Grupos.Rows[0][Ope_Ventas.Campo_Empresa].ToString() + "\n";
+                        }
+
+                        string mensaje = Tipo_Producto + Texto_Grupo;
+
+                        if (string.IsNullOrEmpty(Texto_Grupo)) { mensaje = "ÉXITO"; }
+
+                        // mostrar acceso (cambiar color e imagen de semáforo)
+                        Tipo_Producto = Dt_Accesos.Rows[0]["NOMBRE_PRODUCTO"].ToString();
+
+                        Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, mensaje, Color.DarkGreen, Acceso_Museo.Properties.Resources.semaforo_verde);
+
+                        bool Pulso_Torniquete = true;
+                        // Se habilita el timer para detectar la lectura del Torniquete.
+                        Codigo_Lector2 = Acceso_Negocio.P_No_Acceso;
+
+                        if (Codigo_Lector1 == Codigo_Lector2 ||
+                            Codigo_Lector3 == Codigo_Lector2)
+                        {
+                            Pulso_Torniquete = false;
+                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+
+
+                            Codigo_Lector2 = string.Empty;
+                        }
+                        else
+                        {
+                            Lector2 = false;
+
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                Tmr_Torniquete2.Enabled = true;
+                            });
+                        }
+
+                        if (Pulso_Torniquete) { Pulso(Puerto); }
+                    }
+                    else
+                    {
+
+                        //Puerto_Torniquete = 1;
+                        Mostrar_Mensaje_Pantalla(Puerto, "Boleto", "CÓDIGO NO ENCONTRADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                    }
+
+
+                    Txt_Serial.Text = "";
+
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
     }
