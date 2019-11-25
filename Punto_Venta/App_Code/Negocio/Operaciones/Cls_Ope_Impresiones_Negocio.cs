@@ -766,8 +766,8 @@ namespace Erp_Ope_Impresiones.Negocio
             {
                 var Obj_Parametros = new Cls_Apl_Parametros_Negocio();
                 Obj_Parametros = Obj_Parametros.Obtener_Parametros();
-                //string Ruta_Archivo = Obj_Parametros.P_Directorio_Compartido + "/Imagenes/Acceso/Logo_Accesos_Momias.png";
-                string Ruta_Archivo = Obj_Parametros.P_Directorio_Compartido + "/Imagenes/Accesos/Acceso.png";
+
+                string Ruta_Archivo = Obj_Parametros.P_Directorio_Compartido + "/Imagenes/Accesos/Acceso.png";//    produccion
 
                 Image Logo = Image.FromFile(Ruta_Archivo);
                 RectangleF Renctangulo_Compimido = new RectangleF(1, 12, 180, 95);
@@ -782,8 +782,6 @@ namespace Erp_Ope_Impresiones.Negocio
 
                 //  imagen del boleto ******************************************************************************************************************
                 ev.Graphics.DrawImage(Logo, Renctangulo_Compimido);
-                //ev.Graphics.DrawString("xxx ", Fuente_Texto_Detalle, Brushes.Black, 10, 10, new StringFormat());
-                //ev.Graphics.DrawString("xxx ", Fuente_Texto_Detalle, Brushes.Black, 10, 80, new StringFormat());
 
 
                 // imprimir la fecha y hora ******************************************************************************************************************
@@ -825,7 +823,6 @@ namespace Erp_Ope_Impresiones.Negocio
 
               
                 // imprimir código de barras ******************************************************************************************************************
-                //ev.Graphics.DrawString("*" + Numero_Serie_Acceso + "*", Fuente_Codigo_Acceso, Brushes.Black, 2, 300, new StringFormat());
                 Ean13 Codigo = new Ean13();
                 Codigo.ManufacturerCode = MDI_Frm_Apl_Principal.No_Caja +  Numero_Serie_Acceso.Substring(1, 4);
                 Codigo.ProductCode = Numero_Serie_Acceso.Substring(5, 5);
@@ -836,47 +833,7 @@ namespace Erp_Ope_Impresiones.Negocio
 
 
 
-                ////  Encabezado del boleto ******************************************************************************************************************
-                //SzF_Str_Tamaño_Texto = ev.Graphics.MeasureString(Encabezado, Fuente_Texto);
-
-                //// se crea el rectangulo con el texto
-                //Tamaño = ev.Graphics.MeasureString(Encabezado, Fuente_Texto, 195, Formato_Centrado).Height;
-                //Rectangulo = new RectangleF(ev.MarginBounds.Left, 380, ev.MarginBounds.Width, Tamaño);
-
-                //// imprimir el encabeado del boleto ******************************************************************************************************************
-                //ev.Graphics.DrawString(Encabezado, Fuente_Texto, Brushes.Black, Rectangulo, Formato_Centrado);
-
-                ////********************************************************************************************************************************************
-                ////********************************************************************************************************************************************
-                ////********************************************************************************************************************************************
-                //// imprimir la fecha y hora ******************************************************************************************************************
-                //ev.Graphics.DrawString("Fecha: ", Fuente_Texto_Detalle, Brushes.Black, 10, 450, new StringFormat());
-                //ev.Graphics.DrawString(Fecha_Impresion, Fuente_Texto_Detalle, Brushes.Black, 70, 450, new StringFormat());
-                //ev.Graphics.DrawString("Hora: ", Fuente_Texto_Detalle, Brushes.Black, 10, 460, new StringFormat());
-                //ev.Graphics.DrawString(Hora_Impresion, Fuente_Texto_Detalle, Brushes.Black, 70, 460, new StringFormat());
-
-                ////  se ingresa el folio y la caja ******************************************************************************************************************
-                //ev.Graphics.DrawString("Folio: ", Fuente_Texto_Detalle, Brushes.Black, 10, 470, new StringFormat());
-                //ev.Graphics.DrawString(Folio, Fuente_Texto_Detalle, Brushes.Black, 70, 470, new StringFormat());
-                //ev.Graphics.DrawString("Caja: ", Fuente_Texto_Detalle, Brushes.Black, 10, 480, new StringFormat());
-                //ev.Graphics.DrawString(Caja, Fuente_Texto_Detalle, Brushes.Black, 70, 480, new StringFormat());
-
-                ////  se agrega la vigencia del boleto ******************************************************************************************************************
-                //ev.Graphics.DrawString("Vigencia: ", Fuente_Texto_Detalle, Brushes.Black, 10, 490, new StringFormat());
-                //ev.Graphics.DrawString(Vigencia, Fuente_Texto_Detalle, Brushes.Black, 70, 490, new StringFormat());
-
-                //// imprimir el costo ******************************************************************************************************************
-                //ev.Graphics.DrawString("Costo:", Fuente_Texto_Detalle, Brushes.Black, 10, 500, new StringFormat());
-                //ev.Graphics.DrawString(Costo, Fuente_Texto_Detalle, Brushes.Black, 70, 500, new StringFormat());
-
-                //// imprimir el encabeado del boleto     ******************************************************************************************************************
-                //SzF_Str_Tamaño_Texto = ev.Graphics.MeasureString(Encabezado, Fuente_Texto);
-
-                //// se crea el rectangulo con el texto
-                //Tamaño = ev.Graphics.MeasureString(Encabezado, Fuente_Texto, 195, Formato_Centrado).Height;
-                //Rectangulo = new RectangleF(ev.MarginBounds.Left, 520, ev.MarginBounds.Width, Tamaño);
-                //ev.Graphics.DrawString(Encabezado, Fuente_Texto, Brushes.Black, Rectangulo, Formato_Centrado);
-
+              
 
                 ev.HasMorePages = false;
             }

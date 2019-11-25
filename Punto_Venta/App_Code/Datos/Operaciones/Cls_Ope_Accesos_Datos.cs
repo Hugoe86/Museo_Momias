@@ -92,7 +92,7 @@ namespace Erp_Ope_Accesos.Datos
                 Mi_SQL += ", " + Ope_Accesos.Campo_No_Venta;
                 Mi_SQL += ", " + Ope_Accesos.Campo_Producto_ID;
                 Mi_SQL += ", " + Ope_Accesos.Campo_Terminal_ID;
-                Mi_SQL += ", " + Ope_Accesos.Campo_Numero_Serie;
+                //Mi_SQL += ", " + Ope_Accesos.Campo_Numero_Serie;
                 Mi_SQL += ", " + Ope_Accesos.Campo_Vigencia_Inicio;
                 Mi_SQL += ", " + Ope_Accesos.Campo_Vigencia_Fin;
                 Mi_SQL += ", " + Ope_Accesos.Campo_Estatus;
@@ -130,14 +130,16 @@ namespace Erp_Ope_Accesos.Datos
                 {
                     Mi_SQL += "NULL, ";
                 }
-                if (Accesos.P_Numero_Serie != "" && Accesos.P_Numero_Serie != null)
-                {
-                    Mi_SQL += "'" + Accesos.P_Numero_Serie + "', ";
-                }
-                else
-                {
-                    Mi_SQL += "NULL, ";
-                }
+
+
+                //if (Accesos.P_Numero_Serie != "" && Accesos.P_Numero_Serie != null)
+                //{
+                //    Mi_SQL += "'" + Accesos.P_Numero_Serie + "', ";
+                //}
+                //else
+                //{
+                //    Mi_SQL += "NULL, ";
+                //}
 
                
                 Mi_SQL += Cls_Ayudante_Sintaxis.Insertar_Fecha(Accesos.P_Vigencia_Inicio) + ", ";
