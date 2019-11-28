@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Punto_Venta", "Punto_Venta", "{185D22FF-9B4A-49DC-9101-8BB6BF20DEF3}"
 EndProject
@@ -33,7 +33,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Sistema_Momias_Web", "Siste
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "2056"
-		SlnRelativePath = "Sistema_Momias_Web\"
 	EndProjectSection
 EndProject
 Global

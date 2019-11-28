@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Acceso_Museo.Paginas;
 
 namespace Acceso_Museo
 {
@@ -13,7 +14,7 @@ namespace Acceso_Museo
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Frm_Ope_Accesos());
+            Application.Run(new Frm_Acceso());
         }
     }
 }

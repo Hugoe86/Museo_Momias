@@ -58,10 +58,11 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>94C191DAE613B18F80A4E11545FE8201940F16A5</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>4D06F525928C34F5EA0077523210F99C181EB8A2</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>Punto_Venta_ClaveTemporal.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -258,7 +259,6 @@
     <Compile Include="App_Code\Negocio\Reportes\Cls_Rpt_Ventas_Negocio.cs" />
     <Compile Include="App_Code\Reporte\Ds_Rep_Anual_Ingresos.cs">
       <DependentUpon>Ds_Rep_Anual_Ingresos.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rep_Anual_Ingresos.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -272,7 +272,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Accesos.cs">
       <DependentUpon>Ds_Rpt_Accesos.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Accesos.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -289,7 +288,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Concentrado_Ventas.cs">
       <DependentUpon>Ds_Rpt_Concentrado_Ventas.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Concentrado_Ventas.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -298,7 +296,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Cortes_Caja.cs">
       <DependentUpon>Ds_Rpt_Cortes_Caja.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Cortes_Caja.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -307,7 +304,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Cortes_Caja_Arqueos.cs">
       <DependentUpon>Ds_Rpt_Cortes_Caja_Arqueos.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Cortes_Caja_Arqueos.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -316,7 +312,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detallado_Ventas_Concentrado_Ticket.cs">
       <DependentUpon>Ds_Rpt_Detallado_Ventas_Concentrado_Ticket.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detallado_Ventas_Concentrado_Ticket.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -325,7 +320,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detallado_Ventas_Tipo_Pago.cs">
       <DependentUpon>Ds_Rpt_Detallado_Ventas_Tipo_Pago.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detallado_Ventas_Tipo_Pago.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -334,7 +328,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detalle_Accesos.cs">
       <DependentUpon>Ds_Rpt_Detalle_Accesos.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detalle_Accesos.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -343,7 +336,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detalle_Ventas.cs">
       <DependentUpon>Ds_Rpt_Detalle_Ventas.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Detalle_Ventas.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -360,7 +352,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Folios Cancelados.cs">
       <DependentUpon>Ds_Rpt_Folios Cancelados.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Folios Cancelados.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -382,7 +373,6 @@
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Ventas_Internet.cs">
       <DependentUpon>Ds_Rpt_Ventas_Internet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="App_Code\Reporte\Ds_Rpt_Ventas_Internet.Designer.cs">
       <AutoGen>True</AutoGen>
