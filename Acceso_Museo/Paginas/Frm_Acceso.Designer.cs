@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Frm_Acceso));
             this.visualStudio2012DarkTheme1 = new Telerik.WinControls.Themes.VisualStudio2012DarkTheme();
             this.Tab_Tabla_Contenedor = new System.Windows.Forms.TableLayoutPanel();
             this.Lbl_Mensaje_3 = new System.Windows.Forms.Label();
@@ -52,6 +53,9 @@
             this.Tmr_TorniqueteC = new System.Windows.Forms.Timer(this.components);
             this.Tmr_TorniqueteB = new System.Windows.Forms.Timer(this.components);
             this.office2010BlackTheme1 = new Telerik.WinControls.Themes.Office2010BlackTheme();
+            this.RadAlert_EscanerA = new Telerik.WinControls.UI.RadDesktopAlert(this.components);
+            this.RadAlert_EscanerB = new Telerik.WinControls.UI.RadDesktopAlert(this.components);
+            this.RadAlert_EscanerC = new Telerik.WinControls.UI.RadDesktopAlert(this.components);
             this.Tab_Tabla_Contenedor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Pic_Semaforo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Pic_Semaforo_2)).BeginInit();
@@ -90,7 +94,7 @@
             this.Tab_Tabla_Contenedor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.25177F));
             this.Tab_Tabla_Contenedor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 23.31006F));
             this.Tab_Tabla_Contenedor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.Tab_Tabla_Contenedor.Size = new System.Drawing.Size(1062, 695);
+            this.Tab_Tabla_Contenedor.Size = new System.Drawing.Size(1062, 694);
             this.Tab_Tabla_Contenedor.TabIndex = 1;
             // 
             // Lbl_Mensaje_3
@@ -98,8 +102,8 @@
             this.Lbl_Mensaje_3.AutoSize = true;
             this.Lbl_Mensaje_3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Lbl_Mensaje_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Mensaje_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Mensaje_3.Location = new System.Drawing.Point(714, 287);
+            this.Lbl_Mensaje_3.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Mensaje_3.Location = new System.Drawing.Point(714, 286);
             this.Lbl_Mensaje_3.Name = "Lbl_Mensaje_3";
             this.Lbl_Mensaje_3.Size = new System.Drawing.Size(345, 112);
             this.Lbl_Mensaje_3.TabIndex = 13;
@@ -110,8 +114,8 @@
             this.Lbl_Mensaje_2.AutoSize = true;
             this.Lbl_Mensaje_2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Lbl_Mensaje_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Mensaje_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Mensaje_2.Location = new System.Drawing.Point(353, 287);
+            this.Lbl_Mensaje_2.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Mensaje_2.Location = new System.Drawing.Point(353, 286);
             this.Lbl_Mensaje_2.Name = "Lbl_Mensaje_2";
             this.Lbl_Mensaje_2.Size = new System.Drawing.Size(355, 112);
             this.Lbl_Mensaje_2.TabIndex = 12;
@@ -136,10 +140,11 @@
             this.Lbl_Tipo_Acceso.AutoSize = true;
             this.Lbl_Tipo_Acceso.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Tipo_Acceso.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lbl_Tipo_Acceso.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_Tipo_Acceso.Location = new System.Drawing.Point(3, 156);
             this.Lbl_Tipo_Acceso.Name = "Lbl_Tipo_Acceso";
             this.Lbl_Tipo_Acceso.Padding = new System.Windows.Forms.Padding(10);
-            this.Lbl_Tipo_Acceso.Size = new System.Drawing.Size(344, 131);
+            this.Lbl_Tipo_Acceso.Size = new System.Drawing.Size(344, 130);
             this.Lbl_Tipo_Acceso.TabIndex = 2;
             this.Lbl_Tipo_Acceso.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -148,9 +153,10 @@
             this.Lbl_Tipo_Acceso_2.AutoSize = true;
             this.Lbl_Tipo_Acceso_2.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Tipo_Acceso_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lbl_Tipo_Acceso_2.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_Tipo_Acceso_2.Location = new System.Drawing.Point(353, 156);
             this.Lbl_Tipo_Acceso_2.Name = "Lbl_Tipo_Acceso_2";
-            this.Lbl_Tipo_Acceso_2.Size = new System.Drawing.Size(355, 131);
+            this.Lbl_Tipo_Acceso_2.Size = new System.Drawing.Size(355, 130);
             this.Lbl_Tipo_Acceso_2.TabIndex = 5;
             this.Lbl_Tipo_Acceso_2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -159,9 +165,10 @@
             this.Lbl_Tipo_Acceso_3.AutoSize = true;
             this.Lbl_Tipo_Acceso_3.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Tipo_Acceso_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Lbl_Tipo_Acceso_3.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbl_Tipo_Acceso_3.Location = new System.Drawing.Point(714, 156);
             this.Lbl_Tipo_Acceso_3.Name = "Lbl_Tipo_Acceso_3";
-            this.Lbl_Tipo_Acceso_3.Size = new System.Drawing.Size(345, 131);
+            this.Lbl_Tipo_Acceso_3.Size = new System.Drawing.Size(345, 130);
             this.Lbl_Tipo_Acceso_3.TabIndex = 7;
             this.Lbl_Tipo_Acceso_3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -169,7 +176,7 @@
             // 
             this.Pic_Semaforo.BackColor = System.Drawing.Color.Transparent;
             this.Pic_Semaforo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_Semaforo.Location = new System.Drawing.Point(3, 518);
+            this.Pic_Semaforo.Location = new System.Drawing.Point(3, 517);
             this.Pic_Semaforo.Name = "Pic_Semaforo";
             this.Pic_Semaforo.Size = new System.Drawing.Size(344, 151);
             this.Pic_Semaforo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -180,7 +187,7 @@
             // 
             this.Pic_Semaforo_2.BackColor = System.Drawing.Color.Transparent;
             this.Pic_Semaforo_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_Semaforo_2.Location = new System.Drawing.Point(353, 518);
+            this.Pic_Semaforo_2.Location = new System.Drawing.Point(353, 517);
             this.Pic_Semaforo_2.Name = "Pic_Semaforo_2";
             this.Pic_Semaforo_2.Size = new System.Drawing.Size(355, 151);
             this.Pic_Semaforo_2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -191,7 +198,7 @@
             // 
             this.Pic_Semaforo_3.BackColor = System.Drawing.Color.Transparent;
             this.Pic_Semaforo_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Pic_Semaforo_3.Location = new System.Drawing.Point(714, 518);
+            this.Pic_Semaforo_3.Location = new System.Drawing.Point(714, 517);
             this.Pic_Semaforo_3.Name = "Pic_Semaforo_3";
             this.Pic_Semaforo_3.Size = new System.Drawing.Size(345, 151);
             this.Pic_Semaforo_3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -203,7 +210,8 @@
             this.Lbl_Codigo_1.AutoSize = true;
             this.Lbl_Codigo_1.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Codigo_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Codigo_1.Location = new System.Drawing.Point(3, 399);
+            this.Lbl_Codigo_1.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Codigo_1.Location = new System.Drawing.Point(3, 398);
             this.Lbl_Codigo_1.Name = "Lbl_Codigo_1";
             this.Lbl_Codigo_1.Padding = new System.Windows.Forms.Padding(10);
             this.Lbl_Codigo_1.Size = new System.Drawing.Size(344, 116);
@@ -214,7 +222,8 @@
             // 
             this.Lbl_Codigo_2.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Codigo_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Codigo_2.Location = new System.Drawing.Point(353, 399);
+            this.Lbl_Codigo_2.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Codigo_2.Location = new System.Drawing.Point(353, 398);
             this.Lbl_Codigo_2.Name = "Lbl_Codigo_2";
             this.Lbl_Codigo_2.Size = new System.Drawing.Size(355, 116);
             this.Lbl_Codigo_2.TabIndex = 6;
@@ -224,7 +233,8 @@
             // 
             this.Lbl_Codigo_3.BackColor = System.Drawing.Color.Transparent;
             this.Lbl_Codigo_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Codigo_3.Location = new System.Drawing.Point(714, 399);
+            this.Lbl_Codigo_3.Font = new System.Drawing.Font("Segoe UI", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Codigo_3.Location = new System.Drawing.Point(714, 398);
             this.Lbl_Codigo_3.Name = "Lbl_Codigo_3";
             this.Lbl_Codigo_3.Size = new System.Drawing.Size(345, 116);
             this.Lbl_Codigo_3.TabIndex = 8;
@@ -235,8 +245,8 @@
             this.Lbl_Mensaje_1.AutoSize = true;
             this.Lbl_Mensaje_1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Lbl_Mensaje_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Lbl_Mensaje_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Mensaje_1.Location = new System.Drawing.Point(3, 287);
+            this.Lbl_Mensaje_1.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Mensaje_1.Location = new System.Drawing.Point(3, 286);
             this.Lbl_Mensaje_1.Name = "Lbl_Mensaje_1";
             this.Lbl_Mensaje_1.Size = new System.Drawing.Size(344, 112);
             this.Lbl_Mensaje_1.TabIndex = 11;
@@ -245,7 +255,7 @@
             // Txt_Serial
             // 
             this.Txt_Serial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.Txt_Serial.Location = new System.Drawing.Point(353, 675);
+            this.Txt_Serial.Location = new System.Drawing.Point(353, 674);
             this.Txt_Serial.Name = "Txt_Serial";
             this.Txt_Serial.Size = new System.Drawing.Size(355, 20);
             this.Txt_Serial.TabIndex = 14;
@@ -257,11 +267,11 @@
             // 
             // SerialA
             // 
-            this.SerialA.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialC_DataReceived);
+            this.SerialA.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialA_DataReceived);
             // 
             // SerialC
             // 
-            this.SerialC.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialA_DataReceived);
+            this.SerialC.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialC_DataReceived);
             // 
             // Tmr_TorniqueteA
             // 
@@ -278,19 +288,49 @@
             this.Tmr_TorniqueteB.Interval = 2;
             this.Tmr_TorniqueteB.Tick += new System.EventHandler(this.Tmr_TorniqueteB_Tick);
             // 
+            // RadAlert_EscanerA
+            // 
+            this.RadAlert_EscanerA.AutoCloseDelay = 5;
+            this.RadAlert_EscanerA.CanMove = false;
+            this.RadAlert_EscanerA.CaptionText = "Error Escaner A";
+            this.RadAlert_EscanerA.FixedSize = new System.Drawing.Size(350, 100);
+            this.RadAlert_EscanerA.Opacity = 0.7F;
+            this.RadAlert_EscanerA.ScreenPosition = Telerik.WinControls.UI.AlertScreenPosition.BottomLeft;
+            this.RadAlert_EscanerA.ThemeName = "VisualStudio2012Dark";
+            // 
+            // RadAlert_EscanerB
+            // 
+            this.RadAlert_EscanerB.AutoCloseDelay = 5;
+            this.RadAlert_EscanerB.CanMove = false;
+            this.RadAlert_EscanerB.CaptionText = "Error Escaner A";
+            this.RadAlert_EscanerB.FixedSize = new System.Drawing.Size(350, 100);
+            this.RadAlert_EscanerB.Opacity = 0.7F;
+            this.RadAlert_EscanerB.ScreenPosition = Telerik.WinControls.UI.AlertScreenPosition.BottomCenter;
+            this.RadAlert_EscanerB.ThemeName = "VisualStudio2012Dark";
+            // 
+            // RadAlert_EscanerC
+            // 
+            this.RadAlert_EscanerC.AutoCloseDelay = 5;
+            this.RadAlert_EscanerC.CanMove = false;
+            this.RadAlert_EscanerC.CaptionText = "Error Escaner A";
+            this.RadAlert_EscanerC.FixedSize = new System.Drawing.Size(350, 100);
+            this.RadAlert_EscanerC.Opacity = 0.7F;
+            this.RadAlert_EscanerC.ThemeName = "VisualStudio2012Dark";
+            // 
             // Frm_Acceso
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1062, 695);
+            this.ClientSize = new System.Drawing.Size(1062, 694);
             this.Controls.Add(this.Tab_Tabla_Contenedor);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Frm_Acceso";
             // 
             // 
             // 
             this.RootElement.ApplyShapeToControl = true;
             this.Text = "Acceso";
-            this.ThemeName = "Office2010Black";
+            this.ThemeName = "VisualStudio2012Dark";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Frm_Ope_Accesos_Load);
             this.Tab_Tabla_Contenedor.ResumeLayout(false);
@@ -328,5 +368,8 @@
         private System.Windows.Forms.Timer Tmr_TorniqueteC;
         private System.Windows.Forms.Timer Tmr_TorniqueteB;
         private Telerik.WinControls.Themes.Office2010BlackTheme office2010BlackTheme1;
+        private Telerik.WinControls.UI.RadDesktopAlert RadAlert_EscanerA;
+        private Telerik.WinControls.UI.RadDesktopAlert RadAlert_EscanerB;
+        private Telerik.WinControls.UI.RadDesktopAlert RadAlert_EscanerC;
     }
 }

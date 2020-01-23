@@ -231,6 +231,11 @@
     <Content Include="bin\Telerik.WinControls.UI.xml" />
     <Content Include="bin\Telerik.WinControls.xml" />
     <Content Include="bin\TelerikCommon.dll" />
+    <None Include="Resources\Error-80_icon-icons.com_57326.png" />
+    <None Include="Resources\Fuera de servicio.png" />
+    <None Include="Resources\kisspng-barcode-scanners-image-scanner-qr-code-clip-art-barcode-5abea85c43bf09.5638141615224443802775.png" />
+    <None Include="Resources\kisspng-barcode-scanners-qr-code-image-scanner-computer-ic-5b22a66c193135.6194563215289974841032.png" />
+    <None Include="Resources\Error_Equipo.png" />
     <Content Include="Resources\momiastitle.png" />
   </ItemGroup>
   <ItemGroup>

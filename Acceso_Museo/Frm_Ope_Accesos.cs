@@ -116,15 +116,15 @@ namespace Acceso_Museo
                     }
                 }
 
-                PortType = clsDigitalIO.PORTIN;
-                NumPorts = DioProps.FindPortsOfType(DaqBoard, PortType, out ProgAbility, out PortNum, out NumBits, out FirstBit);
+                //PortType = clsDigitalIO.PORTIN;
+                //NumPorts = DioProps.FindPortsOfType(DaqBoard, PortType, out ProgAbility, out PortNum, out NumBits, out FirstBit);
 
-                Rele = new Relevador();
-                Rele.Activar_Relevador();
+                //Rele = new Relevador();
+                //Rele.Activar_Relevador();
 
-                Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Accesos = new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
+                //Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Accesos = new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
 
-                Accesos.Consultar_Accesos_Apertura();
+                //Accesos.Consultar_Accesos_Apertura();
             }
             catch (Exception ex)
             {

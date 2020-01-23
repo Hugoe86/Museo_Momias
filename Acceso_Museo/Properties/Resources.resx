@@ -127,4 +127,19 @@
   <data name="momiastitle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\momiastitle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Error_80_icon_icons_com_57326" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Error-80_icon-icons.com_57326.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Error_Equipo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Error_Equipo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Fuera_de_servicio" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Fuera de servicio.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kisspng_barcode_scanners_image_scanner_qr_code_clip_art_barcode_5abea85c43bf09_5638141615224443802775" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kisspng-barcode-scanners-image-scanner-qr-code-clip-art-barcode-5abea85c43bf09.5638141615224443802775.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kisspng_barcode_scanners_qr_code_image_scanner_computer_ic_5b22a66c193135_6194563215289974841032" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\kisspng-barcode-scanners-qr-code-image-scanner-computer-ic-5b22a66c193135.6194563215289974841032.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

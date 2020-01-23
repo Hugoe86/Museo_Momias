@@ -33,7 +33,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Sistema_Momias_Web", "Siste
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "2056"
+		SlnRelativePath = "Sistema_Momias_Web\"
 	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Acceso_Museo_Setup", "Acceso_Museo_Setup\Acceso_Museo_Setup.vdproj", "{04C90ED8-7570-4F69-83A2-BDDF0CAC3236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,6 +89,12 @@ Global
 		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|Mixed Platforms.Build.0 = Debug|Any CPU
 		{DF4B3AEA-196C-480E-84A0-744171905746}.Release|x86.ActiveCfg = Debug|Any CPU
+		{04C90ED8-7570-4F69-83A2-BDDF0CAC3236}.Debug|Any CPU.ActiveCfg = Debug
+		{04C90ED8-7570-4F69-83A2-BDDF0CAC3236}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{04C90ED8-7570-4F69-83A2-BDDF0CAC3236}.Debug|x86.ActiveCfg = Debug
+		{04C90ED8-7570-4F69-83A2-BDDF0CAC3236}.Release|Any CPU.ActiveCfg = Release
+		{04C90ED8-7570-4F69-83A2-BDDF0CAC3236}.Release|Mixed Platforms.ActiveCfg = Release
+		{04C90ED8-7570-4F69-83A2-BDDF0CAC3236}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,5 +104,6 @@ Global
 		{E8F3DBD8-D016-49CD-84A1-F2C9F822B617} = {185D22FF-9B4A-49DC-9101-8BB6BF20DEF3}
 		{D955846C-E00E-4BCD-9FEF-9A559992C785} = {185D22FF-9B4A-49DC-9101-8BB6BF20DEF3}
 		{DF4B3AEA-196C-480E-84A0-744171905746} = {AFABEA19-1A35-4BD4-AEC1-D81AED5C538A}
+		{04C90ED8-7570-4F69-83A2-BDDF0CAC3236} = {D6C25473-7394-4D6D-B301-A5F363DB50DA}
 	EndGlobalSection
 EndGlobal
