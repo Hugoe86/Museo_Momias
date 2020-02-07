@@ -213,17 +213,17 @@ namespace Erp_Ope_Accesos.Negocio
 
                             //do
                             //{
-                            //    Numero_Serie = Generar_Cadena_Proteccion(10);
+                            Numero_Serie = Generar_Cadena_Proteccion(10);
                             //    // repetir si el número generado ya existe
                             //} while (Cls_Ope_Accesos_Datos.Consultar_Existe_Serie(Numero_Serie) == true);
 
-                            //Str_Bits_Acceso = Numero_Serie.Split(',');
-                            //Numero_Serie = Str_Bits_Acceso[0].ToString();
-                            //Byts_Numero_Serie = Str_Bits_Acceso[1].ToString();
+                            Str_Bits_Acceso = Numero_Serie.Split(',');
+                            Numero_Serie = Str_Bits_Acceso[0].ToString();
+                            Byts_Numero_Serie = Str_Bits_Acceso[1].ToString();
 
-                            //Bits_Numeros_Serie += Separador + Str_Bits_Acceso[1];
-                            //Numeros_Serie += Separador + Str_Bits_Acceso[0];
-                            //Separador = ",";
+                            Bits_Numeros_Serie += Separador + Str_Bits_Acceso[1];
+                            Numeros_Serie += Separador + Str_Bits_Acceso[0];
+                            Separador = ",";
 
 
                             // dar de alta el acceso

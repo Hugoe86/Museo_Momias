@@ -267,7 +267,7 @@
             this.Txt_Acceso.Size = new System.Drawing.Size(344, 34);
             this.Txt_Acceso.TabIndex = 15;
             this.Txt_Acceso.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.Txt_Acceso.ThemeName = "VisualStudio2012Dark";
+            this.Txt_Acceso.ThemeName = "Office2010Black";
             this.Txt_Acceso.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Txt_Acceso_KeyUp);
             // 
             // SerialB
@@ -339,7 +339,7 @@
             // 
             this.RootElement.ApplyShapeToControl = true;
             this.Text = "Acceso";
-            this.ThemeName = "VisualStudio2012Dark";
+            this.ThemeName = "Office2010Black";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Frm_Ope_Accesos_Load);
             this.Tab_Tabla_Contenedor.ResumeLayout(false);

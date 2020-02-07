@@ -28,7 +28,7 @@ namespace Acceso_Museo.Paginas
         String codigo_recibido_escanerA = "";
         String codigo_recibido_escanerB = "";
         String codigo_recibido_escanerC = "";
-        int tiempo_espera_para_acceder = 30;/*  variable para indicar el tiempo que espera el torniquete para liberar el boleto, 
+        int tiempo_espera_para_acceder = 5;/*  variable para indicar el tiempo que espera el torniquete para liberar el boleto, 
                                                 el torniquete no cuenta con algun pulso para indicar que ya termino de activar el acceso*/
 
 
@@ -157,7 +157,7 @@ namespace Acceso_Museo.Paginas
                 {
                     Mostrar_Mensaje_Error_Alert(RadAlert_EscanerB, "Error escaner B", "No esta conectado el escaner B");
 
-                    Mostrar_Mensaje_Pantalla(1, "Error en escaner", "Fuera de servicio Escaner", Color.Red, Acceso_Museo.Properties.Resources.Error_80_icon_icons_com_57326);
+                    Mostrar_Mensaje_Pantalla(1, "Error en escaner", "Fuera de servicio Escaner", Color.Red, Acceso_Museo.Properties.Resources.Error_80_icon_icons_com_57326, "");
 
                 }
 
@@ -165,7 +165,7 @@ namespace Acceso_Museo.Paginas
                 if (!SerialC.IsOpen)
                 {
                     Mostrar_Mensaje_Error_Alert(RadAlert_EscanerC, "Error escaner C", "No esta conectado el escaner C");
-                    Mostrar_Mensaje_Pantalla(0, "Error en escaner", "Fuera de servicio Escaner", Color.Red, Acceso_Museo.Properties.Resources.Error_80_icon_icons_com_57326);
+                    Mostrar_Mensaje_Pantalla(0, "Error en escaner", "Fuera de servicio Escaner", Color.Red, Acceso_Museo.Properties.Resources.Error_80_icon_icons_com_57326, "");
                 }
 
             }
@@ -377,7 +377,7 @@ namespace Acceso_Museo.Paginas
         ///FECHA_MODIFICO       :
         ///CAUSA_MODIFICACIÓN...:
         ///*********************************************************************************************************
-        private void Mostrar_Mensaje_Pantalla(Int32 Terminal, String Tipo, String Mensaje, Color Color, Image Imagen_Pantalla)
+        private void Mostrar_Mensaje_Pantalla(Int32 Terminal, String Tipo, String Mensaje, Color Color, Image Imagen_Pantalla, String  numero_boleto)
         {
             //  terminal A
             if (Terminal == 2)
@@ -387,7 +387,7 @@ namespace Acceso_Museo.Paginas
                 Lbl_Mensaje_1.ForeColor = Color;
                 Lbl_Mensaje_1.Text = Mensaje;
                 Lbl_Codigo_1.ForeColor = Color;
-                //Lbl_Codigo_1.Text = Txt_Acceso.Text.Substring(2, 10);
+                Lbl_Codigo_1.Text = numero_boleto; //Txt_Acceso.Text.Substring(2, 10);
                 Pic_Semaforo.Image = Imagen_Pantalla;
             }
             //  terminal B
@@ -398,12 +398,8 @@ namespace Acceso_Museo.Paginas
                 Lbl_Mensaje_2.ForeColor = Color;
                 Lbl_Mensaje_2.Text = Mensaje;
                 Lbl_Codigo_2.ForeColor = Color;
-
-                if (!String.IsNullOrEmpty(Txt_Acceso.Text))
-                {
-                    Lbl_Codigo_2.Text = Txt_Acceso.Text.Substring(2, 10); //Txt_Acceso.Text.Substring(2, 10);
-                }
-
+                Lbl_Codigo_2.Text = numero_boleto; //Txt_Acceso.Text.Substring(2, 10); //Txt_Acceso.Text.Substring(2, 10);
+                
                 Pic_Semaforo_2.Image = Imagen_Pantalla;
             }
             //  terminal C
@@ -414,7 +410,7 @@ namespace Acceso_Museo.Paginas
                 Lbl_Mensaje_3.ForeColor = Color;
                 Lbl_Mensaje_3.Text = Mensaje;
                 Lbl_Codigo_3.ForeColor = Color;
-                //Lbl_Codigo_3.Text = Txt_Acceso.Text.Substring(2, 10);
+                Lbl_Codigo_3.Text = numero_boleto; //Txt_Acceso.Text.Substring(2, 10);
                 Pic_Semaforo_3.Image = Imagen_Pantalla;
             }
 
@@ -509,44 +505,44 @@ namespace Acceso_Museo.Paginas
                 {
                     if (resul != 0)
                     {
-                        if (First_TA)
-                        {
-                            First_TA = false;
-                        }
-                        else
-                        {
-                            short DataValue2 = 0;
-                            MccDaq.ErrorInfo ULStat2 = DaqBoard.DIn(PortNum, out DataValue2);
+                        //if (First_TA)
+                        //{
+                        //    First_TA = false;
+                        //}
+                        //else
+                        //{
+                        short DataValue2 = 0;
+                        MccDaq.ErrorInfo ULStat2 = DaqBoard.DIn(PortNum, out DataValue2);
 
-                            int resul2 = DataValue2 & (1 << 2);
+                        int resul2 = DataValue2 & (1 << 2);
 
-                            if (resul2 != 0)
-                            {
-                                Acceso_Negocio.P_No_Acceso = Codigo_LectorA;
-                                Acceso_Negocio.P_Terminal_ID = "00001";
-                                Acceso_Negocio.P_Estatus = "UTILIZADO";
-                                Acceso_Negocio.P_Fecha_Hora_Acceso = DateTime.Now;
-                                Acceso_Negocio.Actualizar_Estatus_Acceso();
-                                tiempo_final_a = DateTime.MinValue;
-                            }
+                        if (resul2 != 0)
+                        {
+                            Acceso_Negocio.P_No_Acceso = Codigo_LectorA;
+                            Acceso_Negocio.P_Terminal_ID = "00001";
+                            Acceso_Negocio.P_Estatus = "UTILIZADO";
+                            Acceso_Negocio.P_Fecha_Hora_Acceso = DateTime.Now;
+                            Acceso_Negocio.Actualizar_Estatus_Acceso();
+                            tiempo_final_a = DateTime.MinValue;
                         }
+                        //}
                     }
                     else
                     {
-                        if (!First_TA)
-                        {
-                            if (!SerialA.IsOpen)
-                                SerialA.Open();
+                        //if (!First_TA)
+                        //{
+                        //    if (!SerialA.IsOpen)
+                        //        SerialA.Open();
 
-                            tiempo_final_a = DateTime.MinValue;
-                            Codigo_LectorA = string.Empty;
-                            First_TA = true;
-                            Tmr_TorniqueteA.Enabled = false;
-                            LectorA = true;
+                        //    tiempo_final_a = DateTime.MinValue;
+                        //    Codigo_LectorA = string.Empty;
+                        //    First_TA = true;
+                        //    Tmr_TorniqueteA.Enabled = false;
+                        //    LectorA = true;
 
-                            SerialA.DiscardInBuffer();
-                            SerialA.DiscardOutBuffer();
-                        }
+                        //    SerialA.DiscardInBuffer();
+                        //    SerialA.DiscardOutBuffer();
+                        //}
                     }
 
                     Tmr_TorniqueteA.Start();
@@ -590,44 +586,44 @@ namespace Acceso_Museo.Paginas
                 {
                     if (resul != 0)
                     {
-                        if (First_TB)
-                        {
-                            First_TB = false;
-                        }
-                        else
-                        {
-                            short DataValue2 = 0;
-                            MccDaq.ErrorInfo ULStat2 = DaqBoard.DIn(PortNum, out DataValue2);
+                        //if (First_TB)
+                        //{
+                        //    First_TB = false;
+                        //}
+                        //else
+                        //{
+                        short DataValue2 = 0;
+                        MccDaq.ErrorInfo ULStat2 = DaqBoard.DIn(PortNum, out DataValue2);
 
-                            int resul2 = DataValue2 & (1 << 1);
+                        int resul2 = DataValue2 & (1 << 1);
 
-                            if (resul2 != 0)
-                            {
-                                Acceso_Negocio.P_No_Acceso = Codigo_LectorB;
-                                Acceso_Negocio.P_Terminal_ID = "00001";
-                                Acceso_Negocio.P_Estatus = "UTILIZADO";
-                                Acceso_Negocio.P_Fecha_Hora_Acceso = DateTime.Now;
-                                Acceso_Negocio.Actualizar_Estatus_Acceso();
-                                tiempo_final_b = DateTime.MinValue;
-                            }
+                        if (resul2 != 0)
+                        {
+                            Acceso_Negocio.P_No_Acceso = Codigo_LectorB;
+                            Acceso_Negocio.P_Terminal_ID = "00001";
+                            Acceso_Negocio.P_Estatus = "UTILIZADO";
+                            Acceso_Negocio.P_Fecha_Hora_Acceso = DateTime.Now;
+                            Acceso_Negocio.Actualizar_Estatus_Acceso();
+                            tiempo_final_b = DateTime.MinValue;
                         }
+                        //}
                     }
                     else
                     {
-                        if (!First_TB)
-                        {
-                            if (!SerialB.IsOpen)
-                                SerialB.Open();
+                        //if (!First_TB)
+                        //{
+                        //    if (!SerialB.IsOpen)
+                        //        SerialB.Open();
 
-                            tiempo_final_b = DateTime.MinValue;
-                            Codigo_LectorB = string.Empty;
-                            First_TB = true;
-                            Tmr_TorniqueteB.Enabled = false;
-                            LectorB = true;
+                        //    tiempo_final_b = DateTime.MinValue;
+                        //    Codigo_LectorB = string.Empty;
+                        //    First_TB = true;
+                        //    Tmr_TorniqueteB.Enabled = false;
+                        //    LectorB = true;
 
-                            SerialB.DiscardInBuffer();
-                            SerialB.DiscardOutBuffer();
-                        }
+                        //    SerialB.DiscardInBuffer();
+                        //    SerialB.DiscardOutBuffer();
+                        //}
                     }
 
                     Tmr_TorniqueteB.Start();
@@ -635,14 +631,14 @@ namespace Acceso_Museo.Paginas
                 //  se inicializan las variables
                 else
                 {
-                    if (!SerialC.IsOpen)
-                        SerialC.Open();
+                    if (!SerialB.IsOpen)
+                        SerialB.Open();
 
                     tiempo_final_b = DateTime.MinValue;
-                    Codigo_LectorC = string.Empty;
-                    First_TC = true;
-                    Tmr_TorniqueteC.Enabled = false;
-                    LectorC = true;
+                    Codigo_LectorB = string.Empty;
+                    First_TB = true;
+                    Tmr_TorniqueteB.Enabled = false;
+                    LectorB = true;
                 }
             }
             catch (Exception ex)
@@ -675,46 +671,46 @@ namespace Acceso_Museo.Paginas
                 {
                     if (resul != 0)
                     {
-                        if (First_TC)
+                        //if (First_TC)
+                        //{
+                        //    First_TC = false;
+                        //}
+                        //else
+                        //{
+                        short DataValue2 = 0;
+                        MccDaq.ErrorInfo ULStat2 = DaqBoard.DIn(PortNum, out DataValue2);
+
+                        int resul2 = DataValue2 & (1 << 0);
+
+                        if (resul2 != 0)
                         {
-                            First_TC = false;
+                            Acceso_Negocio.P_No_Acceso = Codigo_LectorC;
+                            Acceso_Negocio.P_Terminal_ID = "00001";
+                            Acceso_Negocio.P_Estatus = "UTILIZADO";
+                            Acceso_Negocio.P_Fecha_Hora_Acceso = DateTime.Now;
+                            Acceso_Negocio.Actualizar_Estatus_Acceso();
+
+                            tiempo_final_c = DateTime.MinValue;
                         }
-                        else
-                        {
-                            short DataValue2 = 0;
-                            MccDaq.ErrorInfo ULStat2 = DaqBoard.DIn(PortNum, out DataValue2);
-
-                            int resul2 = DataValue2 & (1 << 0);
-
-                            if (resul2 != 0)
-                            {
-                                Acceso_Negocio.P_No_Acceso = Codigo_LectorB;
-                                Acceso_Negocio.P_Terminal_ID = "00001";
-                                Acceso_Negocio.P_Estatus = "UTILIZADO";
-                                Acceso_Negocio.P_Fecha_Hora_Acceso = DateTime.Now;
-                                Acceso_Negocio.Actualizar_Estatus_Acceso();
-
-                                tiempo_final_c = DateTime.MinValue;
-                            }
-                        }
+                        //}
                     }
                     else
                     {
-                        if (!First_TC)
-                        {
-                            if (!SerialC.IsOpen)
-                                SerialC.Open();
+                        //if (!First_TC)
+                        //{
+                        //    if (!SerialC.IsOpen)
+                        //        SerialC.Open();
 
-                            tiempo_final_c = DateTime.MinValue;
+                        //    tiempo_final_c = DateTime.MinValue;
 
-                            Codigo_LectorC = string.Empty;
-                            First_TC = true;
-                            Tmr_TorniqueteC.Enabled = false;
-                            LectorC = true;
-                        }
+                        //    Codigo_LectorC = string.Empty;
+                        //    First_TC = true;
+                        //    Tmr_TorniqueteC.Enabled = false;
+                        //    LectorC = true;
+                        //}
                     }
 
-                    Tmr_TorniqueteB.Start();
+                    Tmr_TorniqueteC.Start();
                 }
                 //  se inicializan las variables
                 else
@@ -915,9 +911,9 @@ namespace Acceso_Museo.Paginas
             {
                 Acceso = Boleto.ToUpper().Substring(0, 1);
 
-                if (Acceso == "A") { Puerto_Relevador = 0; }
-                else if (Acceso == "B") { Puerto_Relevador = 1; }
-                else if (Acceso == "C") { Puerto_Relevador = 2; }
+                if (Acceso == "A") { Puerto_Relevador = 2; }
+                //else if (Acceso == "B") { Puerto_Relevador = 1; }
+                //else if (Acceso == "C") { Puerto_Relevador = 2; }
 
                 Dt_Consulta = Cls_Ayudante_Lector_Codigo.Consultar_Puerto(Acceso);
                 Terminal_Id = "00001";
@@ -970,13 +966,14 @@ namespace Acceso_Museo.Paginas
                         if (Estatus == "UTILIZADO")
                         {
                             msj = "CÓDIGO UTILIZADO";
+                            Txt_Acceso.Text = "";
                         }
                         else if (Estatus == "CANCELADO")
                         {
                             msj = "CANCELADO";
                         }
 
-                        Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, msj, Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                        Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, msj, Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Boleto);
 
                         return;
                     }
@@ -986,7 +983,7 @@ namespace Acceso_Museo.Paginas
                     DateTime.TryParse(Dt_Accesos.Rows[0][Ope_Accesos.Campo_Vigencia_Fin].ToString(), out Fecha_Final_Vigencia);
                     if (DateTime.Today < Fecha_Inicial_Vigencia || DateTime.Today > Fecha_Final_Vigencia)
                     {
-                        Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, "Fuera de vigencia", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                        Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, "Fuera de vigencia", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Boleto);
 
                         Txt_Acceso.Text = "";
 
@@ -1011,7 +1008,7 @@ namespace Acceso_Museo.Paginas
 
                             if (Obj_Dias_Feriados.EsFeriado(DateTime.Today) == true)
                             {
-                                Mostrar_Mensaje_Pantalla(puerto_mensaje, "Grupo", "Grupo: no aplica en días feriados", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                                Mostrar_Mensaje_Pantalla(puerto_mensaje, "Grupo", "Grupo: no aplica en días feriados", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Boleto);
 
                                 return;
                             }
@@ -1028,7 +1025,7 @@ namespace Acceso_Museo.Paginas
                     // mostrar acceso (cambiar color e imagen de semáforo)
                     Tipo_Producto = Dt_Accesos.Rows[0]["NOMBRE_PRODUCTO"].ToString();
 
-                    Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, mensaje, Color.DarkGreen, Acceso_Museo.Properties.Resources.semaforo_verde);
+                    Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, mensaje, Color.DarkGreen, Acceso_Museo.Properties.Resources.semaforo_verde, Boleto);
 
                     bool Pulso_Torniquete = true;
 
@@ -1050,7 +1047,7 @@ namespace Acceso_Museo.Paginas
 
                         {
                             Pulso_Torniquete = false;
-                            Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                            Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Boleto);
 
                             if (Acceso == "A")
                             {
@@ -1064,7 +1061,7 @@ namespace Acceso_Museo.Paginas
                         if (Codigo_LectorA == Codigo_LectorC)
                         {
                             Pulso_Torniquete = false;
-                            Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                            Mostrar_Mensaje_Pantalla(puerto_mensaje, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Boleto);
 
                             Codigo_LectorA = "";
 
@@ -1101,7 +1098,7 @@ namespace Acceso_Museo.Paginas
                 else
                 {
                     //Puerto_Torniquete = 1;
-                    Mostrar_Mensaje_Pantalla(Puerto_Relevador, "Boleto", "CÓDIGO NO ENCONTRADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                    Mostrar_Mensaje_Pantalla(Puerto_Relevador, "Boleto", "CÓDIGO NO ENCONTRADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Boleto);
                 }
             }
             catch (Exception e)
@@ -1296,7 +1293,7 @@ namespace Acceso_Museo.Paginas
                             msj = "CANCELADO";
                         }
 
-                        Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, msj, Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                        Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, msj, Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Codigo_Barras);
 
                         return;
                     }
@@ -1306,7 +1303,7 @@ namespace Acceso_Museo.Paginas
                     DateTime.TryParse(Dt_Accesos.Rows[0][Ope_Accesos.Campo_Vigencia_Fin].ToString(), out Fecha_Final_Vigencia);
                     if (DateTime.Today < Fecha_Inicial_Vigencia || DateTime.Today > Fecha_Final_Vigencia)
                     {
-                        Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "Fuera de vigencia", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                        Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "Fuera de vigencia", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Folio);
 
                         return;
                     }
@@ -1328,7 +1325,7 @@ namespace Acceso_Museo.Paginas
 
                             if (Obj_Dias_Feriados.EsFeriado(DateTime.Today) == true)
                             {
-                                Mostrar_Mensaje_Pantalla(Puerto, "Grupo", "Grupo: no aplica en días feriados", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                                Mostrar_Mensaje_Pantalla(Puerto, "Grupo", "Grupo: no aplica en días feriados", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Codigo_Barras);
 
                                 return;
                             }
@@ -1346,7 +1343,7 @@ namespace Acceso_Museo.Paginas
                     // mostrar acceso (cambiar color e imagen de semáforo)
                     Tipo_Producto = Dt_Accesos.Rows[0]["NOMBRE_PRODUCTO"].ToString();
 
-                    Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, mensaje, Color.DarkGreen, Acceso_Museo.Properties.Resources.semaforo_verde);
+                    Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, mensaje, Color.DarkGreen, Acceso_Museo.Properties.Resources.semaforo_verde, Codigo_Barras);
 
                     bool Pulso_Torniquete = true;
 
@@ -1378,7 +1375,7 @@ namespace Acceso_Museo.Paginas
 
                         {
                             Pulso_Torniquete = false;
-                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Codigo_Barras);
 
                             if (Acceso == "A")
                             {
@@ -1401,7 +1398,7 @@ namespace Acceso_Museo.Paginas
                         if (Codigo_LectorB == Codigo_LectorC)
                         {
                             Pulso_Torniquete = false;
-                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Codigo_Barras);
 
                             if (Acceso == "A")
                             {
@@ -1425,7 +1422,7 @@ namespace Acceso_Museo.Paginas
 
                         {
                             Pulso_Torniquete = false;
-                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                            Mostrar_Mensaje_Pantalla(Puerto, Tipo_Producto, "CÓDIGO OCUPADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Codigo_Barras);
 
                             if (Acceso == "A")
                             {
@@ -1497,7 +1494,7 @@ namespace Acceso_Museo.Paginas
                 }
                 else
                 {
-                    Mostrar_Mensaje_Pantalla(Puerto, "Boleto", "CÓDIGO NO ENCONTRADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo);
+                    Mostrar_Mensaje_Pantalla(Puerto, "Boleto", "CÓDIGO NO ENCONTRADO", Color.Red, Acceso_Museo.Properties.Resources.semaforo_rojo, Codigo_Barras);
                 }
                 
             }
