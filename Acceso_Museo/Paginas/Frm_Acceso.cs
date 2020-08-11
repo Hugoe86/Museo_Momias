@@ -296,10 +296,10 @@ namespace Acceso_Museo.Paginas
             {
                 string Torniquete = Txt_Acceso.Text[0].ToString().ToUpper();
 
-                if (Torniquete == "A")
-                {
-                    Proceso_Boleto(Txt_Acceso.Text);
-                }
+                //if (Torniquete == "A")
+                //{
+                Proceso_Boleto(Txt_Acceso.Text, 1);
+                //}
                 
             }
             catch (Exception)
@@ -883,7 +883,7 @@ namespace Acceso_Museo.Paginas
         /// Validia el número de Boleto leído por el escaner.
         /// </summary>
         /// <param name="Boleto">Código del Boleto</param>
-        private void Proceso_Boleto(string Boleto)
+        private void Proceso_Boleto(string Boleto, int lector_discapacitados = 0)
         {
             Acceso_Museo.App_Code.Negocio.Cls_Ope_Accesos_Negocio Acceso_Negocio = new App_Code.Negocio.Cls_Ope_Accesos_Negocio();
             Acceso_Museo.App_Code.Negocio.Cls_Cat_Cajas_Negocio Cajas;
@@ -911,7 +911,10 @@ namespace Acceso_Museo.Paginas
             {
                 Acceso = Boleto.ToUpper().Substring(0, 1);
 
-                if (Acceso == "A") { Puerto_Relevador = 2; }
+                if (lector_discapacitados == 1) {
+                    Acceso = "A";
+                    Puerto_Relevador = 2;
+                }
                 //else if (Acceso == "B") { Puerto_Relevador = 1; }
                 //else if (Acceso == "C") { Puerto_Relevador = 2; }
 
