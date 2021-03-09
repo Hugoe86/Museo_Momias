@@ -18,6 +18,7 @@ using OfficeOpenXml;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System.Text;
 
 namespace ERP_BASE.Paginas.Reportes
 {
@@ -143,6 +144,48 @@ namespace ERP_BASE.Paginas.Reportes
 
         #region METODOS
 
+
+        public DataTable crear_estructura_tabla_final(int[] arreglo_meses)
+        {
+            DataTable dt_final = new DataTable();
+
+            try
+            {
+                dt_final.Columns.Add("Año", typeof(int));
+                dt_final.Columns.Add("mes", typeof(int));
+                dt_final.Columns.Add("Recaudacion_Visitantes", typeof(double));
+                dt_final.Columns.Add("Tipo", typeof(String));
+
+
+                foreach (int mes in arreglo_meses)
+                {
+                    if (mes == 1) dt_final.Columns.Add("1", typeof(Double));
+                    else if (mes == 2) dt_final.Columns.Add("2", typeof(Double));
+                    else if (mes == 3) dt_final.Columns.Add("3", typeof(Double));
+                    else if (mes == 4) dt_final.Columns.Add("4", typeof(Double));
+                    else if (mes == 5) dt_final.Columns.Add("5", typeof(Double));
+                    else if (mes == 6) dt_final.Columns.Add("6", typeof(Double));
+                    else if (mes == 7) dt_final.Columns.Add("7", typeof(Double));
+                    else if (mes == 8) dt_final.Columns.Add("8", typeof(Double));
+                    else if (mes == 9) dt_final.Columns.Add("9", typeof(Double));
+                    else if (mes == 10) dt_final.Columns.Add("10", typeof(Double));
+                    else if (mes == 11) dt_final.Columns.Add("11", typeof(Double));
+                    else if (mes == 12) dt_final.Columns.Add("12", typeof(Double));
+
+                }
+
+                dt_final.AcceptChanges();
+
+            }
+            catch (Exception Ex)
+            {
+
+                throw new Exception("[crear_estructura_tabla_final]: " + Ex.Message);
+            }
+
+            return dt_final;
+        }
+
         ///*******************************************************************************************************
         /// <summary>
         /// Realiza la consulta de la informacion
@@ -166,24 +209,44 @@ namespace ERP_BASE.Paginas.Reportes
             DataTable Dt_Consulta = new DataTable();
             DataTable Dt_Ventas_Mixtas = new DataTable();
             DataTable Dt_Venta_Detalle = new DataTable();
+            DataTable dt_resultado = new DataTable();
             DataTable Dt_Venta_Detalle_Pago = new DataTable();
+            int[] arreglo_años = new int[Chk_ListB_Periodo_Anio.CheckedItems.Count];
+            int[] arreglo_meses = new int[12];
+            int contador_anios = 0;
+            int contador_meses = 0;
+
+            DataRow registro_ = null;
 
             try
             {
+               
+
                 //  años ******************************************************************
                 if (Chk_ListB_Periodo_Anio.CheckedItems.Count != 0)
                 {
                     for (int x = 0; x <= Chk_ListB_Periodo_Anio.CheckedItems.Count - 1; x++)
                     {
                         Str_Anios += Chk_ListB_Periodo_Anio.CheckedItems[x].ToString() + ",";
+
+                        arreglo_años[contador_anios] = Convert.ToInt32(Chk_ListB_Periodo_Anio.CheckedItems[x].ToString());
+
+                        contador_anios++;
                     }
                 }
 
                 if (Str_Anios.Length > 0)
+                {
                     Str_Anios = Str_Anios.Remove(Str_Anios.Length - 1);
+                }
+
+
+              
 
                 if (!String.IsNullOrEmpty(Str_Anios))
+                {
                     Rs_Consulta.P_Anios_Busqueda = Str_Anios;
+                }
 
 
                 //  meses ********************************************************************
@@ -196,15 +259,29 @@ namespace ERP_BASE.Paginas.Reportes
                         if (Dic_Meses.ContainsKey(Chk_ListB_Periodo_Meses.CheckedItems[x].ToString()) == true)
                         {
                             Str_Meses += Dic_Meses[Chk_ListB_Periodo_Meses.CheckedItems[x].ToString()] + ",";
+
+                            arreglo_meses[contador_meses] = Dic_Meses[Chk_ListB_Periodo_Meses.CheckedItems[x].ToString()];
+                            contador_meses++;
                         }
                     }
                 }
 
                 if (Str_Meses.Length > 0)
+                {
                     Str_Meses = Str_Meses.Remove(Str_Meses.Length - 1);
 
+                }
+
                 if (!String.IsNullOrEmpty(Str_Meses))
-                    Rs_Consulta.P_Meses_Busqueda= Str_Meses;
+                {
+                    Rs_Consulta.P_Meses_Busqueda = Str_Meses;
+                }
+
+
+                //  se crea la estructura de la tabla final
+                dt_resultado = crear_estructura_tabla_final(arreglo_meses);
+
+
 
 
                 //  tarifa ***********************************************************
@@ -249,21 +326,63 @@ namespace ERP_BASE.Paginas.Reportes
                     if (Cmb_Lugar_Venta.Text != "SELECCIONE")
                         Rs_Consulta.P_Lugar_Venta = Cmb_Lugar_Venta.Text;
 
+
+
+
+
+                //  se creara la estructura del reporte
+                foreach (int anio in arreglo_años)
+                {
+
+                    //  validamos que el valor  sea cero
+                    if (anio == 0)
+                    {
+                        break;
+                    }
+
+
+
+                    registro_ = dt_resultado.NewRow();
+
+                    registro_["Año"] = anio;
+                    registro_["tipo"] = "Recaudacion";
+                    dt_resultado.Rows.Add(registro_);
+                    dt_resultado.AcceptChanges();
+
+                    registro_ = dt_resultado.NewRow();
+
+                    registro_["Año"] = anio;
+                    registro_["tipo"] = "Visitantes";
+                    dt_resultado.Rows.Add(registro_);
+                    dt_resultado.AcceptChanges();
+
+
+                }
+
+
+
+
+
+
+
+
+
+
                 //  se ejecuta el reporte
                 if (Int_Tipo_Reporte == 0)
                 {
                     Dt_Ventas_Mixtas = Rs_Consulta.Consultar_Ventas_Dia_Mixtas();
-                    String No_Ventas_Pago_Mixto = "";
+                    StringBuilder No_Ventas_Pago_Mixto = new StringBuilder();
 
                     foreach (DataRow Registro in Dt_Ventas_Mixtas.Rows)
                     {
-                        No_Ventas_Pago_Mixto += "'" +Registro["No_Venta"].ToString() + "',";
+                        No_Ventas_Pago_Mixto.Append("'" + Registro["No_Venta"].ToString() + "',");
                     }
 
                     //  se remueve la ultima coma
                     if (No_Ventas_Pago_Mixto.Length > 0)
                     {
-                        No_Ventas_Pago_Mixto = No_Ventas_Pago_Mixto.Remove(No_Ventas_Pago_Mixto.Length - 1);
+                        No_Ventas_Pago_Mixto = No_Ventas_Pago_Mixto.Remove(No_Ventas_Pago_Mixto.Length - 1, 1);
                         Rs_Consulta.P_No_Venta_Mixto = No_Ventas_Pago_Mixto;
                     }
 
@@ -354,83 +473,219 @@ namespace ERP_BASE.Paginas.Reportes
                 }// fin de visitantes
                 else if (Int_Tipo_Reporte == 2)//   concentrado
                 {
-                    Dt_Ventas_Mixtas = Rs_Consulta.Consultar_Ventas_Dia_Mixtas();
-                    String No_Ventas_Pago_Mixto = "";
 
-                    foreach (DataRow Registro in Dt_Ventas_Mixtas.Rows)
+                    Dt_Consulta = Crear_Reporte_Concentrado_Final(arreglo_años, arreglo_meses, dt_resultado, ref Rs_Consulta);
+
+
+                }// fin de concentrado
+            }
+            catch (Exception Ex)
+            {
+
+                throw new Exception("[Consulta_Ingresos]: " + Ex.Message);
+            }
+
+            return Dt_Consulta;
+        }
+
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <param name="arreglo_años"></param>
+        /// <param name="arreglo_meses"></param>
+        /// <param name="dt_resultado"></param>
+        /// <param name="Rs_Consulta"></param>
+        /// <returns></returns>
+        private DataTable Crear_Reporte_Concentrado_Final(int[] arreglo_años,
+                                                                int[] arreglo_meses,
+                                                                DataTable dt_resultado,
+                                                                ref Cls_Rep_Ingresos_Negocio Rs_Consulta
+                                                                                    )
+        {
+
+            DataTable Dt_Consulta = new DataTable();
+            DataTable Dt_Ventas_Mixtas = new DataTable();
+            DataTable Dt_Venta_Detalle = new DataTable();
+            DataTable Dt_Venta_Detalle_Pago = new DataTable();
+            int contador_anios = 0;
+            int contador_meses = 0;
+            DataRow registro_ = null;
+
+
+
+            try
+            {
+                #region concentrado
+
+
+
+                //  se recorren los meses
+                foreach (int anio in arreglo_años)
+                {
+                    Rs_Consulta.P_Anios_Busqueda = anio.ToString();
+
+                    //  validamos que el valor  sea cero
+                    if (anio == 0)
                     {
-                        No_Ventas_Pago_Mixto += "'" + Registro["No_Venta"].ToString() + "',";
+                        break;
                     }
 
-                    //  se remueve la ultima coma
-                    if (No_Ventas_Pago_Mixto.Length > 0)
-                    {
-                        No_Ventas_Pago_Mixto = No_Ventas_Pago_Mixto.Remove(No_Ventas_Pago_Mixto.Length - 1);
-                        Rs_Consulta.P_No_Venta_Mixto = No_Ventas_Pago_Mixto;
-                    }
 
-                    Dt_Consulta = Rs_Consulta.Consultar_Ingresos_Accesos_Mensual();
-
-                    //  se ingresaran los valores de los pagos mixtos
-                    if (Dt_Ventas_Mixtas != null && Dt_Ventas_Mixtas.Rows.Count > 0)
+                    foreach (int meses in arreglo_meses)
                     {
-                        foreach (DataRow Registo in Dt_Ventas_Mixtas.Rows)
+
+                        //  validamos que el valor  sea cero
+                        if (meses == 0)
                         {
-                            //  se obtendra el detalle de la venta y el pago mixto
-                            Rs_Consulta.P_No_Venta_Detalle = Registo["No_Venta"].ToString();
-                            Dt_Venta_Detalle = Rs_Consulta.Consultar_No_Venta_Detalle();
-                            Dt_Venta_Detalle_Pago = Rs_Consulta.Consultar_No_Venta_Detalle_Pago();
+                            break;
+                        }
 
-                            Double Db_Efectivo = 0;
-                            Double Db_Tarjeta = 0;
+                        Rs_Consulta.P_Meses_Busqueda = meses.ToString();
 
-                            foreach (DataRow Registro_Pagos in Dt_Venta_Detalle_Pago.Rows)
+
+
+                        Dt_Ventas_Mixtas = Rs_Consulta.Consultar_Ventas_Dia_Mixtas();
+                        StringBuilder No_Ventas_Pago_Mixto = new StringBuilder();
+
+                        foreach (DataRow Registro in Dt_Ventas_Mixtas.Rows)
+                        {
+                            No_Ventas_Pago_Mixto.Append("'" + Registro["No_Venta"].ToString() + "',");
+                        }
+
+                        //  se remueve la ultima coma
+                        if (No_Ventas_Pago_Mixto.Length > 0)
+                        {
+                            No_Ventas_Pago_Mixto = No_Ventas_Pago_Mixto.Remove(No_Ventas_Pago_Mixto.Length - 1, 1);
+
+
+                            Rs_Consulta.P_No_Venta_Mixto = No_Ventas_Pago_Mixto;
+                        }
+
+                        Dt_Consulta = Rs_Consulta.Consultar_Ingresos_Accesos_Mensual();
+
+
+
+
+                        //  se ingresaran los valores de los pagos mixtos
+                        if (Dt_Ventas_Mixtas != null && Dt_Ventas_Mixtas.Rows.Count > 0)
+                        {
+                            foreach (DataRow Registo in Dt_Ventas_Mixtas.Rows)
                             {
-                                Db_Efectivo = Convert.ToDouble(Registro_Pagos["Efectivo"].ToString());
-                                Db_Tarjeta = Convert.ToDouble(Registro_Pagos["Tarjeta"].ToString());
-                            }
+                                //  se obtendrá el detalle de la venta y el pago mixto
+                                Rs_Consulta.P_No_Venta_Detalle = Registo["No_Venta"].ToString();
+                                Dt_Venta_Detalle = Rs_Consulta.Consultar_No_Venta_Detalle();
+                                Dt_Venta_Detalle_Pago = Rs_Consulta.Consultar_No_Venta_Detalle_Pago();
 
+                                Double Db_Efectivo = 0;
+                                Double Db_Tarjeta = 0;
 
-                            foreach (DataRow Registro_Detalle in Dt_Venta_Detalle.Rows)
-                            {
-                                //  se realizara la busqueda de la
-                                foreach (DataRow Registro_General in Dt_Consulta.Rows)
+                                foreach (DataRow Registro_Pagos in Dt_Venta_Detalle_Pago.Rows)
                                 {
-                                    if (Registro_General["tipo"].ToString() == "Recaudacion"
-                                        && Registro_General["anio_"].ToString() == Registro_Detalle["año"].ToString()
-                                        && Registro_General["mes"].ToString() == Registro_Detalle["mes"].ToString())
-                                    {
-                                        Registro_General.BeginEdit();
+                                    Db_Efectivo = Convert.ToDouble(Registro_Pagos["Efectivo"].ToString());
+                                    Db_Tarjeta = Convert.ToDouble(Registro_Pagos["Tarjeta"].ToString());
+                                }
 
-                                        //  sin filtro
-                                        if (Cmb_Tipo_Pago.SelectedIndex == -1)
+
+                                foreach (DataRow Registro_Detalle in Dt_Venta_Detalle.Rows)
+                                {
+                                    
+                                    foreach (DataRow Registro_General in Dt_Consulta.Rows)
+                                    {
+                                        if (Registro_General["tipo"].ToString() == "Recaudacion"
+                                            && Registro_General["anio_"].ToString() == Registro_Detalle["año"].ToString()
+                                            && Registro_General["mes"].ToString() == Registro_Detalle["mes"].ToString())
                                         {
-                                            Registro_General["Recaudacion_Visitantes"] = Convert.ToDouble(Registro_General["Recaudacion_Visitantes"]) + Convert.ToDouble(Registro_Detalle["Total"].ToString());
-                                        }
-                                        else if (Cmb_Tipo_Pago.SelectedIndex == 0)//    efectivo
-                                        {
-                                            if (Db_Efectivo > 0)
+                                            Registro_General.BeginEdit();
+
+                                            //  sin filtro
+                                            if (Cmb_Tipo_Pago.SelectedIndex == -1)
                                             {
-                                                Registro_General["Recaudacion_Visitantes"] = Convert.ToDouble(Registro_General["Recaudacion_Visitantes"]) + Db_Efectivo;
-                                                Db_Efectivo = 0;
+                                                Registro_General["Recaudacion_Visitantes"] = Convert.ToDouble(Registro_General["Recaudacion_Visitantes"]) + Convert.ToDouble(Registro_Detalle["Total"].ToString());
                                             }
-                                        }
-                                        else if (Cmb_Tipo_Pago.SelectedIndex == 1)//    Tarjeta
-                                        {
-                                            if (Db_Tarjeta > 0)
+                                            else if (Cmb_Tipo_Pago.SelectedIndex == 0)//    efectivo
                                             {
-                                                Registro_General["Recaudacion_Visitantes"] = Convert.ToDouble(Registro_General["Recaudacion_Visitantes"]) + Db_Tarjeta;
-                                                Db_Tarjeta = 0;
+                                                if (Db_Efectivo > 0)
+                                                {
+                                                    Registro_General["Recaudacion_Visitantes"] = Convert.ToDouble(Registro_General["Recaudacion_Visitantes"]) + Db_Efectivo;
+                                                    Db_Efectivo = 0;
+                                                }
+                                            }
+                                            else if (Cmb_Tipo_Pago.SelectedIndex == 1)//    Tarjeta
+                                            {
+                                                if (Db_Tarjeta > 0)
+                                                {
+                                                    Registro_General["Recaudacion_Visitantes"] = Convert.ToDouble(Registro_General["Recaudacion_Visitantes"]) + Db_Tarjeta;
+                                                    Db_Tarjeta = 0;
+                                                }
                                             }
                                         }
                                     }
                                 }
+
+
+                            }
+                        }
+
+
+
+
+
+
+
+
+                        //  se recorre la tabla final
+                        foreach (DataRow registro_final in dt_resultado.Rows)
+                        {
+                            registro_final.BeginEdit();
+
+                            //  se recorre la tabla final
+                            foreach (DataRow registro_datos in Dt_Consulta.Rows)
+                            {
+
+                                //  recaudación
+                                if (registro_final["Tipo"].ToString() == registro_datos["tipo"].ToString())
+                                {
+                                    //  validamos el año
+                                    //  recaudación
+                                    if (registro_final["Año"].ToString() == registro_datos["anio_"].ToString())
+                                    {
+
+                                        //  validamos el tipo de operación
+                                        if (registro_final["Tipo"].ToString() == registro_datos["Tipo"].ToString())
+                                        {
+                                            //  ingresamos el valor
+                                            registro_final[registro_datos["mes"].ToString()] = registro_datos["Recaudacion_Visitantes"];
+                                            break;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+
+
+                                }
                             }
 
-                        }
-                    }
 
-                }// fin de concentrado
+                            registro_final.EndEdit();
+                            registro_final.AcceptChanges();
+                        }
+
+
+
+
+
+                    }// fin de los meses
+
+                }// fin de los años
+
+
+
+
+                Dt_Consulta = dt_resultado;
+
+
+                #endregion
             }
             catch (Exception Ex)
             {
@@ -757,7 +1012,7 @@ namespace ERP_BASE.Paginas.Reportes
         /// forma un datatable con ingresos y accesos por mes, año y tarifa y totales a partir de las tablas 
         /// con ingresos y accesos agrupados por año y mes
         /// </summary>
-        /// <param name="Dt_Ingresos_Accesos_Concentrado">datatable con los ingresos o accesos agrupados por número de mes, año y tarifa</param>
+        /// <param name="dt_datos">datatable con los ingresos o accesos agrupados por número de mes, año y tarifa</param>
         /// <returns>un datatable con los ingresos y accesos por año, nombre de mes, total por mes y total por año</returns>
         /// <creo>Roberto González Oseguera</creo>
         /// <fecha_creo>28-may-2014</fecha_creo>
@@ -765,7 +1020,7 @@ namespace ERP_BASE.Paginas.Reportes
         /// <fecha_modifico></fecha_modifico>
         /// <causa_modificacion></causa_modificacion>
         ///*******************************************************************************************************
-        private DataTable Generar_Tabla_Concentrado_Resultado(DataTable Dt_Ingresos_Accesos_Concentrado)
+        private DataTable Generar_Tabla_Concentrado_Resultado(DataTable dt_datos)
         {
             DataTable Dt_Resultados = Formar_Tabla_Resultado(0);
             DataRow Dr_Nueva_Fila_Ingreso;
@@ -773,72 +1028,30 @@ namespace ERP_BASE.Paginas.Reportes
             int Numero_Mes;
             decimal Total_Ingresos;
             decimal Monto_Mes;
+            int[] arreglo_meses = new int[12];
+            int contador_meses = 0;
 
             try
             {
-                //  se agrega una nueva columna, ya que la que arroja la consulta marca conflictos
-                Dt_Ingresos_Accesos_Concentrado.Columns.Add("Anio", typeof(int));
+                //  se crea el diccionario
+                Dictionary<Int32, string> Dic_Meses_texto = Crear_Diccionario_Meses_Texto();
 
-                foreach (DataRow Registro in Dt_Ingresos_Accesos_Concentrado.Rows)
+                dt_datos.Columns.RemoveAt(2);
+                dt_datos.Columns.RemoveAt(1);
+                dt_datos.AcceptChanges();
+
+
+                foreach (DataColumn columna_ in dt_datos.Columns)
                 {
-                    Registro.BeginEdit();
-                    Registro["Anio"] = Convert.ToInt16(Registro["Anio_"].ToString());
-                    Registro.EndEdit();
-                    Registro.AcceptChanges();
-                }
-
-                Dt_Ingresos_Accesos_Concentrado.Columns.RemoveAt(0);
-                Dt_Ingresos_Accesos_Concentrado.AcceptChanges();
-
-                // obtener los diferentes años en la consulta
-                var Dt_Anios = (from DataRow Fila_Ingresos in Dt_Ingresos_Accesos_Concentrado.AsEnumerable()
-                                select new { anio = Fila_Ingresos.Field<int>("anio") }).Distinct();
-
-                // recorrer Dt_Anios
-                foreach (var row in Dt_Anios.Reverse())
-                {
-                    // obtener las diferentes tarifas en la tabla
-                    var Dt_Tarifas = (from DataRow Fila_Ingresos in Dt_Ingresos_Accesos_Concentrado.AsEnumerable()
-                                      where Fila_Ingresos.Field<int>("anio") == row.anio
-                                      select new { Tipo = Fila_Ingresos.Field<string>("Tipo") }).Distinct();
-
-                    // bucle para sumar todas las tarifas
-                    foreach (var Fila_Tarifa in Dt_Tarifas)
+                    if (columna_.ColumnName == "1" || columna_.ColumnName == "2" || columna_.ColumnName == "3" || columna_.ColumnName == "4"
+                        || columna_.ColumnName == "5" || columna_.ColumnName == "6" || columna_.ColumnName == "7" || columna_.ColumnName == "8"
+                        || columna_.ColumnName == "9" || columna_.ColumnName == "10" || columna_.ColumnName == "11" || columna_.ColumnName == "12")
                     {
-                        // nueva fila
-                        Dr_Nueva_Fila_Ingreso = Dt_Resultados.NewRow();
-                        // asignar el año
-                        Dr_Nueva_Fila_Ingreso[0] = row.anio;
-                        // asignar las tarifas
-                        Dr_Nueva_Fila_Ingreso[1] = Fila_Tarifa.Tipo;
-
-                        // subconsulta linq para filtrar ingresos por año
-                        Dt_Ingresos_Anio = (from Fila_Ingresos in Dt_Ingresos_Accesos_Concentrado.AsEnumerable()
-                                            where Fila_Ingresos.Field<int>("anio") == row.anio
-                                            && Fila_Ingresos.Field<string>("tipo") == Fila_Tarifa.Tipo
-                                            select Fila_Ingresos).AsDataView().ToTable();
-                        Total_Ingresos = 0;
-
-                        int Cont_Insercion_Meses = 2;
-                        // recorrer la tabla de ingresos por año para llenar los montos por mes y total
-                        foreach (DataRow Fila_Ingreso in Dt_Ingresos_Anio.Rows)
-                        {
-                            //  numero de mes
-                            int.TryParse(Fila_Ingreso[0].ToString(), out Numero_Mes);
-
-                            //  monto del mes
-                            decimal.TryParse(Fila_Ingreso[1].ToString(), out Monto_Mes);
-
-                            Dr_Nueva_Fila_Ingreso[Cont_Insercion_Meses] = Monto_Mes;
-                            Total_Ingresos += Monto_Mes;
-                            Cont_Insercion_Meses++;
-                        }
-                        Dr_Nueva_Fila_Ingreso["TOTAL"] = Total_Ingresos;
-
-                        // agregar filas a la tabla
-                        Dt_Resultados.Rows.Add(Dr_Nueva_Fila_Ingreso);
+                        columna_.ColumnName = Dic_Meses_texto[Convert.ToInt32(columna_.ColumnName.ToString())];
                     }
                 }
+
+                Dt_Resultados = dt_datos;
 
                 return Dt_Resultados;
             }
@@ -1108,6 +1321,37 @@ namespace ERP_BASE.Paginas.Reportes
             Diccionario.Add("Octubre", 10);
             Diccionario.Add("Noviembre", 11);
             Diccionario.Add("Diciembre", 12);
+
+            return Diccionario;
+        }
+
+        /////*******************************************************************************************************
+        ///// <summary>
+        ///// genera un datatable nuevo con los campos para la 
+        ///// </summary>
+        ///// <returns>un datatable con los campos para mostrar accesos e ingresos por año y mes</returns>
+        ///// <creo>Hugo Enrique Ramírez Aguilera</creo>
+        ///// <fecha_creo>13-Enero-2016</fecha_creo>
+        ///// <modifico></modifico>
+        ///// <fecha_modifico></fecha_modifico>
+        ///// <causa_modificacion></causa_modificacion>
+        ///*******************************************************************************************************
+        private Dictionary<Int32, string> Crear_Diccionario_Meses_Texto()
+        {
+            var Diccionario = new Dictionary<Int32, string>();
+
+            Diccionario.Add(1, "Enero");
+            Diccionario.Add(2, "Febrero");
+            Diccionario.Add(3, "Marzo");
+            Diccionario.Add(4, "Abril");
+            Diccionario.Add(5, "Mayo");
+            Diccionario.Add(6, "Junio");
+            Diccionario.Add(7, "Julio");
+            Diccionario.Add(8, "Agosto");
+            Diccionario.Add(9, "Septiembre");
+            Diccionario.Add(10, "Octubre");
+            Diccionario.Add(11, "Noviembre");
+            Diccionario.Add(12, "Diciembre");
 
             return Diccionario;
         }
@@ -1557,78 +1801,6 @@ namespace ERP_BASE.Paginas.Reportes
             try
             {
 
-                //Dictionary<Int32, string> Dic_Meses = Crear_Diccionario_NumMeses_Texto();
-                //Dt_Ingresos = Consulta_Ingresos_Accesos(0);
-
-                //Dt_Ingresos.Columns.Add("mes_Anio");
-                //foreach (DataRow Registro in Dt_Ingresos.Rows)
-                //{
-                //    Registro.BeginEdit();
-                //    Registro["mes_anio"] = Dic_Meses[Convert.ToInt32(Registro["mes"].ToString())] + " " + Registro["Anio"].ToString();
-                //    Registro.EndEdit();
-                //    Registro.AcceptChanges();
-                //}
-
-                //Dt_Ingresos.TableName = "Dt_Recaudacion_Visitantes";
-                //Ds_Reporte.Tables.Add(Dt_Ingresos.Copy());
-                //Nombre_Plantilla = "Crs_Rep_Analisis_Mensual_Recaudacion.rpt";
-                
-                //// método que muestra el reporte
-                //Generar_Reporte(Ds_Reporte, MDI_Frm_Apl_Principal.Ruta_Plantilla_Crystal + Nombre_Plantilla, Fecha_Primero_Mes, Fecha_Ultimo_Mes);
-
-
-                //  ingresos
-                //    Nombre_Plantilla = "Rpt_Mensual_Ingresos.rpt";
-               
-
-                ////// consultar detalles de ingresos o accesos
-                //if (Cmb_Tipo_Reporte.Text.Equals("Ingresos"))
-                //{
-                //    DataTable Dt_Ingresos_Detalle = Consulta_Ingresos(Fecha_Primero_Mes, Fecha_Ultimo_Mes);
-                //    Dt_Ingresos_Detalle = Agrupar_Mes_Anio(Dt_Ingresos_Detalle);
-                //    Dt_Ingresos_Detalle.TableName = "Dt_Ingresos_Detalle";
-                //    // agregar tabla al dataset, quitando la tabla con el mismo nombre
-                //    Ds_Reporte.Tables.Add(Dt_Ingresos_Detalle);
-                //    // si no hay una tarifa seleccionada, asignar el reporte mensual
-                //    //if (Cmb_Tarifa.SelectedIndex <= 0)
-                //    //{
-                
-                //    //}
-                //    //else // asignar el reporte para una sola tarifa
-                //    //{
-                //    //    Nombre_Plantilla = "Rpt_Mensual_Ingresos_Tarifa.rpt";
-                //    //}
-                //}
-                //else if (Cmb_Tipo_Reporte.Text.Equals("Visitantes"))
-                //{
-                //    DataTable Dt_Accesos_Detalle = Consulta_Accesos(Fecha_Primero_Mes, Fecha_Ultimo_Mes);
-                //    DataTable Dt_Accesos_Promedio = Consulta_Accesos_Promedio(Fecha_Primero_Mes, Fecha_Ultimo_Mes);
-                //    DataTable Dt_Accesos_Comportamiento = new DataTable();
-                //    Dt_Accesos_Detalle = Agrupar_Mes_Anio(Dt_Accesos_Detalle);
-                //    Dt_Accesos_Detalle.TableName = "Dt_Accesos_Detalle";
-
-                //    Dt_Accesos_Comportamiento = Dt_Accesos_Promedio.Copy();
-                //    Dt_Accesos_Comportamiento.TableName = "Dt_Comportamiento";
-                //    Dt_Accesos_Promedio = Agrupar_Promedio(Dt_Accesos_Promedio);
-
-                //    Dt_Accesos_Promedio.TableName = "Dt_Promedio";
-
-                //    // agregar tabla al dataset, quitando la tabla con el mismo nombre
-                //    Ds_Reporte.Tables.Add(Dt_Accesos_Detalle);
-                //    Ds_Reporte.Tables.Add(Dt_Accesos_Promedio);
-                //    Ds_Reporte.Tables.Add(Dt_Accesos_Comportamiento);
-
-                //    // si no hay una tarifa seleccionada, asignar el reporte mensual
-                //    //if (Cmb_Tarifa.SelectedIndex <= 0)
-                //    //{
-                //    Nombre_Plantilla = "Rpt_Mensual_Accesos.rpt";
-                //    //}
-                //    //else // asignar el reporte para una sola tarifa
-                //    //{
-                //    //    Nombre_Plantilla = "Rpt_Mensual_Accesos_Tarifa.rpt";
-                //    //}
-                //}
-
                 
             }
             catch (Exception Ex)
@@ -1691,9 +1863,9 @@ namespace ERP_BASE.Paginas.Reportes
                     else if (Rbt_Opc_Concentrado.Checked)
                     {
                         Dt_Consulta = Realizar_Consulta();
-                        Dt_Consulta = Cambiar_Nombre_Columnas_Tabla(Dt_Consulta);
+                        //Dt_Consulta = Cambiar_Nombre_Columnas_Tabla(Dt_Consulta);
                         Dt_Resultado = Dt_Consulta.Copy();
-                        Exportar_Pdf_Ingresos_Visitantes(Sfd_Ruta_Archivo, Dt_Consulta, "concentrado", Dt_Promedio, "Concentrado", Str_Leyenda);
+                        Exportar_Pdf_Ingresos_Visitantes_Concentrado(Sfd_Ruta_Archivo, Dt_Consulta, "concentrado", Dt_Promedio, "Concentrado", Str_Leyenda);
                     }
 
                     //  se carga el grid
@@ -1771,9 +1943,9 @@ namespace ERP_BASE.Paginas.Reportes
                     else if (Rbt_Opc_Concentrado.Checked)// concentrado
                     {
                         Dt_Consulta = Realizar_Consulta();
-                        Dt_Consulta = Cambiar_Nombre_Columnas_Tabla(Dt_Consulta);
+                        //Dt_Consulta = Cambiar_Nombre_Columnas_Tabla(Dt_Consulta);
                         Dt_Resultado = Dt_Consulta.Copy();
-                        Exportar_Excel(Sfd_Ruta_Archivo, Dt_Consulta, "concentrado", "Concentrado", Dt_Promedio, Str_Leyenda);
+                        Exportar_Excel_concentrado(Sfd_Ruta_Archivo, Dt_Consulta, "concentrado", "Concentrado", Dt_Promedio, Str_Leyenda);
 
                     }
 
@@ -1790,9 +1962,11 @@ namespace ERP_BASE.Paginas.Reportes
             }
         }
         #endregion EVENTOS
-      
+
 
         #region reporte itesharp
+
+
         /// <summary>
         /// Método que carga los lugares donde se pueden registrar las ventas.
         /// </summary>
@@ -1802,6 +1976,731 @@ namespace ERP_BASE.Paginas.Reportes
         /// <fecha_modifico></fecha_modifico>
         /// <causa_modificacion></causa_modificacion>
         private void Exportar_Pdf_Ingresos_Visitantes(SaveFileDialog Sfd_Ruta_Archivo, DataTable Dt_Resultado, String Tipo_Reporte, DataTable Dt_Promedios,
+                                                        String Str_Leyenda_Grafico, String Str_Leyenda)
+        {
+            DataTable Dt_Anio = new DataTable();
+            DataTable Dt_Auxiliar = new DataTable();
+            DataTable Dt_Auxiliar_Promedio = new DataTable();
+
+            PdfPTable Tabla_Separador = new PdfPTable(1);
+            PdfPCell Celda_Separador = new PdfPCell();
+            int Cont_Paginas = 0;
+            try
+            {
+                using (FileStream Archivo_PDF = new FileStream(Sfd_Ruta_Archivo.FileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    iTextSharp.text.Rectangle rec = new iTextSharp.text.Rectangle(PageSize.LETTER.Rotate());
+                    Document Documento = new Document(rec);
+                    Documento.SetMargins(Documento.LeftMargin, Documento.RightMargin, Documento.TopMargin + 50, Documento.BottomMargin);
+                    PdfWriter PDF = PdfWriter.GetInstance(Documento, Archivo_PDF);
+
+                    // Se agrega el Encabezado y Pie de Página.
+                    PageEventHandler evt = new PageEventHandler()
+                    {
+                        //Fecha_Inicio = new DateTime(,
+                        //Fecha_Fin = DateTime.Now,
+                        Usuario_Creo = MDI_Frm_Apl_Principal.Nombre_Usuario,
+                        Parametros = Str_Leyenda,
+                        Posicion_Encabezado = 600
+                    };
+
+                    PDF.PageEvent = evt;
+
+                    Documento.Open();
+                    Documento.NewPage();
+
+                    //  se obtienen los años
+                    Dt_Anio = Dt_Resultado.DefaultView.ToTable(true, "Año");
+
+                    //  encabezado del tipo de reporte *****************************************************************************************************
+                    PdfPTable Tabla_Titulo_Reporte = new PdfPTable(1);
+                    PdfPCell Celda_Titulo_Reporte = new PdfPCell();
+
+                    iTextSharp.text.Font Fuente_Titulo_Reporte = new iTextSharp.text.Font(FontFactory.GetFont("Arial", 10, iTextSharp.text.Font.BOLDITALIC));
+
+                    float[] Tamaño_Titulo_Reporte = new float[1];
+                    Tamaño_Titulo_Reporte[0] = 430;
+
+                    Tabla_Titulo_Reporte.SetWidths(Tamaño_Titulo_Reporte);
+                    Tabla_Titulo_Reporte.WidthPercentage = 100;
+
+                    Celda_Titulo_Reporte.Phrase = new Phrase("Análisis  mensual " + Tipo_Reporte, Fuente_Titulo_Reporte);
+                    Celda_Titulo_Reporte.HorizontalAlignment = Element.ALIGN_CENTER;
+                    Celda_Titulo_Reporte.Border = 0;
+                    Tabla_Titulo_Reporte.AddCell(Celda_Titulo_Reporte);
+                    Documento.Add(Tabla_Titulo_Reporte);
+                    //Documento.Add(new iTextSharp.text.Paragraph("\n"));
+
+                    //se recorren los años consultados ***********************************************************************
+                    //********************************************************************************************************
+                    foreach (DataRow Registro in Dt_Anio.Rows)
+                    {
+                        if (Cont_Paginas > 0)
+                            Documento.NewPage();
+
+                        //  encabezado año arriba de la tabla de detalle
+                        PdfPTable Tabla_Anio = new PdfPTable(1);
+                        PdfPCell Celda_Anio = new PdfPCell();
+
+                        iTextSharp.text.Font Fuente_Anio = new iTextSharp.text.Font(FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLDITALIC));
+
+                        float[] Tamaño_Anios = new float[1];
+                        Tamaño_Anios[0] = 430;
+
+                        Tabla_Anio.SetWidths(Tamaño_Anios);
+                        Tabla_Anio.WidthPercentage = 100;
+
+                        Celda_Anio.Phrase = new Phrase(Registro["Año"].ToString(), Fuente_Anio);
+                        Celda_Anio.HorizontalAlignment = Element.ALIGN_CENTER;
+                        Celda_Anio.BackgroundColor = BaseColor.LIGHT_GRAY;
+                        Tabla_Anio.AddCell(Celda_Anio);
+                        Documento.Add(Tabla_Anio);
+
+                        //  detalle **************************************************************************************
+                        #region Tabla principal
+                        PdfPTable table = new PdfPTable(Dt_Resultado.Columns.Count - 1);
+                        PdfPCell cell = new PdfPCell();
+
+                        iTextSharp.text.Font fnt = new iTextSharp.text.Font(FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL));
+
+                        iTextSharp.text.Font fnt_Totales = new iTextSharp.text.Font(FontFactory.GetFont("Arial", 7, iTextSharp.text.Font.BOLD));
+
+                        float[] widths = new float[Dt_Resultado.Columns.Count - 1];
+                        decimal[] totales = new decimal[Dt_Resultado.Columns.Count - 1];
+
+                        float val = 430 / Dt_Resultado.Columns.Count - 1;
+
+                        for (int i = 0; i < Dt_Resultado.Columns.Count - 1; i++)
+                        {
+                            widths[i] = val;
+                        }
+
+                        table.SetWidths(widths);
+                        table.WidthPercentage = 100;
+
+
+                        //  se obtienen los valores del año
+                        Dt_Resultado.DefaultView.RowFilter = "año =" + Registro["año"].ToString();
+                        Dt_Auxiliar = Dt_Resultado.DefaultView.ToTable();
+
+                        //  se elimina la columna del año
+                        Dt_Auxiliar.Columns.RemoveAt(0);
+
+                        //  se asingan los nombres de las columnas
+                        foreach (DataColumn Col in Dt_Auxiliar.Columns)
+                        {
+                            table.AddCell(new PdfPCell(new Phrase(Col.ColumnName.ToUpper(), fnt))
+                            {
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE,
+                                BackgroundColor = BaseColor.LIGHT_GRAY
+                            });
+                        }
+
+                        table.HeaderRows = 1;
+
+                        foreach (DataRow Fila in Dt_Auxiliar.Rows)
+                        {
+                            decimal Total = 0;
+
+                            for (int i = 0; i < Dt_Auxiliar.Columns.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    cell.Phrase = new Phrase(Fila[i].ToString(), fnt_Totales);
+                                    cell.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
+                                    table.AddCell(cell);
+                                }
+                                else
+                                {
+                                    decimal Val = Convert.ToDecimal(Fila[i]);
+
+                                    Total += Val;
+                                    totales[i] += Val;
+
+                                    if (Tipo_Reporte.Contains("recaudación"))
+                                    {
+                                        cell.Phrase = new Phrase(Val.ToString("C").Replace("$", ""), fnt_Totales);
+                                    }
+                                    else if (Tipo_Reporte.Contains("concentrado"))
+                                    {
+                                        if (Fila["Tarifa"].ToString() == "Recaudacion")
+                                        {
+                                            cell.Phrase = new Phrase(Val.ToString("C").Replace("$", ""), fnt_Totales);
+                                        }
+                                        else
+                                        {
+                                            cell.Phrase = new Phrase(Val.ToString("n0").Replace("$", ""), fnt_Totales);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        cell.Phrase = new Phrase(Val.ToString("n0").Replace("$", ""), fnt_Totales);
+                                    }
+
+                                    cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+
+                                    table.AddCell(cell);
+                                }
+                            }
+
+                        }
+
+                        if (!Tipo_Reporte.Contains("concentrado"))
+                        {
+                            for (int i = 0; i < totales.Length; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    cell.Phrase = new Phrase("Totales", fnt);
+                                    cell.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
+                                    table.AddCell(cell);
+                                }
+                                else
+                                {
+                                    if (Tipo_Reporte.Contains("recaudación"))
+                                    {
+                                        cell.Phrase = new Phrase(totales[i].ToString("C").Replace("$", ""), fnt_Totales);
+                                    }
+                                    else
+                                    {
+                                        cell.Phrase = new Phrase(totales[i].ToString("n0").Replace("$", ""), fnt_Totales);
+                                    }
+
+
+                                    cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+
+                                    table.AddCell(cell);
+                                }
+                            }
+                        }
+
+                        Documento.Add(table);
+
+                        #endregion
+
+                        //  separador**************************************************************************************
+                        #region Separador
+
+                        Tamaño_Anios = new float[1];
+                        Tamaño_Anios[0] = 430;
+
+                        Tabla_Separador.SetWidths(Tamaño_Anios);
+                        Tabla_Separador.WidthPercentage = 100;
+                        Documento.Add(Tabla_Separador);
+                        Documento.Add(new iTextSharp.text.Paragraph("\n"));
+
+                        #endregion Separador Principal
+
+                        //  grafica**************************************************************************************
+                        #region Grafica Principal
+
+                        Documento.NewPage();
+                        Chart_Grafico.Size = new System.Drawing.Size(700, 500);
+                        Chart_Grafico.Series.Clear();
+                        Chart_Grafico.Titles.Clear();
+                        Chart_Grafico.Titles.Add(Str_Leyenda_Grafico + " " + Registro["Año"].ToString());
+
+                        //  se agregan las series que tendra la grafica
+                        DataTable Dt_Posiciones = new DataTable();
+                        Dt_Posiciones = Formar_Tabla_Posicion_Meses();
+
+                        foreach (DataRow Dr_Registro_Serie in Dt_Posiciones.Rows)
+                        {
+                            if (Dr_Registro_Serie["Mes"].ToString() == "1")
+                            {
+                                Chart_Grafico.Series.Add("Enero");
+                                Chart_Grafico.Series["Enero"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "2")
+                            {
+                                Chart_Grafico.Series.Add("Febrero");
+                                Chart_Grafico.Series["Febrero"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "3")
+                            {
+                                Chart_Grafico.Series.Add("Marzo");
+                                Chart_Grafico.Series["Marzo"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "4")
+                            {
+                                Chart_Grafico.Series.Add("Abril");
+                                Chart_Grafico.Series["Abril"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "5")
+                            {
+                                Chart_Grafico.Series.Add("Mayo");
+                                Chart_Grafico.Series["Mayo"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "6")
+                            {
+                                Chart_Grafico.Series.Add("Junio");
+                                Chart_Grafico.Series["Junio"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "7")
+                            {
+                                Chart_Grafico.Series.Add("Julio");
+                                Chart_Grafico.Series["Julio"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "8")
+                            {
+                                Chart_Grafico.Series.Add("Agosto");
+                                Chart_Grafico.Series["Agosto"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "9")
+                            {
+                                Chart_Grafico.Series.Add("Septiembre");
+                                Chart_Grafico.Series["Septiembre"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "10")
+                            {
+                                Chart_Grafico.Series.Add("Octubre");
+                                Chart_Grafico.Series["Octubre"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "11")
+                            {
+                                Chart_Grafico.Series.Add("Noviembre");
+                                Chart_Grafico.Series["Noviembre"]["DrawingStyle"] = "Cylinder";
+                            }
+                            else if (Dr_Registro_Serie["Mes"].ToString() == "12")
+                            {
+                                Chart_Grafico.Series.Add("Diciembre");
+                                Chart_Grafico.Series["Diciembre"]["DrawingStyle"] = "Cylinder";
+                            }
+                        }
+
+                        foreach (DataRow Registro_Grafica in Dt_Auxiliar.Rows)
+                        {
+                            foreach (DataRow Dr_Registro_Serie in Dt_Posiciones.Rows)
+                            {
+                                if (Dr_Registro_Serie["Mes"].ToString() == "1")
+                                    Chart_Grafico.Series["Enero"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Enero"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "2")
+                                    Chart_Grafico.Series["Febrero"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Febrero"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "3")
+                                    Chart_Grafico.Series["Marzo"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Marzo"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "4")
+                                    Chart_Grafico.Series["Abril"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Abril"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "5")
+                                    Chart_Grafico.Series["Mayo"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Mayo"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "6")
+                                    Chart_Grafico.Series["Junio"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Junio"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "7")
+                                    Chart_Grafico.Series["Julio"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Julio"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "8")
+                                    Chart_Grafico.Series["Agosto"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Agosto"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "9")
+                                    Chart_Grafico.Series["Septiembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Septiembre"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "10")
+                                    Chart_Grafico.Series["Octubre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Octubre"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "11")
+                                    Chart_Grafico.Series["Noviembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Noviembre"].ToString()));
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "12")
+                                    Chart_Grafico.Series["Diciembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Diciembre"].ToString()));
+                            }
+
+                        }
+
+                        //  estilo de la grafica
+                        Chart_Grafico.ChartAreas[0].Area3DStyle.IsClustered = true;
+                        Chart_Grafico.ChartAreas[0].Area3DStyle.PointDepth = 100;
+                        Chart_Grafico.ChartAreas[0].Area3DStyle.PointGapDepth = 100;
+
+                        Chart_Grafico.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Near;
+                        Chart_Grafico.ChartAreas[0].AxisX.TextOrientation = TextOrientation.Auto;
+                        Chart_Grafico.ChartAreas[0].AxisX.LabelStyle.Font = new System.Drawing.Font("Arial", 6.25F, System.Drawing.FontStyle.Bold);
+
+
+                        Chart_Grafico.ChartAreas[0].RecalculateAxesScale();
+                        Chart_Grafico.Update();
+
+                        var Chart_Imagen = new MemoryStream();
+
+                        Chart_Grafico.SaveImage(Chart_Imagen, ChartImageFormat.Jpeg);
+                        iTextSharp.text.Image ITx_Chart_Imagen = iTextSharp.text.Image.GetInstance(Chart_Imagen.GetBuffer());
+
+                        PdfPTable Tabla_Grafica__ = new PdfPTable(1);
+                        PdfPCell Celda_Grafica_ = new PdfPCell();
+
+                        float[] Tamaño_Grafico_ = new float[1];
+                        Tamaño_Grafico_[0] = 430;
+
+                        Tabla_Grafica__.SetWidths(Tamaño_Grafico_);
+                        Tabla_Grafica__.WidthPercentage = 100;
+
+                        Celda_Grafica_.Image = ITx_Chart_Imagen;
+                        Celda_Grafica_.HorizontalAlignment = Element.ALIGN_CENTER;
+                        Celda_Grafica_.Border = 0;
+                        Tabla_Grafica__.AddCell(Celda_Grafica_);
+                        Documento.Add(Tabla_Grafica__);
+
+                        #endregion Grafica Principal
+
+
+                        //  grafica estilo PIE **************************************************************************************
+                        #region Grafica Porcentaje
+                        if (Rbt_Opc_Visitantes.Checked)
+                        {
+                            Documento.NewPage();
+                            Chart_Grafico_Porcentaje.Size = new System.Drawing.Size(1440, 900);
+
+                            Chart_Grafico_Porcentaje.Series.Clear();
+                            Chart_Grafico_Porcentaje.Titles.Clear();
+                            Chart_Grafico_Porcentaje.Legends.Clear();
+                            Chart_Grafico_Porcentaje.Titles.Add("Porcentaje de visitantes " + Registro["Año"].ToString());
+
+                            Chart_Grafico_Porcentaje.Legends.Add(new Legend("Porcentaje"));
+                            Chart_Grafico_Porcentaje.Legends["Porcentaje"].Alignment = System.Drawing.StringAlignment.Center;
+                            Chart_Grafico_Porcentaje.Legends["Porcentaje"].BackColor = System.Drawing.Color.Transparent;
+                            Chart_Grafico_Porcentaje.Legends["Porcentaje"].Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+                            Chart_Grafico_Porcentaje.Legends["Porcentaje"].Enabled = true;
+                            Chart_Grafico_Porcentaje.Legends["Porcentaje"].Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold);
+                            Chart_Grafico_Porcentaje.Legends["Porcentaje"].IsTextAutoFit = false;
+
+                            Chart_Grafico_Porcentaje.Series.Add(new Series("Visitantes"));
+                            Chart_Grafico_Porcentaje.Series["Visitantes"].ChartType = SeriesChartType.Pie;
+                            Chart_Grafico_Porcentaje.Series["Visitantes"].Label = "#VALX " + " = " + "#PERCENT{P0}";
+                            Chart_Grafico_Porcentaje.Series["Visitantes"].Font = new System.Drawing.Font("Arial", 9.25F, System.Drawing.FontStyle.Regular);
+                            Chart_Grafico_Porcentaje.Series["Visitantes"].LegendText = "#VALX";
+                            Chart_Grafico_Porcentaje.Series["Visitantes"].MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Circle;
+
+
+                            Chart_Grafico_Porcentaje.Series["Visitantes"].CustomProperties = "DoughnutRadius=10, PieDrawingStyle=Concave, CollectedLabel=Other, MinimumRelative" + "PieSize=20";
+                            Chart_Grafico_Porcentaje.Series["Visitantes"]["PieLabelStyle"] = "Outside";
+                            Chart_Grafico_Porcentaje.Series["Visitantes"]["PieDrawingStyle"] = "SoftEdge";
+
+                            Chart_Grafico_Porcentaje.ChartAreas[0].Area3DStyle.Enable3D = true;
+
+
+                            foreach (DataRow Registro_Total in Dt_Auxiliar.Rows)
+                            {
+                                Chart_Grafico_Porcentaje.Series["Visitantes"].Points.AddXY(Registro_Total["Tarifa"].ToString(), Convert.ToDouble(Registro_Total["Total"].ToString()));
+                            }
+
+
+                            Chart_Grafico_Porcentaje.ChartAreas[0].RecalculateAxesScale();
+                            Chart_Grafico_Porcentaje.Update();
+
+                            var Chart_Imagen_Porcentaje = new MemoryStream();
+
+                            Chart_Grafico_Porcentaje.SaveImage(Chart_Imagen_Porcentaje, ChartImageFormat.Png);
+                            iTextSharp.text.Image ITx_Chart_Imagen_Porcentaje = iTextSharp.text.Image.GetInstance(Chart_Imagen_Porcentaje.GetBuffer());
+
+                            PdfPTable Tabla_Grafica_Porcentaje = new PdfPTable(1);
+                            PdfPCell Celda_Grafica_Porcentaje = new PdfPCell();
+
+                            float[] Tamaño_Grafico_Porcentaje = new float[1];
+                            Tamaño_Grafico_Porcentaje[0] = 430;
+
+                            Tabla_Grafica_Porcentaje.SetWidths(Tamaño_Grafico_Porcentaje);
+                            Tabla_Grafica_Porcentaje.WidthPercentage = 100;
+
+                            Celda_Grafica_Porcentaje.Image = ITx_Chart_Imagen_Porcentaje;
+                            Celda_Grafica_Porcentaje.HorizontalAlignment = Element.ALIGN_CENTER;
+                            Celda_Grafica_Porcentaje.Border = 0;
+                            Tabla_Grafica_Porcentaje.AddCell(Celda_Grafica_Porcentaje);
+                            Documento.Add(Tabla_Grafica_Porcentaje);
+
+                        }
+
+
+                        #endregion
+
+                        //  area de promedios**************************************************************************************
+                        //  si la opcion es visitantes se obtiene los promedio de la tarifa
+                        if (Rbt_Opc_Visitantes.Checked)
+                        {
+                            //  tabla promedios *************************************************************************************
+                            #region Tabla Promedio
+                            Documento.NewPage();
+
+                            //  encabezado año arriba de la tabla de detalle
+                            PdfPTable Tabla_Anio_Promedio = new PdfPTable(1);
+                            PdfPCell Celda_Anio_Promedio = new PdfPCell();
+
+                            iTextSharp.text.Font Fuente_Promedio = new iTextSharp.text.Font(FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.BOLDITALIC));
+
+                            float[] Tamaño_Promedio = new float[1];
+                            Tamaño_Promedio[0] = 430;
+
+                            Tabla_Anio_Promedio.SetWidths(Tamaño_Promedio);
+                            Tabla_Anio_Promedio.WidthPercentage = 100;
+
+                            Celda_Anio_Promedio.Phrase = new Phrase("Promedio " + Registro["Año"].ToString(), Fuente_Promedio);
+                            Celda_Anio_Promedio.HorizontalAlignment = Element.ALIGN_CENTER;
+                            Celda_Anio_Promedio.BackgroundColor = BaseColor.LIGHT_GRAY;
+                            Tabla_Anio_Promedio.AddCell(Celda_Anio_Promedio);
+                            Documento.Add(Tabla_Anio_Promedio);
+
+                            //  detalle Promedio**************************************************************************************
+                            PdfPTable Tabla_Promedio = new PdfPTable(Dt_Promedios.Columns.Count - 1);
+                            PdfPCell Celda_Promedio = new PdfPCell();
+
+                            iTextSharp.text.Font Fnt_Promedio = new iTextSharp.text.Font(FontFactory.GetFont("Arial", 8, iTextSharp.text.Font.NORMAL));
+
+                            iTextSharp.text.Font Fnt_Promedio_Totales = new iTextSharp.text.Font(FontFactory.GetFont("Arial", 7, iTextSharp.text.Font.BOLD));
+
+                            float[] Widths_Promedio = new float[Dt_Promedios.Columns.Count - 1];
+                            decimal[] Totales_Promedio = new decimal[Dt_Promedios.Columns.Count - 1];
+
+                            float val_Promedio = 430 / Dt_Promedios.Columns.Count - 1;
+
+                            for (int i = 0; i < Dt_Promedios.Columns.Count - 1; i++)
+                            {
+                                Widths_Promedio[i] = val_Promedio;
+                            }
+
+                            Tabla_Promedio.SetWidths(Widths_Promedio);
+                            Tabla_Promedio.WidthPercentage = 100;
+
+
+                            //  se obtienen los valores del año
+                            Dt_Promedios.DefaultView.RowFilter = "año =" + Registro["año"].ToString();
+                            Dt_Auxiliar_Promedio = Dt_Promedios.DefaultView.ToTable();
+
+                            //  se elimina la columna del año
+                            Dt_Auxiliar_Promedio.Columns.RemoveAt(0);
+
+                            //  se asingan los nombres de las columnas
+                            foreach (DataColumn Col in Dt_Auxiliar_Promedio.Columns)
+                            {
+                                Tabla_Promedio.AddCell(new PdfPCell(new Phrase(Col.ColumnName.ToUpper(), fnt))
+                                {
+                                    HorizontalAlignment = Element.ALIGN_CENTER,
+                                    VerticalAlignment = Element.ALIGN_MIDDLE,
+                                    BackgroundColor = BaseColor.LIGHT_GRAY
+                                });
+                            }
+
+                            Tabla_Promedio.HeaderRows = 1;
+
+                            foreach (DataRow Fila_Promedio in Dt_Auxiliar_Promedio.Rows)
+                            {
+                                decimal Total = 0;
+
+                                for (int i = 0; i < Dt_Auxiliar_Promedio.Columns.Count; i++)
+                                {
+                                    if (i == 0)
+                                    {
+                                        Celda_Promedio.Phrase = new Phrase(Fila_Promedio[i].ToString(), Fnt_Promedio_Totales);
+                                        Celda_Promedio.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
+                                        Tabla_Promedio.AddCell(Celda_Promedio);
+                                    }
+                                    else
+                                    {
+                                        decimal Val = Convert.ToDecimal(Fila_Promedio[i]);
+
+                                        Total += Val;
+                                        Totales_Promedio[i] += Val;
+                                        Celda_Promedio.Phrase = new Phrase(Val.ToString("n0").Replace("$", ""), Fnt_Promedio_Totales);
+                                        Celda_Promedio.HorizontalAlignment = Element.ALIGN_RIGHT;
+                                        Tabla_Promedio.AddCell(Celda_Promedio);
+                                    }
+                                }
+
+                            }
+
+                            for (int i = 0; i < Totales_Promedio.Length; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    Celda_Promedio.Phrase = new Phrase("Totales", Fnt_Promedio);
+                                    Celda_Promedio.HorizontalAlignment = Element.ALIGN_JUSTIFIED;
+                                    Tabla_Promedio.AddCell(Celda_Promedio);
+                                }
+                                else
+                                {
+                                    Celda_Promedio.Phrase = new Phrase(Totales_Promedio[i].ToString("n0").Replace("$", ""), Fnt_Promedio_Totales);
+                                    Celda_Promedio.HorizontalAlignment = Element.ALIGN_RIGHT;
+                                    Tabla_Promedio.AddCell(Celda_Promedio);
+                                }
+                            }
+
+                            Documento.Add(Tabla_Promedio);
+
+                            #endregion Tabla Promedio
+
+                            //  separador**************************************************************************************
+                            #region Separador
+
+                            Tamaño_Anios = new float[1];
+                            Tamaño_Anios[0] = 430;
+
+                            Tabla_Separador.SetWidths(Tamaño_Anios);
+                            Tabla_Separador.WidthPercentage = 100;
+                            Documento.Add(Tabla_Separador);
+                            Documento.Add(new iTextSharp.text.Paragraph("\n"));
+
+                            #endregion Separador
+
+                            //  grafica**************************************************************************************
+                            #region Grafica Promedio
+
+                            Documento.NewPage();
+                            Chart_Grafico.Size = new System.Drawing.Size(700, 500);
+                            Chart_Grafico.Series.Clear();
+                            Chart_Grafico.Titles.Clear();
+                            Chart_Grafico.Titles.Add(Str_Leyenda_Grafico + " " + Registro["Año"].ToString());
+
+                            Chart_Grafico.ChartAreas[0].AxisX.TitleAlignment = StringAlignment.Center;
+                            Chart_Grafico.ChartAreas[0].AxisX.TextOrientation = TextOrientation.Auto;
+
+
+                            //  se agregan las series que tendra la grafica
+                            Dt_Posiciones = new DataTable();
+                            Dt_Posiciones = Formar_Tabla_Posicion_Meses();
+
+                            foreach (DataRow Dr_Registro_Serie in Dt_Posiciones.Rows)
+                            {
+                                if (Dr_Registro_Serie["Mes"].ToString() == "1")
+                                {
+                                    Chart_Grafico.Series.Add("Enero");
+                                    Chart_Grafico.Series["Enero"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "2")
+                                {
+                                    Chart_Grafico.Series.Add("Febrero");
+                                    Chart_Grafico.Series["Febrero"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "3")
+                                {
+                                    Chart_Grafico.Series.Add("Marzo");
+                                    Chart_Grafico.Series["Marzo"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "4")
+                                {
+                                    Chart_Grafico.Series.Add("Abril");
+                                    Chart_Grafico.Series["Abril"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "5")
+                                {
+                                    Chart_Grafico.Series.Add("Mayo");
+                                    Chart_Grafico.Series["Mayo"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "6")
+                                {
+                                    Chart_Grafico.Series.Add("Junio");
+                                    Chart_Grafico.Series["Junio"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "7")
+                                {
+                                    Chart_Grafico.Series.Add("Julio");
+                                    Chart_Grafico.Series["Julio"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "8")
+                                {
+                                    Chart_Grafico.Series.Add("Agosto");
+                                    Chart_Grafico.Series["Agosto"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "9")
+                                {
+                                    Chart_Grafico.Series.Add("Septiembre");
+                                    Chart_Grafico.Series["Septiembre"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "10")
+                                {
+                                    Chart_Grafico.Series.Add("Octubre");
+                                    Chart_Grafico.Series["Octubre"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "11")
+                                {
+                                    Chart_Grafico.Series.Add("Noviembre");
+                                    Chart_Grafico.Series["Noviembre"]["DrawingStyle"] = "Cylinder";
+                                }
+                                else if (Dr_Registro_Serie["Mes"].ToString() == "12")
+                                {
+                                    Chart_Grafico.Series.Add("Diciembre");
+                                    Chart_Grafico.Series["Diciembre"]["DrawingStyle"] = "Cylinder";
+                                }
+                            }
+
+                            foreach (DataRow Registro_Grafica in Dt_Auxiliar_Promedio.Rows)
+                            {
+                                foreach (DataRow Dr_Registro_Serie in Dt_Posiciones.Rows)
+                                {
+                                    if (Dr_Registro_Serie["Mes"].ToString() == "1")
+                                        Chart_Grafico.Series["Enero"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Enero"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "2")
+                                        Chart_Grafico.Series["Febrero"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Febrero"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "3")
+                                        Chart_Grafico.Series["Marzo"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Marzo"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "4")
+                                        Chart_Grafico.Series["Abril"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Abril"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "5")
+                                        Chart_Grafico.Series["Mayo"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Mayo"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "6")
+                                        Chart_Grafico.Series["Junio"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Junio"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "7")
+                                        Chart_Grafico.Series["Julio"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Julio"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "8")
+                                        Chart_Grafico.Series["Agosto"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Agosto"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "9")
+                                        Chart_Grafico.Series["Septiembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Septiembre"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "10")
+                                        Chart_Grafico.Series["Octubre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Octubre"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "11")
+                                        Chart_Grafico.Series["Noviembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Noviembre"].ToString()));
+                                    else if (Dr_Registro_Serie["Mes"].ToString() == "12")
+                                        Chart_Grafico.Series["Diciembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Diciembre"].ToString()));
+                                }
+
+                            }
+
+                            Chart_Grafico.ChartAreas[0].RecalculateAxesScale();
+                            Chart_Grafico.Update();
+
+                            Chart_Imagen = new MemoryStream();
+
+                            Chart_Grafico.SaveImage(Chart_Imagen, ChartImageFormat.Jpeg);
+                            ITx_Chart_Imagen = iTextSharp.text.Image.GetInstance(Chart_Imagen.GetBuffer());
+
+                            Tabla_Grafica__ = new PdfPTable(1);
+                            Celda_Grafica_ = new PdfPCell();
+
+                            Tamaño_Grafico_ = new float[1];
+                            Tamaño_Grafico_[0] = 430;
+
+                            Tabla_Grafica__.SetWidths(Tamaño_Grafico_);
+                            Tabla_Grafica__.WidthPercentage = 100;
+
+                            Celda_Grafica_.Image = ITx_Chart_Imagen;
+                            Celda_Grafica_.HorizontalAlignment = Element.ALIGN_CENTER;
+                            Celda_Grafica_.Border = 0;
+                            Tabla_Grafica__.AddCell(Celda_Grafica_);
+                            Documento.Add(Tabla_Grafica__);
+
+                            #endregion Grafica Promedio
+
+                        }// validacion if para los promedios de visitantes
+
+                        Cont_Paginas++;
+
+                    }// fin foreach
+
+                    Documento.Close();
+                }
+
+                MessageBox.Show("Archivo Guardado Correctamente", "Éxito",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+
+
+            }// fin try
+            catch (Exception Ex)
+            {
+                throw new Exception("Error: (Exportar_Pdf_Producto). Descripción: " + Ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Método que carga los lugares donde se pueden registrar las ventas.
+        /// </summary>
+        /// <creo>Juan Alberto Hernández Negrete</creo>
+        /// <fecha_creo>2014 05 21 13:33 Hrs.</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        private void Exportar_Pdf_Ingresos_Visitantes_Concentrado(SaveFileDialog Sfd_Ruta_Archivo, DataTable Dt_Resultado, String Tipo_Reporte, DataTable Dt_Promedios,
                                                         String Str_Leyenda_Grafico, String Str_Leyenda)
         {
             DataTable Dt_Anio = new DataTable();
@@ -1950,7 +2849,7 @@ namespace ERP_BASE.Paginas.Reportes
                                     }
                                     else if (Tipo_Reporte.Contains("concentrado"))
                                     {
-                                        if (Fila["Tarifa"].ToString() == "Recaudacion")
+                                        if (Fila["Tipo"].ToString() == "Recaudacion")
                                         {
                                             cell.Phrase = new Phrase(Val.ToString("C").Replace("$", ""), fnt_Totales);
                                         }
@@ -2100,29 +2999,29 @@ namespace ERP_BASE.Paginas.Reportes
                             foreach (DataRow Dr_Registro_Serie in Dt_Posiciones.Rows)
                             {
                                 if (Dr_Registro_Serie["Mes"].ToString() == "1") 
-                                    Chart_Grafico.Series["Enero"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Enero"].ToString()));
+                                    Chart_Grafico.Series["Enero"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Enero"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "2")
-                                    Chart_Grafico.Series["Febrero"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Febrero"].ToString()));
+                                    Chart_Grafico.Series["Febrero"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Febrero"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "3")
-                                    Chart_Grafico.Series["Marzo"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Marzo"].ToString()));
+                                    Chart_Grafico.Series["Marzo"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Marzo"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "4")
-                                    Chart_Grafico.Series["Abril"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Abril"].ToString()));
+                                    Chart_Grafico.Series["Abril"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Abril"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "5")
-                                    Chart_Grafico.Series["Mayo"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Mayo"].ToString()));
+                                    Chart_Grafico.Series["Mayo"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Mayo"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "6")
-                                    Chart_Grafico.Series["Junio"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Junio"].ToString()));
+                                    Chart_Grafico.Series["Junio"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Junio"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "7")
-                                    Chart_Grafico.Series["Julio"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Julio"].ToString()));
+                                    Chart_Grafico.Series["Julio"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Julio"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "8")
-                                    Chart_Grafico.Series["Agosto"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Agosto"].ToString()));
+                                    Chart_Grafico.Series["Agosto"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Agosto"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "9")
-                                    Chart_Grafico.Series["Septiembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Septiembre"].ToString()));
+                                    Chart_Grafico.Series["Septiembre"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Septiembre"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "10")
-                                    Chart_Grafico.Series["Octubre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Octubre"].ToString()));
+                                    Chart_Grafico.Series["Octubre"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Octubre"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "11")
-                                    Chart_Grafico.Series["Noviembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Noviembre"].ToString()));
+                                    Chart_Grafico.Series["Noviembre"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Noviembre"].ToString()));
                                 else if (Dr_Registro_Serie["Mes"].ToString() == "12")
-                                    Chart_Grafico.Series["Diciembre"].Points.AddXY(Registro_Grafica["tarifa"].ToString(), Convert.ToDouble(Registro_Grafica["Diciembre"].ToString()));
+                                    Chart_Grafico.Series["Diciembre"].Points.AddXY(Registro_Grafica["tipo"].ToString(), Convert.ToDouble(Registro_Grafica["Diciembre"].ToString()));
                             }
                             
                         }
@@ -2530,7 +3429,327 @@ namespace ERP_BASE.Paginas.Reportes
         /// <modifico></modifico>
         /// <fecha_modifico></fecha_modifico>
         /// <causa_modificacion></causa_modificacion>
-        private void Exportar_Excel(SaveFileDialog Sfd_Ruta_Archivo, DataTable Dt_Consulta, String Tipo_Reporte, String Titulo_Grafico, 
+        private void Exportar_Excel(SaveFileDialog Sfd_Ruta_Archivo, DataTable Dt_Consulta, String Tipo_Reporte, String Titulo_Grafico,
+                                        DataTable Dt_Promedio, String Str_Leyenda)
+        {
+            String Str_Columna_Tope = ""; //    contendra la letra que se utilizara como tope en el archivo de excel
+            String Str_Columna_Tope_Promedio = "";
+            DataTable Dt_Anio = new DataTable();
+            DataTable Dt_Auxiliar = new DataTable();
+            DataTable Dt_Auxiliar_Promedio = new DataTable();
+            int Cont_Columnas = 0;
+            int Cont_Columnas_Promedio = 0;
+            int Cont_Tablas = 0;
+            ExcelRangeBase Rango_Detalle = null;
+
+            try
+            {
+                // *******************************************************************************************************************************
+                //  se obtiene el diccionario referente a las columnas en excel
+                Dictionary<Int32, string> Dic_Excel = Crear_Diccionario_Excel();
+
+                //// *******************************************************************************************************************************
+                String[] Str_Matriz_Leyenda = Str_Leyenda.Split('\n');
+
+
+                // *******************************************************************************************************************************
+                //  se obtiene el tope del archivo de excel
+                Cont_Columnas = Dt_Consulta.Columns.Count - 2;
+                if (Dic_Excel.ContainsKey(Cont_Columnas) == true)
+                {
+                    Str_Columna_Tope = Dic_Excel[Cont_Columnas];
+                }
+                else
+                {
+                    Str_Columna_Tope = "I";
+                }
+
+
+                // *******************************************************************************************************************************
+                //  se obtiene el tope del archivo de excel para el promedio
+                if (Rbt_Opc_Visitantes.Checked)
+                {
+                    Cont_Columnas_Promedio = Dt_Promedio.Columns.Count - 2;
+                    if (Dic_Excel.ContainsKey(Cont_Columnas_Promedio) == true)
+                    {
+                        Str_Columna_Tope_Promedio = Dic_Excel[Cont_Columnas_Promedio];
+                    }
+                    else
+                    {
+                        Str_Columna_Tope_Promedio = "I";
+                    }
+                }
+
+                // *******************************************************************************************************************************
+                //  se obtienen los años
+                Dt_Anio = Dt_Consulta.DefaultView.ToTable(true, "Año");
+
+
+                // *******************************************************************************************************************************                
+                //  se valida que exista el archivo
+                if (File.Exists(Sfd_Ruta_Archivo.FileName))
+                {
+                    File.Delete(Sfd_Ruta_Archivo.FileName);
+                }
+
+                //  se crea el archivo 
+                FileInfo newFile = new FileInfo(Sfd_Ruta_Archivo.FileName);
+
+                using (ExcelPackage Excel_Doc_Analisis_Mensual = new ExcelPackage(newFile))
+                {
+                    ExcelWorksheet Detallado = Excel_Doc_Analisis_Mensual.Workbook.Worksheets.Add("Analisis mensual");
+                    // *******************************************************************************************************************************
+                    Detallado.Cells["A1"].Value = "Tesoreria Municipal";
+                    Detallado.Cells["A2"].Value = "Dirección de ingresos";
+                    Detallado.Cells["A3"].Value = "Museo de las momias";
+                    Detallado.Cells["A4"].Value = Str_Matriz_Leyenda[0];
+                    Detallado.Cells["A5"].Value = Str_Matriz_Leyenda[1];
+
+                    Detallado.Cells["A7"].Value = "Analisis mensual " + Tipo_Reporte;
+
+                    Detallado.Cells["A1:A1"].Style.Font.Bold = true;
+                    Detallado.Cells["A3:A7"].Style.Font.Bold = true;
+
+                    // Encabezados del reporte
+                    Detallado.Cells["A1:" + Str_Columna_Tope + "1"].Merge = true;
+                    Detallado.Cells["A2:" + Str_Columna_Tope + "2"].Merge = true;
+                    Detallado.Cells["A3:" + Str_Columna_Tope + "3"].Merge = true;
+                    Detallado.Cells["A4:" + Str_Columna_Tope + "4"].Merge = true;
+                    Detallado.Cells["A5:" + Str_Columna_Tope + "5"].Merge = true;
+                    Detallado.Cells["A6:" + Str_Columna_Tope + "6"].Merge = true;
+                    Detallado.Cells["A7:" + Str_Columna_Tope + "7"].Merge = true;
+
+                    Detallado.Cells["A1:" + Str_Columna_Tope + "1"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    Detallado.Cells["A2:" + Str_Columna_Tope + "2"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    Detallado.Cells["A3:" + Str_Columna_Tope + "3"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    Detallado.Cells["A4:" + Str_Columna_Tope + "4"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    Detallado.Cells["A5:" + Str_Columna_Tope + "5"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    Detallado.Cells["A6:" + Str_Columna_Tope + "6"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                    Detallado.Cells["A7:" + Str_Columna_Tope + "7"].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                    Detallado.Cells["A1:" + Str_Columna_Tope + "1"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    Detallado.Cells["A2:" + Str_Columna_Tope + "2"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    Detallado.Cells["A3:" + Str_Columna_Tope + "3"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    Detallado.Cells["A4:" + Str_Columna_Tope + "4"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    Detallado.Cells["A5:" + Str_Columna_Tope + "5"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    Detallado.Cells["A6:" + Str_Columna_Tope + "6"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                    Detallado.Cells["A7:" + Str_Columna_Tope + "7"].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+
+                    Int32 Filas = 8;
+                    //  se generan los registros correspondientes a los años
+                    foreach (DataRow Dr_Registro_Anios in Dt_Anio.Rows)
+                    {
+                        Dt_Auxiliar = new DataTable();
+
+                        //  se obtienen los valores del año
+                        Dt_Consulta.DefaultView.RowFilter = "año =" + Dr_Registro_Anios["año"].ToString();
+                        Dt_Auxiliar = Dt_Consulta.DefaultView.ToTable();
+
+                        //  se elimina la columna del año
+                        Dt_Auxiliar.Columns.RemoveAt(0);
+                        Dt_Auxiliar.TableName = "Analisis_Mensual_" + Cont_Tablas.ToString();
+                        Cont_Tablas++;
+
+                        // *******************************************************************************************************************************
+                        Detallado.Cells["A" + Filas].Value = Dr_Registro_Anios["año"].ToString();
+                        Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope + Filas].Style.Font.Bold = true;
+                        Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope + Filas].Merge = true;
+                        Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope + Filas].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                        Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope + Filas].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                        Filas++;
+
+                        // *******************************************************************************************************************************
+                        //  detalle del año
+                        int Posicion_Tabla = 0;
+                        Posicion_Tabla = Filas;
+                        Generar_Tabla_Detalle_Excel(Rango_Detalle, Detallado, Dt_Auxiliar, Filas);
+
+                        Filas = Filas + Dt_Auxiliar.Rows.Count + 1;
+
+                        // *******************************************************************************************************************************
+                        //  formulas
+                        if (!Rbt_Opc_Concentrado.Checked)
+                        {
+                            Detallado.Cells[(Filas), 2, (Filas), Dt_Auxiliar.Columns.Count].Style.Numberformat.Format = "#,##0.00";
+
+                            Detallado.Cells["A" + Filas].Value = "Total";
+                            Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope + Filas].Style.Font.Bold = true;
+
+                            for (Int32 Cont_For = 1; Cont_For < Cont_Columnas + 1; Cont_For++)
+                            {
+                                if (Dic_Excel.ContainsKey(Cont_For) == true)
+                                {
+                                    Detallado.Cells[Dic_Excel[Cont_For] + (Filas)].Formula = string.Format("SUBTOTAL(109, " + Dt_Auxiliar.TableName + "[" + Dt_Auxiliar.Columns[Cont_For].ColumnName + "] )");
+                                }
+                            }
+                        }
+                        Filas = Filas + 2;
+
+                        // *******************************************************************************************************************************
+                        //  grafica
+                        ExcelWorksheet Graph = Detallado.Workbook.Worksheets.Add("Grafica_" + Titulo_Grafico + "_" + Dr_Registro_Anios["año"].ToString());
+
+                        var Grafica = Graph.Drawings.AddChart("Grafica_" + Dr_Registro_Anios["año"].ToString(), OfficeOpenXml.Drawing.Chart.eChartType.ColumnClustered);
+                        Grafica.Title.Text = Titulo_Grafico + " " + Dr_Registro_Anios["Año"].ToString();
+                        Grafica.SetSize(1280, 800);
+                        Grafica.SetPosition(0, 0, 0, 0);
+
+                        //  variable que guarda la posicion de la tabla: " Posicion_Tabla "
+                        Posicion_Tabla++;// se incrementa el titulo
+                        for (int Cont_For_Grafica = 0; Cont_For_Grafica < Dt_Auxiliar.Rows.Count; Cont_For_Grafica++)
+                        {
+                            var Serie_Grafica = Grafica.Series.Add(Detallado.Cells["Analisis mensual!$B$" + (Posicion_Tabla + Cont_For_Grafica) + ":$" +
+                                                                    Dic_Excel[Cont_Columnas - 1] + "$" + (Posicion_Tabla + Cont_For_Grafica)],
+                                                                Detallado.Cells["Analisis mensual!$B$" + (Posicion_Tabla - 1) + ":$" + Dic_Excel[Cont_Columnas - 1] + "$" + (Posicion_Tabla - 1)]);
+
+                            Serie_Grafica.Header = Detallado.Cells["Analisis mensual!$A$" + (Posicion_Tabla + Cont_For_Grafica)].Text.ToString();
+                        }
+                        Posicion_Tabla--;
+
+                        // *******************************************************************************************************************************
+                        //  validacion para el acceso generacion de grafica porcentajes de tarifas "PIE"
+                        if (Rbt_Opc_Visitantes.Checked)
+                        {
+                            ExcelWorksheet Graph_Porcentaje = Detallado.Workbook.Worksheets.Add("Graf_%" + Titulo_Grafico + "_" + Dr_Registro_Anios["año"].ToString());
+
+                            var Grafica_Porcentaje = Graph_Porcentaje.Drawings.AddChart("Grafica Porcentaje " + Dr_Registro_Anios["año"].ToString(), OfficeOpenXml.Drawing.Chart.eChartType.Pie3D) as ExcelPieChart;
+                            Grafica_Porcentaje.Title.Text = Titulo_Grafico + " " + Dr_Registro_Anios["Año"].ToString();
+                            Grafica_Porcentaje.SetSize(1280, 800);
+                            Grafica_Porcentaje.SetPosition(0, 0, 0, 0);
+
+                            //  variable que guarda la posicion de la tabla: " Posicion_Tabla "
+                            Posicion_Tabla++;// se incrementa el titulo
+                            Int32 Cont_Row_Dt_Auxiliar = 0;
+                            Cont_Row_Dt_Auxiliar = Dt_Auxiliar.Rows.Count - 1;
+
+                            var Serie_Grafica_ = Grafica_Porcentaje.Series.Add(Detallado.Cells["Analisis mensual!$" + Dic_Excel[Cont_Columnas] + "$" + (Posicion_Tabla) + ":$" +
+                                                         Dic_Excel[Cont_Columnas] + "$" + (Posicion_Tabla + Cont_Row_Dt_Auxiliar)],
+                                                     Detallado.Cells["Analisis mensual!$A$" + (Posicion_Tabla) + ":$A$" + (Posicion_Tabla + Cont_Row_Dt_Auxiliar)]);
+
+                            Grafica_Porcentaje.DataLabel.ShowCategory = true;
+                            Grafica_Porcentaje.DataLabel.ShowPercent = true;
+                            Grafica_Porcentaje.DataLabel.ShowLeaderLines = true;
+                            Grafica_Porcentaje.DataLabel.Separator = "  ";
+                            //Grafica_Porcentaje.Legend.Position= 
+                        }
+
+                        // *******************************************************************************************************************************
+                        //  fin del recorrido del año
+                        Filas = Filas + 2;
+
+                        // *******************************************************************************************************************************
+                        //  si es consulta por visitantes se genera la tabla de promedios***************************************************************************
+                        if (Rbt_Opc_Visitantes.Checked)
+                        {
+
+                            // *******************************************************************************************************************************
+                            //  se obtienen los valores del año
+                            Dt_Auxiliar_Promedio = new DataTable();
+                            Dt_Promedio.DefaultView.RowFilter = "año =" + Dr_Registro_Anios["año"].ToString();
+                            Dt_Auxiliar_Promedio = Dt_Promedio.DefaultView.ToTable();
+
+                            //  se elimina la columna del año
+                            Dt_Auxiliar_Promedio.Columns.RemoveAt(0);
+                            Dt_Auxiliar_Promedio.TableName = "Promedio_Mensual_" + Cont_Tablas.ToString();
+                            Cont_Tablas++;
+
+                            // *******************************************************************************************************************************
+                            Detallado.Cells["A" + Filas].Value = "Promedio " + Dr_Registro_Anios["año"].ToString();
+                            Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope_Promedio + Filas].Style.Font.Bold = true;
+                            Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope_Promedio + Filas].Merge = true;
+                            Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope_Promedio + Filas].Style.VerticalAlignment = OfficeOpenXml.Style.ExcelVerticalAlignment.Center;
+                            Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope_Promedio + Filas].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+                            Filas++;
+
+                            // *******************************************************************************************************************************
+                            //  detalle del promedio por año
+                            Posicion_Tabla = 0;
+                            Posicion_Tabla = Filas;
+                            Generar_Tabla_Detalle_Excel(Rango_Detalle, Detallado, Dt_Auxiliar_Promedio, Filas);
+
+                            Filas = Filas + Dt_Auxiliar_Promedio.Rows.Count + 1;
+
+                            // *******************************************************************************************************************************
+                            //  formulas
+                            Detallado.Cells[(Filas), 2, (Filas), Dt_Auxiliar_Promedio.Columns.Count].Style.Numberformat.Format = "#,##0.00";
+                            Detallado.Cells["A" + Filas].Value = "Total";
+                            Detallado.Cells["A" + Filas + ":" + Str_Columna_Tope_Promedio + Filas].Style.Font.Bold = true;
+
+
+                            for (Int32 Cont_For = 1; Cont_For < Cont_Columnas_Promedio + 1; Cont_For++)
+                            {
+                                if (Dic_Excel.ContainsKey(Cont_For) == true)
+                                {
+                                    Detallado.Cells[Dic_Excel[Cont_For] + (Filas)].Formula = string.Format("SUBTOTAL(109, " + Dt_Auxiliar_Promedio.TableName + "[" + Dt_Auxiliar_Promedio.Columns[Cont_For].ColumnName + "] )");
+                                }
+                            }
+
+                            Filas = Filas + 2;
+
+
+                            // *******************************************************************************************************************************
+                            //  grafica
+                            ExcelWorksheet Graph_Promedio = Detallado.Workbook.Worksheets.Add("Graf_Promedio_" + Titulo_Grafico + "_" + Dr_Registro_Anios["año"].ToString());
+
+                            var Grafica_Promedio = Graph_Promedio.Drawings.AddChart("Grafica_Promedio" + Dr_Registro_Anios["año"].ToString(), OfficeOpenXml.Drawing.Chart.eChartType.ColumnClustered);
+                            Grafica_Promedio.Title.Text = "Promedio " + Dr_Registro_Anios["Año"].ToString();
+                            Grafica_Promedio.SetSize(1280, 800);
+                            Grafica_Promedio.SetPosition(0, 0, 0, 0);
+
+                            //  variable que guarda la posicion de la tabla: " Posicion_Tabla "
+                            Posicion_Tabla++;// se incrementa el titulo
+                            for (int Cont_For_Grafica = 0; Cont_For_Grafica < Dt_Auxiliar_Promedio.Rows.Count; Cont_For_Grafica++)
+                            {
+                                var Serie_Grafica_Promedio = Grafica_Promedio.Series.Add(Detallado.Cells["Analisis mensual!$B$" + (Posicion_Tabla + Cont_For_Grafica) + ":$" +
+                                                                        Dic_Excel[Cont_Columnas_Promedio] + "$" + (Posicion_Tabla + Cont_For_Grafica)],
+                                                                    Detallado.Cells["Analisis mensual!$B$" + (Posicion_Tabla - 1) + ":$" + Dic_Excel[Cont_Columnas_Promedio] + "$" + (Posicion_Tabla - 1)]);
+
+                                Serie_Grafica_Promedio.Header = Detallado.Cells["Analisis mensual!$A$" + (Posicion_Tabla + Cont_For_Grafica)].Text.ToString();
+                            }
+
+                            // *******************************************************************************************************************************
+                            //  fin de la graficacion del promedio
+                            //Filas = Filas + 2;
+
+
+                        }
+
+                    }// fin del foreach anios
+
+
+                    // *******************************************************************************************************************************
+                    //  pie de pagina
+                    Filas = Filas + 2;
+                    Detallado.Cells["A" + Filas.ToString()].Value = "Usuario: " + MDI_Frm_Apl_Principal.Nombre_Usuario;
+                    Detallado.Cells["A" + (Filas + 1).ToString()].Value = "Fecha de emisión: " + DateTime.Now.ToLongDateString() + "; " + DateTime.Now.ToLongTimeString();
+
+                    // *******************************************************************************************************************************
+                    //  se guarda el documento
+                    Excel_Doc_Analisis_Mensual.Save();
+
+                    //  mensaje de confirmacion
+                    MessageBox.Show(this, "Exportacion exitosa", "Excel", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+
+
+            }
+            catch (Exception Ex)
+            {
+                throw new Exception("Error: (Exportar_Excel). Descripción: " + Ex.Message);
+            }
+        }
+
+
+        /// <summary>
+        /// Método que carga los lugares donde se pueden registrar las ventas.
+        /// </summary>
+        /// <creo>Juan Alberto Hernández Negrete</creo>
+        /// <fecha_creo>2014 05 21 13:33 Hrs.</fecha_creo>
+        /// <modifico></modifico>
+        /// <fecha_modifico></fecha_modifico>
+        /// <causa_modificacion></causa_modificacion>
+        private void Exportar_Excel_concentrado(SaveFileDialog Sfd_Ruta_Archivo, DataTable Dt_Consulta, String Tipo_Reporte, String Titulo_Grafico, 
                                         DataTable Dt_Promedio, String Str_Leyenda)
         {
             String Str_Columna_Tope = ""; //    contendra la letra que se utilizara como tope en el archivo de excel
@@ -2555,7 +3774,7 @@ namespace ERP_BASE.Paginas.Reportes
 
                 // *******************************************************************************************************************************
                 //  se obtiene el tope del archivo de excel
-                Cont_Columnas = Dt_Consulta.Columns.Count - 2; 
+                Cont_Columnas = Dt_Consulta.Columns.Count - 1; 
                 if (Dic_Excel.ContainsKey(Cont_Columnas) == true)
                 {
                     Str_Columna_Tope = Dic_Excel[Cont_Columnas];
@@ -2600,13 +3819,13 @@ namespace ERP_BASE.Paginas.Reportes
                 {
                     ExcelWorksheet Detallado = Excel_Doc_Analisis_Mensual.Workbook.Worksheets.Add("Analisis mensual");
                     // *******************************************************************************************************************************
-                    Detallado.Cells["A1"].Value = "Tesoreria Municipal";
+                    Detallado.Cells["A1"].Value = "Tesorería Municipal";
                     Detallado.Cells["A2"].Value = "Dirección de ingresos";
                     Detallado.Cells["A3"].Value = "Museo de las momias";
                     Detallado.Cells["A4"].Value = Str_Matriz_Leyenda[0];
                     Detallado.Cells["A5"].Value = Str_Matriz_Leyenda[1];
 
-                    Detallado.Cells["A7"].Value = "Analisis mensual " + Tipo_Reporte;
+                    Detallado.Cells["A7"].Value = "Análisis mensual " + Tipo_Reporte;
 
                     Detallado.Cells["A1:A1"].Style.Font.Bold = true;
                     Detallado.Cells["A3:A7"].Style.Font.Bold = true;
@@ -2691,11 +3910,11 @@ namespace ERP_BASE.Paginas.Reportes
                         ExcelWorksheet Graph = Detallado.Workbook.Worksheets.Add("Grafica_" + Titulo_Grafico+"_" + Dr_Registro_Anios["año"].ToString());
 
                         var Grafica = Graph.Drawings.AddChart("Grafica_" + Dr_Registro_Anios["año"].ToString(), OfficeOpenXml.Drawing.Chart.eChartType.ColumnClustered);
-                        Grafica.Title.Text = Titulo_Grafico + " " + Dr_Registro_Anios["Año"].ToString();
+                        Grafica.Title.Text = Titulo_Grafico + " " + Dr_Registro_Anios["año"].ToString();
                         Grafica.SetSize(1280, 800);
                         Grafica.SetPosition(0, 0, 0, 0);
 
-                        //  variable que guarda la posicion de la tabla: " Posicion_Tabla "
+                        //  variable que guarda la posición de la tabla: " Posicion_Tabla "
                         Posicion_Tabla++;// se incrementa el titulo
                         for (int Cont_For_Grafica = 0; Cont_For_Grafica < Dt_Auxiliar.Rows.Count ; Cont_For_Grafica++)
                         {
@@ -2708,7 +3927,7 @@ namespace ERP_BASE.Paginas.Reportes
                         Posicion_Tabla--;
 
                         // *******************************************************************************************************************************
-                        //  validacion para el acceso generacion de grafica porcentajes de tarifas "PIE"
+                        //  validación para el acceso generación de gráfica porcentajes de tarifas "PIE"
                         if (Rbt_Opc_Visitantes.Checked)
                         {
                             ExcelWorksheet Graph_Porcentaje = Detallado.Workbook.Worksheets.Add("Graf_%" + Titulo_Grafico + "_" + Dr_Registro_Anios["año"].ToString());
@@ -2718,7 +3937,7 @@ namespace ERP_BASE.Paginas.Reportes
                             Grafica_Porcentaje.SetSize(1280, 800);
                             Grafica_Porcentaje.SetPosition(0, 0, 0, 0);
 
-                            //  variable que guarda la posicion de la tabla: " Posicion_Tabla "
+                            //  variable que guarda la posición de la tabla: " Posicion_Tabla "
                             Posicion_Tabla++;// se incrementa el titulo
                             Int32 Cont_Row_Dt_Auxiliar = 0;
                             Cont_Row_Dt_Auxiliar = Dt_Auxiliar.Rows.Count -1;
@@ -2789,7 +4008,7 @@ namespace ERP_BASE.Paginas.Reportes
 
 
                             // *******************************************************************************************************************************
-                            //  grafica
+                            //  gráfica
                             ExcelWorksheet Graph_Promedio = Detallado.Workbook.Worksheets.Add("Graf_Promedio_" + Titulo_Grafico + "_" + Dr_Registro_Anios["año"].ToString());
 
                             var Grafica_Promedio = Graph_Promedio.Drawings.AddChart("Grafica_Promedio" + Dr_Registro_Anios["año"].ToString(), OfficeOpenXml.Drawing.Chart.eChartType.ColumnClustered);
@@ -2829,7 +4048,7 @@ namespace ERP_BASE.Paginas.Reportes
                     Excel_Doc_Analisis_Mensual.Save();
 
                     //  mensaje de confirmacion
-                    MessageBox.Show(this, "Exportacion exitosa", "Excel", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(this, "Exportación exitosa", "Excel", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
 

@@ -987,9 +987,9 @@ namespace Reportes.Ingresos.Datos
                 Mi_Sql.Append(" where YEAR(p." + Ope_Pagos.Campo_Fecha_Creo + ") in (" + Datos.P_Anios_Busqueda + ") ");
                 Mi_Sql.Append(" and MONTH(p." + Ope_Pagos.Campo_Fecha_Creo + ") in (" + Datos.P_Meses_Busqueda + ")");
                 //  filtro para el numero de venta pago mixto
-                if (!String.IsNullOrEmpty(Datos.P_No_Venta_Mixto))
+                if (Datos.P_No_Venta_Mixto != null)
                 {
-                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto + ")");
+                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto.ToString() + ")");
                 }
                 Mi_Sql.Append(")");
                 Mi_Sql.Append(" p on p." + Ope_Pagos.Campo_No_Venta + " = venta." + Ope_Ventas.Campo_No_Venta + " and p.Museo_ID = venta.Museo_ID");
@@ -1000,9 +1000,9 @@ namespace Reportes.Ingresos.Datos
 
 
                 //  filtro para el numero de venta pago mixto
-                if (!String.IsNullOrEmpty(Datos.P_No_Venta_Mixto))
+                if (Datos.P_No_Venta_Mixto != null)
                 {
-                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto + ")");
+                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto.ToString() + ")");
                 }
 
 
@@ -1141,7 +1141,7 @@ namespace Reportes.Ingresos.Datos
 
                 Mi_SQL.Append(" group by ope_pagos.No_Venta " +
                         ", ope_pagos.fecha_creo " +
-                        " having count(*) > 1");
+                        " having count(*) > 1");//  pagos mixtos
 
                 Dt_Consulta = Conexion.HelperGenerico.Obtener_Data_Table(Mi_SQL.ToString());
 
@@ -1324,10 +1324,12 @@ namespace Reportes.Ingresos.Datos
                 Mi_Sql.Append(" left outer join (select   DISTINCT No_Venta, No_Caja, Museo_ID, Estatus, Forma_ID FROM ope_pagos p");
                 Mi_Sql.Append(" where YEAR(p." + Ope_Pagos.Campo_Fecha_Creo + ") in (" + Datos.P_Anios_Busqueda + ") ");
                 Mi_Sql.Append(" and MONTH(p." + Ope_Pagos.Campo_Fecha_Creo + ") in (" + Datos.P_Meses_Busqueda + ")");
-                if (!String.IsNullOrEmpty(Datos.P_No_Venta_Mixto))
+
+                if (Datos.P_No_Venta_Mixto != null)
                 {
-                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto + ")");
+                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto.ToString() + ")");
                 }
+
                 Mi_Sql.Append(")");
                 Mi_Sql.Append(" p on p." + Ope_Pagos.Campo_No_Venta + " = venta." + Ope_Ventas.Campo_No_Venta + " and p.Museo_ID = venta.Museo_ID");
 
@@ -1336,9 +1338,9 @@ namespace Reportes.Ingresos.Datos
                 Mi_Sql.Append(" AND venta.Persona_Tramita IS NULL ");
 
 
-                if (!String.IsNullOrEmpty(Datos.P_No_Venta_Mixto))
+                if (Datos.P_No_Venta_Mixto != null)
                 {
-                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto + ")");
+                    Mi_Sql.Append(" and p.no_venta not in(" + Datos.P_No_Venta_Mixto.ToString() + ")");
                 }
 
                 // si hay una tarifa seleccionada, asignar para el filtro

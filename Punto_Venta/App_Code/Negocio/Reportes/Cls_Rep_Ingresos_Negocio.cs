@@ -1,6 +1,7 @@
 ﻿using Reportes.Ingresos.Datos;
 using System.Data;
 using System;
+using System.Text;
 
 namespace Reportes.Ingresos.Negocio
 {
@@ -18,7 +19,7 @@ namespace Reportes.Ingresos.Negocio
         private string Numero_Caja;
         private string Forma_ID;
         private string Museo_ID;
-        private string No_Venta_Mixto;
+        private StringBuilder No_Venta_Mixto;
         private string No_Venta_Detalle;
 
         private string No_Caja;
@@ -81,7 +82,7 @@ namespace Reportes.Ingresos.Negocio
             set { Numero_Caja = value; }
         }
 
-        public string P_No_Venta_Mixto
+        public StringBuilder P_No_Venta_Mixto
         {
             get { return No_Venta_Mixto; }
             set { No_Venta_Mixto = value; }

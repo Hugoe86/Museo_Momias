@@ -58,11 +58,10 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>4D06F525928C34F5EA0077523210F99C181EB8A2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>EEA720F4A1C12DCEA99C52D040ABA42B5CEAE8EA</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>Punto_Venta_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -1441,7 +1440,7 @@
     <Content Include="imagenes\paginas\accept.png" />
     <Content Include="imagenes\paginas\actualizar_detalle.png" />
     <Content Include="imagenes\paginas\Aplicar_Incidencia.png" />
-    <None Include="Punto_Venta_ClaveTemporal.pfx" />
+    <None Include="Punto_Venta_TemporaryKey.pfx" />
     <None Include="Resources\icono_clientes.ico" />
     <None Include="Resources\icono_contacto.ico" />
     <None Include="Resources\icono_proveedores.ico" />
